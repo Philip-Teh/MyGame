@@ -1,0 +1,10 @@
+
+CMap::CMap()
+{
+
+}
+
+CMap::~CMap()
+{
+
+}
