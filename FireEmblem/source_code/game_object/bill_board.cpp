@@ -1,5 +1,4 @@
 
-
 #define BILLBOARD_ALPHA (128)
 
 static VERTEX_3D vertex[4];

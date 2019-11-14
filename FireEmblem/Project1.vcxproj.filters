@@ -92,9 +92,6 @@
     <ClInclude Include="source_code\include\WICTextureLoader.h">
       <Filter>source_code\include</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\game_object\character\enemy.h">
-      <Filter>source_code\game_object\character</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\game_object\character\player.h">
       <Filter>source_code\game_object\character</Filter>
     </ClInclude>
@@ -119,9 +116,6 @@
     <ClInclude Include="source_code\game_object\mesh_field.h">
       <Filter>source_code\game_object</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\game_object\mesh_wall.h">
-      <Filter>source_code\game_object</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\game_object\polygon.h">
       <Filter>source_code\game_object</Filter>
     </ClInclude>
@@ -130,6 +124,24 @@
     </ClInclude>
     <ClInclude Include="source_code\load_map.h">
       <Filter>source_code</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\plain.h">
+      <Filter>source_code\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\character\allies.h">
+      <Filter>source_code\game_object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\mountain.h">
+      <Filter>source_code\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\character\a_troop.h">
+      <Filter>source_code\game_object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\character\benemy.h">
+      <Filter>source_code\game_object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\character\enemy.h">
+      <Filter>source_code\game_object\character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,9 +184,6 @@
     <ClCompile Include="source_code\include\WICTextureLoader.cpp">
       <Filter>source_code\include</Filter>
     </ClCompile>
-    <ClCompile Include="source_code\game_object\character\enemy.cpp">
-      <Filter>source_code\game_object\character</Filter>
-    </ClCompile>
     <ClCompile Include="source_code\game_object\character\player.cpp">
       <Filter>source_code\game_object\character</Filter>
     </ClCompile>
@@ -196,9 +205,6 @@
     <ClCompile Include="source_code\game_object\mesh_field.cpp">
       <Filter>source_code\game_object</Filter>
     </ClCompile>
-    <ClCompile Include="source_code\game_object\mesh_wall.cpp">
-      <Filter>source_code\game_object</Filter>
-    </ClCompile>
     <ClCompile Include="source_code\game_object\polygon.cpp">
       <Filter>source_code\game_object</Filter>
     </ClCompile>
@@ -210,6 +216,18 @@
     </ClCompile>
     <ClCompile Include="source_code\map.cpp">
       <Filter>source_code</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\plain.cpp">
+      <Filter>source_code\game_object</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\mountain.cpp">
+      <Filter>source_code\game_object</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\character\a_troop.cpp">
+      <Filter>source_code\game_object\character</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\character\benemy.cpp">
+      <Filter>source_code\game_object\character</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

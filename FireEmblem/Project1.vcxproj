@@ -94,6 +94,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>include_all.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>include_all.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SolutionDir)source_code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -154,12 +155,16 @@
     <ClInclude Include="source_code\game_object\bill_board.h" />
     <ClInclude Include="source_code\game_object\bullet.h" />
     <ClInclude Include="source_code\game_object\camera.h" />
+    <ClInclude Include="source_code\game_object\character\allies.h" />
+    <ClInclude Include="source_code\game_object\character\a_troop.h" />
+    <ClInclude Include="source_code\game_object\character\benemy.h" />
     <ClInclude Include="source_code\game_object\character\enemy.h" />
     <ClInclude Include="source_code\game_object\character\player.h" />
     <ClInclude Include="source_code\game_object\field.h" />
     <ClInclude Include="source_code\game_object\game_object.h" />
     <ClInclude Include="source_code\game_object\mesh_field.h" />
-    <ClInclude Include="source_code\game_object\mesh_wall.h" />
+    <ClInclude Include="source_code\game_object\mountain.h" />
+    <ClInclude Include="source_code\game_object\plain.h" />
     <ClInclude Include="source_code\game_object\polygon.h" />
     <ClInclude Include="source_code\game_object\skydome.h" />
     <ClInclude Include="source_code\include\assimp.h" />
@@ -188,13 +193,15 @@
     <ClCompile Include="source_code\game_object\bill_board.cpp" />
     <ClCompile Include="source_code\game_object\bullet.cpp" />
     <ClCompile Include="source_code\game_object\camera.cpp" />
-    <ClCompile Include="source_code\game_object\character\enemy.cpp" />
+    <ClCompile Include="source_code\game_object\character\a_troop.cpp" />
+    <ClCompile Include="source_code\game_object\character\benemy.cpp" />
     <ClCompile Include="source_code\game_object\character\player.cpp" />
     <ClCompile Include="source_code\game_object\field.cpp" />
     <ClCompile Include="source_code\game_object\mesh_field.cpp" />
-    <ClCompile Include="source_code\game_object\mesh_wall.cpp" />
+    <ClCompile Include="source_code\game_object\plain.cpp" />
     <ClCompile Include="source_code\game_object\polygon.cpp" />
     <ClCompile Include="source_code\game_object\skydome.cpp" />
+    <ClCompile Include="source_code\game_object\mountain.cpp" />
     <ClCompile Include="source_code\include\audio_clip.cpp" />
     <ClCompile Include="source_code\include\input.cpp" />
     <ClCompile Include="source_code\include\model.cpp" />

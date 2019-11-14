@@ -1,5 +1,4 @@
 
-
 #define SPEED (0.1f)
 
 void CCamera::Init()
@@ -47,16 +46,16 @@ void CCamera::Update()
 	if (CInput::GetKeyPress('Q'))
 		m_Rotation.y -= 0.05f;
 
-	if (CInput::GetKeyPress('J'))
+	if (CInput::GetKeyPress('H'))
 		m_Rotation.z+= 0.05f;
 
-	if (CInput::GetKeyPress('L'))
+	if (CInput::GetKeyPress('K'))
 		m_Rotation.z -= 0.05f;
 
-	if (CInput::GetKeyPress('K'))
+	if (CInput::GetKeyPress('J'))
 		m_Rotation.x += 0.05f;
 
-	if (CInput::GetKeyPress('I'))
+	if (CInput::GetKeyPress('U'))
 		m_Rotation.x -= 0.05f;
 
 	m_ViewMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
@@ -122,7 +121,6 @@ void CCamera::Update()
 void CCamera::Draw()
 {
 	XMMATRIX	m_InvViewMatrix;
-	XMMATRIX	m_ProjectionMatrix;
 
 	// ビューポート設定
 	D3D11_VIEWPORT dxViewport;
@@ -150,4 +148,25 @@ void CCamera::Draw()
 	m_ProjectionMatrix = XMMatrixPerspectiveFovLH(1.0f, dxViewport.Width / dxViewport.Height, 1.0f, 1000.0f);
 
 	CRenderer::SetProjectionMatrix(&m_ProjectionMatrix);
+}
+
+bool CCamera::Getvisivility(XMFLOAT3 Position)
+{
+	XMVECTOR worldPos, viewPos, projPos;
+	XMFLOAT3 projPosF;
+	worldPos = XMLoadFloat3(&Position);
+
+	// カメラ座標変換
+	viewPos = XMVector3TransformCoord(worldPos, m_ViewMatrix);
+	// 描画座標変換
+	projPos = XMVector3TransformCoord(viewPos, m_ProjectionMatrix);
+
+	XMStoreFloat3(&projPosF, projPos);
+	if (-1.0f < projPosF.x && projPosF.x < 1.0f &&
+		-1.0f < projPosF.y && projPosF.y < 1.0f &&
+		-1.0f < projPosF.z && projPosF.z < 1.0f)
+	{
+		return true;
+	}
+	return false;
 }

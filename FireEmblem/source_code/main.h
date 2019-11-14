@@ -27,16 +27,21 @@ using namespace DirectX;
 #define WORLD_Z		(100)
 #define WORLD_Y		(50)
 
+#define MapSizeZ (40)
+#define MapSizeX (40)
+
 HWND GetWindow();
 
 enum class CObjectType
 {
-	Allies,
-	Enemy,
-	Mountain,
-	Forest,
-	Plain,
-	None,
+	Allies = 0x0A,
+	Enemy = 0x0E,
+
+	Plain = 0x01,
+	Mountain = 0x02,
+	Forest = 0x03,
+
+	None = 0x00,
 };
 
 #endif

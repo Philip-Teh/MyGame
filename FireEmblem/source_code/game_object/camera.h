@@ -5,7 +5,7 @@ class CCamera : public CGameObject
 {
 private:
 	RECT m_Viewport;
-	XMMATRIX m_ViewMatrix;
+	XMMATRIX m_ViewMatrix, m_ProjectionMatrix;
 	
 	XMFLOAT3 front, up, right;
 	XMVECTOR vectorF, vectorR, vectorU;
@@ -14,12 +14,13 @@ private:
 	XMFLOAT3 pp;
 
 public:
-	XMMATRIX GetViewMatrix(void) { return m_ViewMatrix; }
-
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
+
+	XMMATRIX GetViewMatrix(void) { return m_ViewMatrix; }
+	bool Getvisivility(XMFLOAT3 Position);
 };
 
 #endif

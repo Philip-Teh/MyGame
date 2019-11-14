@@ -2,29 +2,23 @@
 
 //============================================================================
 //=																			 =
-//=									 Map									 =
+//=									 Plain									 =
 //=																			 =
 //============================================================================
 
-#ifndef MAP_H_
-#define MAP_H_
+#ifndef PLAIN_H_
+#define PLAIN_H_
 
-class CMap
+class CPlain : public CGameObject
 {
 public:
-	CMap();
-	~CMap();
+	void Init();
+	void Uninit();
 	void Update();
-	void Draw();
+	void Draw(XMFLOAT3 position);
 
 private:
-	std::unique_ptr<CLoadMap> mpLoadMap;
-
-	std::unique_ptr<CAllies> mpAllies;
-
-	CObjectType** mObjectType;
-	int mMapX = 0;
-	int mMapZ = 0;
+	std::unique_ptr<CPolygon> mpPolygon;
 };
 
-#endif // !MAP_H_
+#endif // !PLAIN_H_

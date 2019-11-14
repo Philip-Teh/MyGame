@@ -2,29 +2,22 @@
 
 //============================================================================
 //=																			 =
-//=									 Map									 =
+//=								–¡•û‚Ì•ºŽm									 =
 //=																			 =
 //============================================================================
 
-#ifndef MAP_H_
-#define MAP_H_
+#ifndef ATROOP_H_
+#define ATROOP_H_
 
-class CMap
+class CAlliesTroop : public CAllies
 {
 public:
-	CMap();
-	~CMap();
+	void Init();
+	void Uninit();
 	void Update();
-	void Draw();
-
+	void Draw(XMFLOAT3 position);
 private:
-	std::unique_ptr<CLoadMap> mpLoadMap;
 
-	std::unique_ptr<CAllies> mpAllies;
-
-	CObjectType** mObjectType;
-	int mMapX = 0;
-	int mMapZ = 0;
 };
 
-#endif // !MAP_H_
+#endif // !ATROOP_H_

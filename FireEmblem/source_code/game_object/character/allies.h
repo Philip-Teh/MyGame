@@ -2,14 +2,14 @@
 
 //============================================================================
 //=																			 =
-//=						インターフェース　敵								 =
+//=						インターフェース　味方								 =
 //=																			 =
 //============================================================================
 
-#ifndef ENEMY_H_
-#define ENEMY_H_
+#ifndef ALLIES_H_
+#define ALLIES_H_
 
-class CEnemy
+class CAllies
 {
 public:
 	virtual~CAllies() = default;
@@ -26,5 +26,5 @@ protected:
 
 };
 
-#endif // !ENEMY_H_
+#endif // !ALLIES_H_
 

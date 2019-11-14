@@ -10,12 +10,12 @@
 class CGameObject 
 {
 public:
-	virtual~CGameObject() {}
+	virtual~CGameObject() = default;
 
 	virtual void Init(){}
 	virtual void Uninit(){}
 	virtual void Update(){}
-	virtual void Draw(){}
+	virtual void Draw(XMFLOAT3 position){}
 
 	bool m_Destroy = false;
 
@@ -25,7 +25,7 @@ public:
 protected:
 	XMFLOAT3 m_Position = XMFLOAT3(0.0f,.0f,0.0f);
 	XMFLOAT3 m_Rotation = XMFLOAT3(0.0f,0.0f,0.0f);
-	XMFLOAT3 m_Scale    = XMFLOAT3(0.0f,0.0f,0.0f);
+	XMFLOAT3 m_Scale    = XMFLOAT3(1.0f,1.0f,1.0f);
 
 };
 

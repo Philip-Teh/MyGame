@@ -28,7 +28,9 @@
 #include "game_object/game_object.h"
 
 #include "game_object/character/player.h"
-#include "game_object/character/enemy.h"
+#include "game_object/character/benemy.h"
+#include "game_object/character/allies.h"
+#include "game_object/character/a_troop.h"
 
 #include "game_object/camera.h"
 #include "game_object/bill_board.h"
@@ -36,10 +38,14 @@
 #include "game_object/polygon.h"
 #include "game_object/field.h"
 #include "game_object/mesh_field.h"
-#include "game_object/mesh_wall.h"
 #include "game_object/skydome.h"
 #include "game_object/bullet.h"
 #include "game_object/ball.h"
+#include "game_object/plain.h"
+#include "game_object/mountain.h"
+
+#include "load_map.h"
+#include "map.h"
 
 #include "scene/scene.h"
 #include "scene/scene_manager.h"
@@ -47,7 +53,6 @@
 #include "scene/game.h"
 #include "scene/result.h"
 
-#include "map.h"
 
 #endif // !INCLUDEALL_H_
 

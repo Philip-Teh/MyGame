@@ -15,7 +15,7 @@ void CPolygon::Init()
 		vertex[1].Position = XMFLOAT3(200, 0, 0);									//頂点位置
 		vertex[1].Normal = XMFLOAT3(0, 1, 0);										//法線
 		vertex[1].Diffuse = XMFLOAT4(1, 1, 1, 1);									//色
-		vertex[1].TexCoord = XMFLOAT2(1, 0);											//テクスチャ座標
+		vertex[1].TexCoord = XMFLOAT2(1, 0);										//テクスチャ座標
 		
 		vertex[2].Position = XMFLOAT3(0, 200, 0);
 		vertex[2].Normal = XMFLOAT3(0, 1, 0);

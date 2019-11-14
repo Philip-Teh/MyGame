@@ -1,7 +1,9 @@
+
 #define SPEED (0.1f)
 
 XMFLOAT3 pp;
-CModelAnimation* modelani;
+//CModelAnimation* modelani;
+ModelA* modelani;
 
 void CBall::Init()
 {
@@ -14,8 +16,9 @@ void CBall::Init()
 	//modelani = new ModelA();
 	//modelani->Load("asset/model/ball.fbx");
 
-	modelani = new CModelAnimation();
-	modelani->Load("asset/model/ball.fbx");
+	//modelani = new CModelAnimation();
+	modelani = new ModelA();
+	modelani->Load("asset/model/cca.fbx");
 
 	pp = m_Position;
 }
@@ -68,18 +71,41 @@ void CBall::Update()
 		mQuaternion = XMQuaternionNormalize(mQuaternion);
 	}
 
+	if (CInput::GetKeyPress('G')) 
+		m_Position.z += 0.1f;
+	if (CInput::GetKeyPress('B'))
+		m_Position.z -= 0.1f;
+	if (CInput::GetKeyPress('V'))
+		m_Position.x -= 0.1f;
+	if (CInput::GetKeyPress('N'))
+		m_Position.x += 0.1f;
+
 	pp = m_Position;
 }
 
 void CBall::Draw()
 {
+	CCamera* camera;
+	camera = CSceneManager::GetScene()->GetGameObject<CCamera>(FIRST);
+
+	XMFLOAT3 Position(m_Position.x, m_Position.y, m_Position.z);
+
+	//======= 視推台判定　======================//
+	//======= 成立したら描画しない =============//
+	if (camera->Getvisivility(Position) == false)
+	{
+		return;
+	}
+
 	// マトリクス設定																
 	XMMATRIX world;
 	world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 	world *= XMMatrixRotationQuaternion(mQuaternion);
+	//world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
+
 	world *= XMMatrixTranslation(m_Position.x, m_Position.y + 2, m_Position.z);
 
-	//CRenderer::SetWorldMatrix(&world);
+	CRenderer::SetWorldMatrix(&world);
 	//model->Draw();
-	modelani->Draw(world);
+	modelani->Draw();
 }

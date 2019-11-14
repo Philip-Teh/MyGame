@@ -1,3 +1,4 @@
-*.obj
 /FireEmblem/Debug
 /FireEmblem/.vs
+/BinaryConverter/.vs
+/BinaryConverter/ConsoleApplication1/Debug

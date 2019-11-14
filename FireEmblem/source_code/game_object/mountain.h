@@ -2,29 +2,24 @@
 
 //============================================================================
 //=																			 =
-//=									 Map									 =
+//=								“o‚ê‚È‚¢ŽR									 =
 //=																			 =
 //============================================================================
 
-#ifndef MAP_H_
-#define MAP_H_
+#ifndef MOUNTAIN_H_
+#define MOUNTAIN_H_
 
-class CMap
+class CMountain : public CGameObject
 {
 public:
-	CMap();
-	~CMap();
+	void Init();
+	void Uninit();
 	void Update();
-	void Draw();
+	void Draw(XMFLOAT3 position);
 
 private:
-	std::unique_ptr<CLoadMap> mpLoadMap;
-
-	std::unique_ptr<CAllies> mpAllies;
-
-	CObjectType** mObjectType;
-	int mMapX = 0;
-	int mMapZ = 0;
+	
 };
 
-#endif // !MAP_H_
+#endif // !MOUNTAIN_H_
+

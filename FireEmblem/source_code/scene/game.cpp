@@ -6,7 +6,6 @@ void CGame::Init()
 	AddGameObject<CCamera>(FIRST);
 	AddGameObject<CSkydome>(WORLD);
 	AddGameObject<CMeshfield>(WORLD);
-	AddGameObject<CMeshwall>(WORLD)->Set(XMFLOAT3(0.0f, 0.0f, 13.0f), XMFLOAT3(-45.0f, 0.0f, 0.0f));
 	AddGameObject<CField>(WORLD);
 	AddGameObject<CBall>(CHARACTER);
 	AddGameObject<CPlayer>(CHARACTER);
