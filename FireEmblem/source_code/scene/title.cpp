@@ -2,17 +2,17 @@
 
 void CTitle::Init()
 {
-	texture = "asset/GameStart.png";
+	mTexture = "asset/GameStart.png";
 
-	polygon = new CPolygon();
-	polygon->Init();
-	polygon->Create(texture,XMFLOAT3(0.0f, 0.0f, 0.0f), SCREEN_WIDTH, SCREEN_HEIGHT);
+	mpPolygon = new CPolygon();
+	mpPolygon->Init();
+	mpPolygon->Create(mTexture,XMFLOAT3(0.0f, 0.0f, 0.0f), SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void CTitle::Uninit()
 {
-	polygon->Uninit();
-	delete polygon;
+	mpPolygon->Uninit();
+	delete mpPolygon;
 }
 
 void CTitle::Update()
@@ -25,5 +25,5 @@ void CTitle::Update()
 
 void CTitle::Draw()
 {
-	polygon->Draw();
+	mpPolygon->Draw();
 }

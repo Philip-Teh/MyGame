@@ -4,16 +4,16 @@
 // マテリアル構造体
 struct MODEL_MATERIAL
 {
-	char						Name[256];
+	char						Name[256] = "";
 	MATERIAL					Material;
-	char						TextureName[256];
+	char						TextureName[256] = "";
 };
 
 // 描画サブセット構造体
 struct SUBSET
 {
-	unsigned short	StartIndex;
-	unsigned short	IndexNum;
+	unsigned short	StartIndex = NULL;
+	unsigned short	IndexNum = NULL;
 	MODEL_MATERIAL	Material;
 };
 
@@ -31,22 +31,22 @@ struct MODEL
 
 class CModel
 {
-private:
-
-	ID3D11Buffer*	m_VertexBuffer = NULL;
-	ID3D11Buffer*	m_IndexBuffer = NULL;
-
-	DX11_SUBSET*	m_SubsetArray = NULL;
-	unsigned short	m_SubsetNum;
-
-	void LoadObj( const char *FileName, MODEL *Model );
-	void LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray, unsigned short *MaterialNum );
-
 public:
 	void Draw();
 
 	void Load( const char *FileName );
 	void Unload();
+
+private:
+
+	ID3D11Buffer*	m_VertexBuffer = nullptr;
+	ID3D11Buffer*	m_IndexBuffer = nullptr;
+
+	DX11_SUBSET*	m_SubsetArray = nullptr;
+	unsigned short	m_SubsetNum = NULL;
+
+	void LoadObj( const char *FileName, MODEL *Model );
+	void LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray, unsigned short *MaterialNum );
 
 };
 

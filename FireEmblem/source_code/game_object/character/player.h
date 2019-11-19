@@ -6,16 +6,17 @@ class ModelA;
 
 class CPlayer : public CGameObject
 {
-private:
-	CModel* model = nullptr;
-	//ModelA* modela = nullptr;
-	int mFrame;
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
 	XMFLOAT3 GetPosition();
+
+private:
+	CModel* model = nullptr;
+	//ModelA* modela = nullptr;
+	int mFrame = NULL;
 };
 
 #endif

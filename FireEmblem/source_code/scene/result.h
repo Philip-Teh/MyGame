@@ -1,11 +1,19 @@
+#pragma once
+
+//============================================================================
+//=																			 =
+//=								シーン　リザルト							 =
+//=																			 =
+//============================================================================
+
 #ifndef RESULT_H_
 #define RESULT_H_
 
 class CResult : public CScene
 {
 private:
-	std::string texture;
-	CPolygon* polygon;
+	std::string mTexture;
+	CPolygon* mpPolygon = nullptr;
 public:
 	void Init();
 	void Uninit();

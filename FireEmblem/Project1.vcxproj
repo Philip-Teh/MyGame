@@ -167,7 +167,6 @@
     <ClInclude Include="source_code\game_object\plain.h" />
     <ClInclude Include="source_code\game_object\polygon.h" />
     <ClInclude Include="source_code\game_object\skydome.h" />
-    <ClInclude Include="source_code\include\assimp.h" />
     <ClInclude Include="source_code\include\audio_clip.h" />
     <ClInclude Include="source_code\include\collision.h" />
     <ClInclude Include="source_code\include\input.h" />
@@ -177,8 +176,9 @@
     <ClInclude Include="source_code\include\model_animation.h" />
     <ClInclude Include="source_code\include\renderer.h" />
     <ClInclude Include="source_code\include\texture.h" />
-    <ClInclude Include="source_code\include\WICTextureLoader.h" />
     <ClInclude Include="source_code\include_all.h" />
+    <ClInclude Include="source_code\lib\assimp.h" />
+    <ClInclude Include="source_code\lib\WICTextureLoader.h" />
     <ClInclude Include="source_code\load_map.h" />
     <ClInclude Include="source_code\main.h" />
     <ClInclude Include="source_code\map.h" />
@@ -209,7 +209,7 @@
     <ClCompile Include="source_code\include\model_animation.cpp" />
     <ClCompile Include="source_code\include\renderer.cpp" />
     <ClCompile Include="source_code\include\texture.cpp" />
-    <ClCompile Include="source_code\include\WICTextureLoader.cpp" />
+    <ClCompile Include="source_code\lib\WICTextureLoader.cpp" />
     <ClCompile Include="source_code\main.cpp" />
     <ClCompile Include="source_code\map.cpp" />
     <ClCompile Include="source_code\pch.cpp">

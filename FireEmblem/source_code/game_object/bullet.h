@@ -21,10 +21,11 @@ public:
 	void Draw();
 
 	void Create(XMFLOAT3 position);
+
 private:
-	CModel* model;
-	Collision* collision;
-	bool enable;
+	CModel* mpModel = nullptr;
+	Collision* mpCollision = nullptr;
+	bool mEnable = false;
 };
 
 #endif

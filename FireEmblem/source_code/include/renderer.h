@@ -36,8 +36,8 @@ struct MATERIAL
 	COLOR		Diffuse;
 	COLOR		Specular;
 	COLOR		Emission;
-	float		Shininess;
-	float		Dummy[3];//16bit境界用
+	float		Shininess = 0.0f;
+	float		Dummy[3] = {};	//16bit境界用
 };
 
 
@@ -47,21 +47,21 @@ struct MATERIAL
 struct DX11_MODEL_MATERIAL
 {
 	MATERIAL		Material;
-	class CTexture*	Texture;
+	class CTexture* Texture = nullptr;
 };
 
 
 // 描画サブセット構造体
 struct DX11_SUBSET
 {
-	unsigned short	StartIndex;
-	unsigned short	IndexNum;
+	unsigned short	StartIndex = NULL;
+	unsigned short	IndexNum = NULL;
 	DX11_MODEL_MATERIAL	Material;
 };
 
 struct LIGHT
 {
-	XMFLOAT4	Direction;
+	XMFLOAT4	Direction = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	COLOR		Diffuse;
 	COLOR		Ambient;
 
@@ -120,14 +120,12 @@ public:
 	static void SetLight(LIGHT Light);
 	static void SetVertexBuffers( ID3D11Buffer* VertexBuffer );
 	static void SetIndexBuffer( ID3D11Buffer* IndexBuffer );
-	static void SetTexture( CTexture* Texture );
+	static void SetTexture(CTexture* Texture);
 	static void DrawIndexed( unsigned int IndexCount, unsigned int StartIndexLocation, int BaseVertexLocation );
 	static void DrawIndexedSTRIP(unsigned int IndexCount, unsigned int StartIndexLocation, int BaseVertexLocation);
 
 	static ID3D11Device* GetDevice( void ){ return m_D3DDevice; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_ImmediateContext; }
-
-
 };
 
 #endif

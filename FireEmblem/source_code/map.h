@@ -21,6 +21,7 @@ private:
 	std::unique_ptr<CLoadMap> mpLoadMap;
 
 	std::unique_ptr<CAllies> mpAllies;
+	std::unique_ptr<CEnemy> mpEnemy;
 
 	CObjectType** mObjectType;
 	int mMapX = 0;

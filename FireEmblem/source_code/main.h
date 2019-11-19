@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <vector>
 #include <typeinfo>
+#include <list>
 #include <map>
 #include <string>
 
@@ -43,6 +44,27 @@ enum class CObjectType
 
 	None = 0x00,
 };
+
+class CScreen
+{
+public:
+	static int AdjustX() { return SCREEN_WIDTH / 1920; }
+	static int AdjustY() { return SCREEN_HEIGHT / 1080; }
+};
+
+//#include "lib/cereal/cereal.hpp"
+//#include "lib/cereal/archives/json.hpp"
+//#include <fstream>
+//
+//struct VECTOR3
+//{
+//	float x, y, z;
+//	template<class Archive>
+//	void serialize(Archive& archive)
+//	{
+//		archive(CEREAL_NVP(x), CEREAL_NVP(y), CEREAL_NVP(z));
+//	}
+//};
 
 #endif
 

@@ -7,7 +7,7 @@ IXAudio2MasteringVoice*	CAudioClip::m_MasteringVoice;
 void CAudioClip::Init(void)
 {
 	// COMèâä˙âª
-	CoInitializeEx( NULL, COINIT_MULTITHREADED );
+	HRESULT com = CoInitializeEx( NULL, COINIT_MULTITHREADED );
 
 	// XAudioê∂ê¨
 	XAudio2Create( &m_Xaudio, 0 );

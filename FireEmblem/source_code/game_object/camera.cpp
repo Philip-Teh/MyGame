@@ -26,7 +26,7 @@ void CCamera::Init()
 	XMVector3TransformCoord(vectorU, m_ViewMatrix);
 	XMStoreFloat3(&up, vectorU);
 
-	pp = player.GetPosition();
+	//pp = player.GetPosition();
 }
 
 void CCamera::Uninit()
@@ -110,12 +110,12 @@ void CCamera::Update()
 		m_Position.y -= up.y * SPEED;
 	}
 
-	pp = player.GetPosition();
+	//pp = player.GetPosition();
 
 	m_ViewMatrix *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
-	eye = XMVectorSet(pp.x, pp.y+2, pp.z-10, 0);
-	focus = XMVectorSet(pp.x, pp.y, pp.z, 0);
+	eye = XMVectorSet(m_Position.x, m_Position.y, m_Position.z, 0);
+	focus = XMVectorSet(m_Rotation.x, m_Rotation.y, m_Rotation.z, 0);
 }
 
 void CCamera::Draw()

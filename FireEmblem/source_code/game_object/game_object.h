@@ -1,11 +1,12 @@
+#pragma once
+//============================================================================
+//=																			 =
+//=						抽象クラス	ゲームオブジェクト　				     =
+//=																			 =
+//============================================================================
+
 #ifndef GAMEOBJECT_H_
 #define GAMEOBJECT_H_
-
-//============================================================================
-//=																			 =
-//=					インターフェース	ゲームオブジェクト　				 =
-//=																			 =
-//============================================================================
 
 class CGameObject 
 {
@@ -15,7 +16,9 @@ public:
 	virtual void Init(){}
 	virtual void Uninit(){}
 	virtual void Update(){}
-	virtual void Draw(XMFLOAT3 position){}
+	virtual void Draw(){}
+
+	virtual void Set(XMFLOAT3 position){}
 
 	bool m_Destroy = false;
 
@@ -29,5 +32,5 @@ protected:
 
 };
 
-#endif 
+#endif
 

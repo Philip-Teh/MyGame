@@ -11,10 +11,10 @@
 
 #include "main.h"
 
-#include "include/assimp.h"
+#include "lib/assimp.h"
+#include "lib/WICTextureLoader.h"
 
 #include "include/renderer.h"
-#include "include/WICTextureLoader.h"
 #include "include/audio_clip.h"
 
 #include "include/texture.h"
@@ -27,6 +27,7 @@
 
 #include "game_object/game_object.h"
 
+#include "game_object/character/enemy.h"
 #include "game_object/character/player.h"
 #include "game_object/character/benemy.h"
 #include "game_object/character/allies.h"

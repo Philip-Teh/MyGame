@@ -60,7 +60,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// 初期化処理(ウィンドウを作成してから行う)
 	CSceneManager::Init();
 
-
 	// ウインドウの表示(初期化処理の後に行う)
 	ShowWindow(g_Window, nCmdShow);
 	UpdateWindow(g_Window);

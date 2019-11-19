@@ -1,7 +1,13 @@
+#pragma once
+
+//============================================================================
+//=																			 =
+//=								抽象クラス　シーン							 =
+//=																			 =
+//============================================================================
+
 #ifndef SCENE_H_
 #define SCENE_H_
-
-#include <list>
 
 enum GAMEOBJ
 {
@@ -81,7 +87,7 @@ public:
 	{
 		for (int i = 0; i < MAXGAMEOBJ; i++)
 		{
-			for (CGameObject *object : m_GameObject[i])
+			for (CGameObject*object : m_GameObject[i])
 			{
 				object->Update();
 			}
@@ -95,7 +101,7 @@ public:
 	{
 		for (int i = 0; i < MAXGAMEOBJ; i++)
 		{
-			for (CGameObject *object : m_GameObject[i])
+			for (CGameObject*object : m_GameObject[i])
 			{
 				object->Draw();
 			}

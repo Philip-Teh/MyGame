@@ -6,22 +6,22 @@ void CBullet::Init()
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
-	collision = new Collision();
-	collision->SetPosition(m_Position);
-	collision->SetRadius(0.5f);
+	mpCollision = new Collision();
+	mpCollision->SetPosition(m_Position);
+	mpCollision->SetRadius(0.5f);
 
-	model = new CModel();
-	model->Load("asset/miku_01.obj");
+	mpModel = new CModel();
+	mpModel->Load("asset/miku_01.obj");
 
 	//CBullet::enable = false;
 }
 
 void CBullet::Uninit()
 {
-	delete collision;
+	delete mpCollision;
 
-	model->Unload();
-	delete model;
+	mpModel->Unload();
+	delete mpModel;
 }
 
 void CBullet::Update()
@@ -29,7 +29,7 @@ void CBullet::Update()
 	//if (CBullet::enable)
 	{
 		m_Position.z += 0.1f;
-		collision->SetPosition(m_Position);
+		mpCollision->SetPosition(m_Position);
 	}
 
 
@@ -50,14 +50,14 @@ void CBullet::Update()
 	//}
 
 	//複数オブジェクトの当たり判定
-	std::vector<CEnemy*>enemys;
-	enemys = CSceneManager::GetScene()->GetGameObjects<CEnemy>(CHARACTER);
+	std::vector<CBEnemy*>enemys;
+	enemys = CSceneManager::GetScene()->GetGameObjects<CBEnemy>(CHARACTER);
 	
-	for (CEnemy* enemy : enemys)
+	for (CBEnemy* enemy : enemys)
 	{
 		//XMFLOAT3 enemyPosition = enemy->GetPosition();
 	
-		if(Collision::OnCollisionEnter(collision,enemy->GetCollision()))
+		if(Collision::OnCollisionEnter(mpCollision,enemy->GetCollision()))
 		{
 			CSceneManager::GetScene()->DestroyGameObject(enemy);
 			CSceneManager::GetScene()->DestroyGameObject(this);
@@ -89,7 +89,7 @@ void CBullet::Draw()
 		world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 		CRenderer::SetWorldMatrix(&world);
 
-		model->Draw();
+		mpModel->Draw();
 	}
 }
 

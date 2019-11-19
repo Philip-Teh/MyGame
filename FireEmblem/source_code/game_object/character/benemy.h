@@ -1,23 +1,24 @@
-#ifndef ENEMY_H_
-#define ENEMY_H_
+#ifndef BENEMY_H_
+#define BENEMY_H_
 
 
-class CEnemy : public CGameObject
+class CBEnemy : public CGameObject
 {
-private:
-	CModel* model;
-	Collision* collision;
-
 public:
 	void Init();
 	void Uninit();
 	void Update();
-	void Draw();
+	void Draw(XMFLOAT3 position);
 
 
 	void Create(XMFLOAT3 position, XMFLOAT3 rotation, XMFLOAT3 scale);
 	XMFLOAT3 GetPosition() { return m_Position; }
-	Collision* GetCollision() { return collision; }
+	Collision* GetCollision() { return mpCollision; }
+
+private:
+	CModel* mpModel = nullptr;
+	Collision* mpCollision = nullptr;
+
 };
 
 #endif

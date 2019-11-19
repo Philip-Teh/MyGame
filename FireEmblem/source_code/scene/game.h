@@ -1,5 +1,11 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=								シーン　ゲーム								 =
+//=																			 =
+//============================================================================
+
 #ifndef GAME_H_
 #define GAME_H_
 
@@ -10,8 +16,8 @@ public:
 	void Uninit();
 	void Update();
 private:
-	std::string texture;
-	CAudioClip* m_BGM;
+	std::string mTexture;
+	CAudioClip* m_BGM = nullptr;
 };
 
 #endif // !GAME_H_

@@ -4,6 +4,7 @@ CMap::CMap()
 	mpLoadMap = std::make_unique<CLoadMap>();
 
 	mpAllies = std::make_unique<CAllies>();
+	mpEnemy = std::make_unique<CEnemy>();
 
 	mpLoadMap->Load(1);
 
@@ -28,10 +29,12 @@ void CMap::Draw()
 		for (int x = 0; x < mMapX; x++)
 		{
 			if (mpLoadMap->GetType()[z][x] == CObjectType::Allies)
-				mpAllies->Draw(XMFLOAT3(x,0,z));
+				mpAllies->Draw(XMFLOAT3((float)x, 0, (float)z));
 
-			else if(mpLoadMap->GetType()[z][x]==CObjectType::Enemy)
+			else if (mpLoadMap->GetType()[z][x] == CObjectType::Enemy)
+				mpEnemy->Draw(XMFLOAT3((float)x, 0, (float)z));
 
+			//else if (mpLoadMap->GetType()[z][x] == CObjectType::Plain)
 		}
 	}
 }

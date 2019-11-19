@@ -106,9 +106,9 @@ void CModel::Unload()
 void CModel::LoadObj( const char *FileName, MODEL *Model )
 {
 
-	XMFLOAT3	*positionArray;
-	XMFLOAT3	*normalArray;
-	XMFLOAT2	*texcoordArray;
+	XMFLOAT3* positionArray = nullptr;
+	XMFLOAT3* normalArray = nullptr;
+	XMFLOAT2* texcoordArray = nullptr;
 
 	unsigned short	positionNum = 0;
 	unsigned short	normalNum = 0;
@@ -122,11 +122,11 @@ void CModel::LoadObj( const char *FileName, MODEL *Model )
 	unsigned short	materialNum = 0;
 
 	char str[256];
-	char *s;
-	char c;
+	char* s = nullptr;
+	char c = NULL;
 
 
-	FILE *file;
+	FILE* file;
 	file = fopen( FileName, "rt" );
 	assert(file);
 
@@ -210,7 +210,7 @@ void CModel::LoadObj( const char *FileName, MODEL *Model )
 
 	while( true )
 	{
-		fscanf( file, "%s", str );
+		int scan = fscanf( file, "%s", str );
 
 		if( feof( file ) != 0 )
 			break;
@@ -218,7 +218,7 @@ void CModel::LoadObj( const char *FileName, MODEL *Model )
 		if( strcmp( str, "mtllib" ) == 0 )
 		{
 			//マテリアルファイル
-			fscanf( file, "%s", str );
+			int scan = fscanf(file, "%s", str);
 
 			char path[256];
 			strcpy( path, "asset/" );
@@ -229,14 +229,14 @@ void CModel::LoadObj( const char *FileName, MODEL *Model )
 		else if( strcmp( str, "o" ) == 0 )
 		{
 			//オブジェクト名
-			fscanf( file, "%s", str );
+			int scan = fscanf(file, "%s", str);
 		}
 		else if( strcmp( str, "v" ) == 0 )
 		{
 			//頂点座標
-			fscanf( file, "%f", &position->x );
-			fscanf( file, "%f", &position->y );
-			fscanf( file, "%f", &position->z );
+			int scan1 = fscanf(file, "%f", &position->x);
+			int scan2 = fscanf(file, "%f", &position->y);
+			int scan3 = fscanf(file, "%f", &position->z);
 			//position->x *= SCALE_MODEL;
 			//position->y *= SCALE_MODEL;
 			//position->z *= SCALE_MODEL;
@@ -245,9 +245,9 @@ void CModel::LoadObj( const char *FileName, MODEL *Model )
 		else if( strcmp( str, "vn" ) == 0 )
 		{
 			//法線
-			fscanf( file, "%f", &normal->x );
-			fscanf( file, "%f", &normal->y );
-			fscanf( file, "%f", &normal->z );
+			int scan1 = fscanf(file, "%f", &normal->x);
+			int scan2 = fscanf(file, "%f", &normal->y);
+			int scan3 = fscanf(file, "%f", &normal->z);
 			normal++;
 		}
 		else if( strcmp( str, "vt" ) == 0 )
@@ -261,7 +261,7 @@ void CModel::LoadObj( const char *FileName, MODEL *Model )
 		else if( strcmp( str, "usemtl" ) == 0 )
 		{
 			//マテリアル
-			fscanf( file, "%s", str );
+			int scan = fscanf(file, "%s", str);
 
 			if( sc != 0 )
 				Model->SubsetArray[ sc - 1 ].IndexNum = ic - Model->SubsetArray[ sc - 1 ].StartIndex;
@@ -291,7 +291,7 @@ void CModel::LoadObj( const char *FileName, MODEL *Model )
 
 			do
 			{
-				fscanf( file, "%s", str );
+				int scan = fscanf(file, "%s", str);
 
 				s = strtok( str, "/" );	
 				Model->VertexArray[vc].Position = positionArray[ atoi( s ) - 1 ];
@@ -361,7 +361,7 @@ void CModel::LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray,
 	//要素数カウント
 	while( true )
 	{
-		fscanf( file, "%s", str );
+		int scan = fscanf( file, "%s", str );
 
 		if( feof( file ) != 0 )
 			break;
@@ -385,7 +385,7 @@ void CModel::LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray,
 
 	while( true )
 	{
-		fscanf( file, "%s", str );
+		int scan = fscanf( file, "%s", str );
 
 		if( feof( file ) != 0 )
 			break;
@@ -395,47 +395,47 @@ void CModel::LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray,
 		{
 			//マテリアル名
 			mc++;
-			fscanf( file, "%s", materialArray[ mc ].Name );
+			int scan = fscanf( file, "%s", materialArray[ mc ].Name );
 			strcpy( materialArray[ mc ].TextureName, "" );
 		}
 		else if( strcmp( str, "Ka" ) == 0 )
 		{
 			//アンビエント
-			fscanf( file, "%f", &materialArray[ mc ].Material.Ambient.r );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Ambient.g );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Ambient.b );
+			int scan1 = fscanf(file, "%f", &materialArray[mc].Material.Ambient.r);
+			int scan2 = fscanf(file, "%f", &materialArray[mc].Material.Ambient.g);
+			int scan3 = fscanf(file, "%f", &materialArray[mc].Material.Ambient.b);
 			materialArray[ mc ].Material.Ambient.a = 1.0f;
 		}
 		else if( strcmp( str, "Kd" ) == 0 )
 		{
 			//ディフューズ
-			fscanf( file, "%f", &materialArray[ mc ].Material.Diffuse.r );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Diffuse.g );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Diffuse.b );
+			int scan1 = fscanf(file, "%f", &materialArray[mc].Material.Diffuse.r);
+			int scan2 = fscanf(file, "%f", &materialArray[mc].Material.Diffuse.g);
+			int scan3 = fscanf(file, "%f", &materialArray[mc].Material.Diffuse.b);
 			materialArray[ mc ].Material.Diffuse.a = 1.0f;
 		}
 		else if( strcmp( str, "Ks" ) == 0 )
 		{
 			//スペキュラ
-			fscanf( file, "%f", &materialArray[ mc ].Material.Specular.r );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Specular.g );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Specular.b );
+			int scan1 = fscanf(file, "%f", &materialArray[mc].Material.Specular.r);
+			int scan2 = fscanf(file, "%f", &materialArray[mc].Material.Specular.g);
+			int scan3 = fscanf(file, "%f", &materialArray[mc].Material.Specular.b);
 			materialArray[ mc ].Material.Specular.a = 1.0f;
 		}
 		else if( strcmp( str, "Ns" ) == 0 )
 		{
 			//スペキュラ強度
-			fscanf( file, "%f", &materialArray[ mc ].Material.Shininess );
+			int scan = fscanf(file, "%f", &materialArray[mc].Material.Shininess);
 		}
 		else if( strcmp( str, "d" ) == 0 )
 		{
 			//アルファ
-			fscanf( file, "%f", &materialArray[ mc ].Material.Diffuse.a );
+			int scan = fscanf(file, "%f", &materialArray[mc].Material.Diffuse.a);
 		}
 		else if( strcmp( str, "map_Kd" ) == 0 )
 		{
 			//テクスチャ
-			fscanf( file, "%s", str );
+			int scan = fscanf(file, "%s", str);
 
 			char path[256];
 			strcpy( path, "asset/" );

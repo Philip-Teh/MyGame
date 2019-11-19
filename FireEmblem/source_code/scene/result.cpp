@@ -2,17 +2,17 @@
 
 void CResult::Init()
 {
-	texture = "asset/gameclear.png";
+	mTexture = "asset/gameclear.png";
 
-	polygon = new CPolygon();
-	polygon->Init();
-	polygon->Create(texture,XMFLOAT3(0.0f, 0.0f, 0.0f), SCREEN_WIDTH, SCREEN_HEIGHT);
+	mpPolygon = new CPolygon();
+	mpPolygon->Init();
+	mpPolygon->Create(mTexture,XMFLOAT3(0.0f, 0.0f, 0.0f), SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void CResult::Uninit()
 {
-	polygon->Uninit();
-	delete polygon;
+	mpPolygon->Uninit();
+	delete mpPolygon;
 }
 
 void CResult::Update()
@@ -25,5 +25,5 @@ void CResult::Update()
 
 void CResult::Draw()
 {
-	polygon->Draw();
+	mpPolygon->Draw();
 }

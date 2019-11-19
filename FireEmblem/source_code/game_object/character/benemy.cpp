@@ -1,33 +1,33 @@
 
 
-void CEnemy::Init()
+void CBEnemy::Init()
 {
 	m_Position = XMFLOAT3(0.0f, 1.0f, 5.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
-	collision = new Collision();
-	collision->SetPosition(m_Position);
-	collision->SetRadius(0.5f);
+	mpCollision = new Collision();
+	mpCollision->SetPosition(m_Position);
+	mpCollision->SetRadius(0.5f);
 
-	model = new CModel();
-	model->Load("asset/miku_01.obj");
+	mpModel = new CModel();
+	mpModel->Load("asset/miku_01.obj");
 }
 
-void CEnemy::Uninit()
+void CBEnemy::Uninit()
 {
-	delete collision;
+	delete mpCollision;
 
-	model->Unload();
-	delete model;
+	mpModel->Unload();
+	delete mpModel;
 }
 
-void CEnemy::Update()
+void CBEnemy::Update()
 {
-	collision->SetPosition(m_Position);
+	mpCollision->SetPosition(m_Position);
 }
 
-void CEnemy::Draw()
+void CBEnemy::Draw(XMFLOAT3 position)
 {
 	// マトリクス設定																
 	XMMATRIX world;
@@ -36,10 +36,10 @@ void CEnemy::Draw()
 	world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	CRenderer::SetWorldMatrix(&world);
 
-	model->Draw();
+	mpModel->Draw();
 }
 
-void CEnemy::Create(XMFLOAT3 position, XMFLOAT3 rotation, XMFLOAT3 scale)
+void CBEnemy::Create(XMFLOAT3 position, XMFLOAT3 rotation, XMFLOAT3 scale)
 {
 	m_Position = position;
 	m_Rotation = rotation;

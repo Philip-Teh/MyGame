@@ -83,11 +83,11 @@ public:
 
 private:
 	std::string mFilename;
-	char mMap[MapSizeX * MapSizeZ];
+	char mMap[MapSizeX * MapSizeZ] = {};
 	int mMapX = 0;
 	int mMapZ = 0;
 
-	CObjectType** mType;
+	CObjectType** mType = nullptr;
 };
 
 #endif // !LOADMAP_H_

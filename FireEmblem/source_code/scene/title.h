@@ -1,11 +1,19 @@
+#pragma once
+
+//============================================================================
+//=																			 =
+//=								シーン　タイトル							 =
+//=																			 =
+//============================================================================
+
 #ifndef TITLE_H_
 #define TITLE_H_
 
 class CTitle : public CScene
 {
 private:
-	std::string texture;
-	CPolygon* polygon;
+	std::string mTexture;
+	CPolygon* mpPolygon = nullptr;
 public:
 	void Init();
 	void Uninit();

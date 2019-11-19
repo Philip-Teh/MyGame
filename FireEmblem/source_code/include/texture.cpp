@@ -5,7 +5,7 @@ void CTexture::LoadTexture(std::string Filename)
 	wchar_t* wcs = new wchar_t[Filename.length() + 1];
 	mbstowcs(wcs, Filename.c_str(), Filename.length() + 1);
 
-	HRESULT hr = DirectX::CreateWICTextureFromFile(CRenderer::GetDevice(), wcs, &pTexture, &m_ShaderResourceView);
+	HRESULT hr = CreateWICTextureFromFile(CRenderer::GetDevice(), wcs, &pTexture, &m_ShaderResourceView);
 
 	delete[] wcs;
 }
