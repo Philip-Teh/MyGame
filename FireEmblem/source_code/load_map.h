@@ -24,40 +24,47 @@ public:
 			MessageBox(NULL, "読み込み失敗", "エラー", MB_OK);
 		}
 		
+		//メモリ確保
+		mpType = new CObjectType*[mMapZ];
+
+		for (int x = 0; x < mMapZ; x++)
+			mpType[x] = new CObjectType[mMapX];
+
+		//初期化
+		for (int i = 0; i < mMapX * mMapZ; i++)
+			mpType[i / mMapX][i % mMapX] = CObjectType::None;
+
+		//マップサイズを取得
 		mMapX = fgetc(file);
 		mMapZ = fgetc(file);
 
-		mType = new CObjectType*[mMapZ];
-
-		for (int x = 0; x < mMapZ; x++)
-			mType[x] = new CObjectType[mMapX];
-
 		fgets(mMap, MapSizeX * MapSizeZ, file);
 
+		//マップのオブジェクトの種類
 		for (int i = 0; i < mMapX * mMapZ; i++)
 		{
 			switch ((CObjectType)mMap[i])
 			{
 			case CObjectType::Allies:
-				mType[i / mMapX][i % mMapX] = CObjectType::Allies;
+				mpType[i / mMapX][i % mMapX] = CObjectType::Allies;
 				break;
 			case CObjectType::Enemy:
-				mType[i / mMapX][i % mMapX] = CObjectType::Enemy;
+				mpType[i / mMapX][i % mMapX] = CObjectType::Enemy;
 				break;
 			case CObjectType::Plain:
-				mType[i / mMapX][i % mMapX] = CObjectType::Plain;
+				mpType[i / mMapX][i % mMapX] = CObjectType::Plain;
 				break;
 			case CObjectType::Mountain:
-				mType[i / mMapX][i % mMapX] = CObjectType::Mountain;
+				mpType[i / mMapX][i % mMapX] = CObjectType::Mountain;
 				break;
 			case CObjectType::Forest:
-				mType[i / mMapX][i % mMapX] = CObjectType::Forest;
+				mpType[i / mMapX][i % mMapX] = CObjectType::Forest;
 				break;
 			case CObjectType::None:
-				mType[i / mMapX][i % mMapX] = CObjectType::None;
+				mpType[i / mMapX][i % mMapX] = CObjectType::None;
 				break;
 			default:
-				mType[i / mMapX][i % mMapX] = CObjectType::None;
+				mpType[i / mMapX][i % mMapX] = CObjectType::None;
 				break;
 			}
 		}
@@ -68,14 +75,14 @@ public:
 	void ReleaseMap(void)
 	{
 		for (int z = 0; z < mMapZ; z++)
-			delete[] mType[z];
+			delete[] mpType[z];
 
-		delete[]mType;
+		delete[]mpType;
 	}
 	
 	CObjectType** GetType()
 	{
-		return mType;
+		return mpType;
 	}
 
 	int GetMapX() { return mMapX; }
@@ -84,10 +91,10 @@ public:
 private:
 	std::string mFilename;
 	char mMap[MapSizeX * MapSizeZ] = {};
-	int mMapX = 0;
-	int mMapZ = 0;
+	int mMapX = NULL;
+	int mMapZ = NULL;
 
-	CObjectType** mType = nullptr;
+	CObjectType** mpType = nullptr;
 };
 
 #endif // !LOADMAP_H_

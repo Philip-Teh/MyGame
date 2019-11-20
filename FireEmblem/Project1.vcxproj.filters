@@ -146,6 +146,9 @@
     <ClInclude Include="source_code\lib\WICTextureLoader.h">
       <Filter>source_code\lib</Filter>
     </ClInclude>
+    <ClInclude Include="source_code\game_object\forest.h">
+      <Filter>source_code\game_object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source_code\main.cpp">
@@ -231,6 +234,9 @@
     </ClCompile>
     <ClCompile Include="source_code\lib\WICTextureLoader.cpp">
       <Filter>source_code\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\forest.cpp">
+      <Filter>source_code\game_object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

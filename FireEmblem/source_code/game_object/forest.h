@@ -2,14 +2,14 @@
 
 //============================================================================
 //=																			 =
-//=						ゲームオブジェクト	登れない山						 =
+//=							ゲームオブジェクト　木							 =
 //=																			 =
 //============================================================================
 
-#ifndef MOUNTAIN_H_
-#define MOUNTAIN_H_
+#ifndef FOREST_H_
+#define FOREST_H_
 
-class CMountain : public CGameObject
+class CForest : public CGameObject
 {
 public:
 	void Init();
@@ -22,5 +22,5 @@ private:
 	const char* mTexture = nullptr;
 };
 
-#endif // !MOUNTAIN_H_
+#endif // !FOREST_H_
 

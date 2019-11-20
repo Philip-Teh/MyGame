@@ -1,14 +1,10 @@
 
 
-static int NumVertices = 0;
-static float sizex = 10, sizez = 10;
-static int numx = 1, numz = 1;
-
-void CField::Init()
+void CField::Init(const char* texture)
 {
 	m_Position = XMFLOAT3(0.0f, 7.0f, 0.0f);
-	m_Rotation= XMFLOAT3(0.0f, 0.0f, 0.0f);
-	m_Scale= XMFLOAT3(1.0f, 1.0f, 1.0f);
+	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
 	NumVertices = (numx + 1) * (numz + 1);
 
@@ -22,7 +18,7 @@ void CField::Init()
 			vertex[j + (numx + 1) * i].Position = XMFLOAT3(-(sizex * numx * 0.5f) + sizex * j, 0.0f, (sizez * numz * 0.5f) - sizez * i);		//位置
 			vertex[j + (numx + 1) * i].Normal = XMFLOAT3(0, 1, 0);																				//法線
 			vertex[j + (numx + 1) * i].Diffuse = XMFLOAT4(1, 1, 1, 1);																			//色
-			vertex[j + (numx + 1) * i].TexCoord = XMFLOAT2((float)j, (float)i);																				//テクスチャ座標
+			vertex[j + (numx + 1) * i].TexCoord = XMFLOAT2((float)j, (float)i);																	//テクスチャ座標
 		}
 	}
 
@@ -38,18 +34,18 @@ void CField::Init()
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = vertex;
 
-	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpVertexBuffer);
 
 	//テクスチャ読み込み
-	m_Texture = new CTexture();
-	m_Texture->Load("asset/field004.tga");
+	mpTexture = new CTexture();
+	mpTexture->Load(texture);
 }
 
 void CField::Uninit()
 {
-	m_VertexBuffer->Release();
-	m_Texture->Unload();
-	delete m_Texture;
+	mpVertexBuffer->Release();
+	mpTexture->Unload();
+	delete mpTexture;
 }
 
 void CField::Update()
@@ -57,12 +53,14 @@ void CField::Update()
 
 }
 
-void CField::Draw()
+void CField::Draw(XMFLOAT3 position)
 {
+	m_Position = position;
+
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);		//頂点バッファ設定
-	CRenderer::SetTexture(m_Texture);																//テクスチャ設定
+	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &mpVertexBuffer, &stride, &offset);		//頂点バッファ設定
+	CRenderer::SetTexture(mpTexture);																//テクスチャ設定
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);	//トポロジ設定
 
 	XMMATRIX world;

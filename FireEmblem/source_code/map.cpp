@@ -5,6 +5,9 @@ CMap::CMap()
 
 	mpAllies = std::make_unique<CAllies>();
 	mpEnemy = std::make_unique<CEnemy>();
+	mpMountain = std::make_unique<CMountain>();
+	mpPlain = std::make_unique<CPlain>();
+	mpForest = std::make_unique<CForest>();
 
 	mpLoadMap->Load(1);
 
@@ -34,7 +37,16 @@ void CMap::Draw()
 			else if (mpLoadMap->GetType()[z][x] == CObjectType::Enemy)
 				mpEnemy->Draw(XMFLOAT3((float)x, 0, (float)z));
 
-			//else if (mpLoadMap->GetType()[z][x] == CObjectType::Plain)
+			else if (mpLoadMap->GetType()[z][x] == CObjectType::Plain)
+				mpPlain->Draw(XMFLOAT3((float)x, 0, (float)z));
+
+			else if (mpLoadMap->GetType()[z][x] == CObjectType::Forest)
+				mpForest->Draw(XMFLOAT3((float)x, 0, (float)z));
+
+			else if (mpLoadMap->GetType()[z][x] == CObjectType::Mountain)
+				mpMountain->Draw(XMFLOAT3((float)x, 0, (float)z));
+
+			else return;
 		}
 	}
 }

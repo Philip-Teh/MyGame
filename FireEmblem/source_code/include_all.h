@@ -44,9 +44,11 @@
 #include "game_object/ball.h"
 #include "game_object/plain.h"
 #include "game_object/mountain.h"
+#include "game_object/forest.h"
 
 #include "load_map.h"
 #include "map.h"
+#include "stage_manager.h"
 
 #include "scene/scene.h"
 #include "scene/scene_manager.h"

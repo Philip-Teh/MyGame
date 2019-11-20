@@ -2,25 +2,24 @@
 
 //============================================================================
 //=																			 =
-//=						ゲームオブジェクト	登れない山						 =
+//=							ステージマネージャー							 =
 //=																			 =
 //============================================================================
 
-#ifndef MOUNTAIN_H_
-#define MOUNTAIN_H_
+#ifndef STAGEMANAGER_H_
+#define STAGEMANAGER_H_
 
-class CMountain : public CGameObject
+class CStageManager
 {
 public:
 	void Init();
 	void Uninit();
 	void Update();
-	void Draw(XMFLOAT3 position);
+	void Draw();
 
 private:
-	std::unique_ptr<CField> mpField;
-	const char* mTexture = nullptr;
+	std::unique_ptr<CMap> mpMap;
+
 };
 
-#endif // !MOUNTAIN_H_
-
+#endif // !STAGEMANAGER_H_

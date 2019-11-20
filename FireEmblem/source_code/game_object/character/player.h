@@ -1,8 +1,13 @@
+#pragma once
+
+//============================================================================
+//=																			 =
+//=						キャラクター　プレイヤー							 =
+//=																			 =
+//============================================================================
+
 #ifndef PLAYER_H_
 #define PLAYER_H_
-
-class CModel;
-class ModelA;
 
 class CPlayer : public CGameObject
 {
@@ -11,11 +16,12 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	XMFLOAT3 GetPosition();
+
+	XMFLOAT3 GetPosition() { return m_Position; }
 
 private:
-	CModel* model = nullptr;
-	//ModelA* modela = nullptr;
+	const char* mAnimation[3] = {};
+	CModelAnimation* mpModelA = nullptr;
 	int mFrame = NULL;
 };
 

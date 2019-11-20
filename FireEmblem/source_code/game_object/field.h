@@ -2,15 +2,20 @@
 #define FIELD_H_
 
 class CField : public CGameObject {
-private:
-	ID3D11Buffer* m_VertexBuffer = NULL;
-	ID3D11Buffer* m_IndexBuffer = NULL;
-	CTexture* m_Texture = NULL;
 public:
-	void Init(/*float sizex, float sizez, int numx, int numz*/);
+	void Init(const char* texture);
 	void Uninit();
 	void Update();
-	void Draw();
+	void Draw(XMFLOAT3 position);
+
+private:
+	ID3D11Buffer* mpVertexBuffer = nullptr;
+	ID3D11Buffer* mpIndexBuffer = nullptr;
+	CTexture* mpTexture = nullptr;
+
+	int NumVertices = NULL;
+	float sizex = 10, sizez = 10;
+	int numx = 1, numz = 1;
 };
 
 #endif

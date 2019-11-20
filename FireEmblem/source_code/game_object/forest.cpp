@@ -1,24 +1,23 @@
 
-
-void CMountain::Init()
+void CForest::Init()
 {
-	mTexture = "asset/texture/game_object/mountain.png";
+	mTexture = "asset/texture/game_object/tree.png";
 
 	mpField = make_unique<CField>();
 	mpField->Init(mTexture);
 }
 
-void CMountain::Uninit()
+void CForest::Uninit()
 {
 	mpField->Uninit();
 }
 
-void CMountain::Update()
+void CForest::Update()
 {
 	mpField->Update();
 }
 
-void CMountain::Draw(XMFLOAT3 position)
+void CForest::Draw(XMFLOAT3 position)
 {
 	m_Position = position;
 

@@ -1,11 +1,11 @@
 
 
 
-void CModelAnimation::Load(const char* Filename)
+void CModelAnimation::Load(const char** Filename)
 {
-	m_Scene[0] = aiImportFile(Filename, aiProcessPreset_TargetRealtime_MaxQuality);
-	m_Scene[1] = aiImportFile("asset/model/Hjump.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
-	m_Scene[2] = aiImportFile("asset/model/Hrun.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	m_Scene[0] = aiImportFile(Filename[0], aiProcessPreset_TargetRealtime_MaxQuality);
+	m_Scene[1] = aiImportFile(Filename[1], aiProcessPreset_TargetRealtime_MaxQuality);
+	m_Scene[2] = aiImportFile(Filename[2], aiProcessPreset_TargetRealtime_MaxQuality);
 
 	m_MeshNum = m_Scene[0]->mNumMeshes;
 	m_Mesh = new MESH[m_MeshNum];

@@ -6,7 +6,7 @@ void CGame::Init()
 	AddGameObject<CCamera>(FIRST);
 	AddGameObject<CSkydome>(WORLD);
 	AddGameObject<CMeshfield>(WORLD);
-	AddGameObject<CField>(WORLD);
+	//AddGameObject<CField>(WORLD);
 	//AddGameObject<CBall>(CHARACTER);
 	AddGameObject<CBillBoard>(WORLD);
 	AddGameObject<CPlayer>(CHARACTER);

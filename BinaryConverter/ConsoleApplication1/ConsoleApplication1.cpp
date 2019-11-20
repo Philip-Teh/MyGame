@@ -65,7 +65,7 @@ int main()
 					if (x > sizeX)
 						sizeX = x;
 					break;
-				case 'E':
+				case 'C':
 					if (y > sizeY)
 						sizeY = y;
 					break;
@@ -140,7 +140,7 @@ int main()
 		//	output[i + 2 + sizeX * sizeY] = (char)box[i];
 		//}
 
-		fwrite(output, sizeof(char), 2 + (sizeX*sizeY) * 2, file);
+		fwrite(output, sizeof(char), 2 + (sizeX*sizeY), file);
 
 		fclose(file);
 

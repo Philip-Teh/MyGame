@@ -161,6 +161,7 @@
     <ClInclude Include="source_code\game_object\character\enemy.h" />
     <ClInclude Include="source_code\game_object\character\player.h" />
     <ClInclude Include="source_code\game_object\field.h" />
+    <ClInclude Include="source_code\game_object\forest.h" />
     <ClInclude Include="source_code\game_object\game_object.h" />
     <ClInclude Include="source_code\game_object\mesh_field.h" />
     <ClInclude Include="source_code\game_object\mountain.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="source_code\game_object\character\benemy.cpp" />
     <ClCompile Include="source_code\game_object\character\player.cpp" />
     <ClCompile Include="source_code\game_object\field.cpp" />
+    <ClCompile Include="source_code\game_object\forest.cpp" />
     <ClCompile Include="source_code\game_object\mesh_field.cpp" />
     <ClCompile Include="source_code\game_object\plain.cpp" />
     <ClCompile Include="source_code\game_object\polygon.cpp" />

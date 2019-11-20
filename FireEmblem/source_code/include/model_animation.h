@@ -1,3 +1,7 @@
+#pragma once
+
+
+
 #ifndef MODELANIMATION_H_
 #define MODELANIMATION_H_
 
@@ -11,7 +15,7 @@ struct MESH
 class CModelAnimation
 {
 public:
-	void Load(const char* Filename);
+	void Load(const char** Filename);
 	void Unload();
 	void Update(int Animation,int Frame);
 	void Animation(int Animation1, int Animation2, float Blend, int Frame);

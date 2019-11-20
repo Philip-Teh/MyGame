@@ -22,6 +22,9 @@ private:
 
 	std::unique_ptr<CAllies> mpAllies;
 	std::unique_ptr<CEnemy> mpEnemy;
+	std::unique_ptr<CPlain> mpPlain;
+	std::unique_ptr<CMountain> mpMountain;
+	std::unique_ptr<CForest> mpForest;
 
 	CObjectType** mObjectType;
 	int mMapX = 0;
