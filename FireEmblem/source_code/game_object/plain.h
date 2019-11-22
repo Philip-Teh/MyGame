@@ -12,14 +12,15 @@
 class CPlain : public CGameObject
 {
 public:
-	void Init();
-	void Uninit();
+	CPlain();
+	~CPlain();
+
 	void Update();
 	void Draw(XMFLOAT3 position);
 
 private:
 	std::unique_ptr<CField> mpField;
-	const char* mTexture = nullptr;
+	std::string mTexture = "";
 };
 
 #endif // !PLAIN_H_

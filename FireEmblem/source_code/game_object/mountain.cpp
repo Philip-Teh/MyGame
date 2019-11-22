@@ -1,6 +1,6 @@
 
 
-void CMountain::Init()
+CMountain::CMountain()
 {
 	mTexture = "asset/texture/game_object/mountain.png";
 
@@ -8,7 +8,7 @@ void CMountain::Init()
 	mpField->Init(mTexture);
 }
 
-void CMountain::Uninit()
+CMountain::~CMountain()
 {
 	mpField->Uninit();
 }

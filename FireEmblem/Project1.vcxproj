@@ -188,6 +188,7 @@
     <ClInclude Include="source_code\scene\scene.h" />
     <ClInclude Include="source_code\scene\scene_manager.h" />
     <ClInclude Include="source_code\scene\title.h" />
+    <ClInclude Include="source_code\stage_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source_code\game_object\ball.cpp" />
@@ -224,6 +225,7 @@
     <ClCompile Include="source_code\scene\result.cpp" />
     <ClCompile Include="source_code\scene\scene_manager.cpp" />
     <ClCompile Include="source_code\scene\title.cpp" />
+    <ClCompile Include="source_code\stage_manager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

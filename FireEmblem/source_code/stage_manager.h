@@ -9,7 +9,7 @@
 #ifndef STAGEMANAGER_H_
 #define STAGEMANAGER_H_
 
-class CStageManager
+class CStageManager : public CGameObject
 {
 public:
 	void Init();

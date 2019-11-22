@@ -3,7 +3,7 @@
 
 class CField : public CGameObject {
 public:
-	void Init(const char* texture);
+	void Init(std::string texture);
 	void Uninit();
 	void Update();
 	void Draw(XMFLOAT3 position);

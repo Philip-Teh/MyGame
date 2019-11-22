@@ -30,14 +30,6 @@ public:
 	virtual void Init() = 0;
 	void DestroyGameObject(CGameObject* gameObject) { gameObject->SetDestroy(); }
 
-	//template<class T>
-	//std::unique_ptr<T> Add_GameObject(int layer)
-	//{
-	//	auto object = std::make_unique<T>();
-	//	m_GameObject[layer].push_back(object);
-	//	return object;
-	//}
-
 	template <typename T>
 	T* AddGameObject(int layer)
 	{

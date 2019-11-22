@@ -1,5 +1,5 @@
 
-void CForest::Init()
+CForest::CForest()
 {
 	mTexture = "asset/texture/game_object/tree.png";
 
@@ -7,7 +7,7 @@ void CForest::Init()
 	mpField->Init(mTexture);
 }
 
-void CForest::Uninit()
+CForest::~CForest()
 {
 	mpField->Uninit();
 }

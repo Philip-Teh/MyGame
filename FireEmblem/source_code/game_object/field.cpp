@@ -1,6 +1,6 @@
 
 
-void CField::Init(const char* texture)
+void CField::Init(std::string texture)
 {
 	m_Position = XMFLOAT3(0.0f, 7.0f, 0.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -38,13 +38,13 @@ void CField::Init(const char* texture)
 
 	//テクスチャ読み込み
 	mpTexture = new CTexture();
-	mpTexture->Load(texture);
+	mpTexture->LoadTexture(texture);
 }
 
 void CField::Uninit()
 {
 	mpVertexBuffer->Release();
-	mpTexture->Unload();
+	mpTexture->UnloadTexture();
 	delete mpTexture;
 }
 

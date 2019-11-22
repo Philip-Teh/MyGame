@@ -13,6 +13,7 @@ void CGame::Init()
 	AddGameObject<CBEnemy>(CHARACTER)->Create(XMFLOAT3(-5.0f, 3.0f, 5.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(1.0f, 1.0f, 1.0f));
 	AddGameObject<CBEnemy>(CHARACTER)->Create(XMFLOAT3(0.0f, 2.0f, 5.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(1.0f, 1.0f, 1.0f));
 	AddGameObject<CBEnemy>(CHARACTER)->Create(XMFLOAT3(5.0f, 1.0f, 5.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(1.0f, 1.0f, 1.0f));
+	AddGameObject<CStageManager>(UI);
 	AddGameObject<CPolygon>(UI)->Create(mTexture, XMFLOAT3(SCREEN_WIDTH*0.45f, SCREEN_HEIGHT*0.4f, 0.0f), 100, 100);
 
 	m_BGM = new CAudioClip();

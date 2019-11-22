@@ -12,6 +12,8 @@ void CBillBoard::Init()
 
 	float sizex = 10, sizey = 10;
 
+	VERTEX_3D mVertex[4];
+
 	for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 2; j++)
@@ -35,6 +37,8 @@ void CBillBoard::Init()
 	sd.pSysMem = mVertex;
 
 	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpVertexBuffer);
+
+	unsigned short mpIndex[6];
 
 	mpIndex[0] = 0;
 	mpIndex[1] = 1;

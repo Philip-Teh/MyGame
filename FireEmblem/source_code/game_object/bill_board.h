@@ -25,9 +25,6 @@ private:
 	ID3D11Buffer* mpVertexBuffer = nullptr;
 	ID3D11Buffer* mpIndexBuffer = nullptr;
 
-	VERTEX_3D mVertex[4] = {};
-	unsigned short* mpIndex = nullptr;
-
 	CCamera* mpCamera = nullptr;
 };
 

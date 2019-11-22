@@ -1,6 +1,6 @@
 
 
-void CPlain::Init()
+CPlain::CPlain()
 {
 	mTexture = "asset/texture/game_object/plain.png";
 
@@ -8,7 +8,7 @@ void CPlain::Init()
 	mpField->Init(mTexture);
 }
 
-void CPlain::Uninit()
+CPlain::~CPlain()
 {
 	mpField->Uninit();
 }

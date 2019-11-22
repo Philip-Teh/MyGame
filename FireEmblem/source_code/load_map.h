@@ -23,6 +23,10 @@ public:
 		{
 			MessageBox(NULL, "読み込み失敗", "エラー", MB_OK);
 		}
+
+		//マップサイズを取得
+		mMapX = fgetc(file);
+		mMapZ = fgetc(file);
 		
 		//メモリ確保
 		mpType = new CObjectType*[mMapZ];
@@ -33,10 +37,6 @@ public:
 		//初期化
 		for (int i = 0; i < mMapX * mMapZ; i++)
 			mpType[i / mMapX][i % mMapX] = CObjectType::None;
-
-		//マップサイズを取得
-		mMapX = fgetc(file);
-		mMapZ = fgetc(file);
 
 		fgets(mMap, MapSizeX * MapSizeZ, file);
 

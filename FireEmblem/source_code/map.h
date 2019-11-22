@@ -14,6 +14,7 @@ class CMap
 public:
 	CMap();
 	~CMap();
+
 	void Update();
 	void Draw();
 
