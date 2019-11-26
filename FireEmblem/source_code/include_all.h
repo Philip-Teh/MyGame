@@ -26,18 +26,19 @@
 #include "include/collision.h"
 
 #include "game_object/game_object.h"
+#include "game_object/field.h"
 
 #include "game_object/character/enemy.h"
 #include "game_object/character/player.h"
 #include "game_object/character/benemy.h"
 #include "game_object/character/allies.h"
 #include "game_object/character/a_troop.h"
+#include "game_object/character/e_troop.h"
 
 #include "game_object/camera.h"
 #include "game_object/bill_board.h"
 
 #include "game_object/polygon.h"
-#include "game_object/field.h"
 #include "game_object/mesh_field.h"
 #include "game_object/skydome.h"
 #include "game_object/bullet.h"

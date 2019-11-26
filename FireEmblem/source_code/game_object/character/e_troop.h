@@ -2,18 +2,18 @@
 
 //============================================================================
 //=																			 =
-//=								味方の兵士									 =
+//=							キャラクター　敵の兵士							 =
 //=																			 =
 //============================================================================
 
-#ifndef ATROOP_H_
-#define ATROOP_H_
+#ifndef ETROOP_H_
+#define ETROOP_H_
 
-class CAlliesTroop : public CAllies
+class CEnemyTroop : public CEnemy
 {
 public:
-	CAlliesTroop();
-	~CAlliesTroop();
+	CEnemyTroop();
+	~CEnemyTroop();
 
 	void Update();
 	void Draw(XMFLOAT3 position);
@@ -23,4 +23,4 @@ private:
 	std::unique_ptr<CField> mpField;
 };
 
-#endif // !ATROOP_H_
+#endif // !ETROOP_H_

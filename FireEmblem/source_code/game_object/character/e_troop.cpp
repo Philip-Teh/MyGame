@@ -1,28 +1,28 @@
 //============================================================================
 //=																			 =
-//=								–¡•û‚Ì•ºŽm									 =
+//=								“G‚Ì•ºŽm									 =
 //=																			 =
 //============================================================================
 
-CAlliesTroop::CAlliesTroop()
+CEnemyTroop::CEnemyTroop()
 {
-	mTexture = "asset/texture/character/a_troop.png";
+	mTexture = "asset/texture/character/e_troop.png";
 
 	mpField = make_unique<CField>();
 	mpField->Init(mTexture);
 }
 
-CAlliesTroop::~CAlliesTroop()
+CEnemyTroop::~CEnemyTroop()
 {
-	OutputDebugString("delete CAlliesTroop\n");
+	OutputDebugString("delete CEnemyTroop\n");
 }
 
-void CAlliesTroop::Update()
+void CEnemyTroop::Update()
 {
 	mpField->Update();
 }
 
-void CAlliesTroop::Draw(XMFLOAT3 position)
+void CEnemyTroop::Draw(XMFLOAT3 position)
 {
 	mpField->Draw(position);
 }

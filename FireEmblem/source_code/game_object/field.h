@@ -14,7 +14,7 @@ private:
 	CTexture* mpTexture = nullptr;
 
 	int NumVertices = NULL;
-	float sizex = 10, sizez = 10;
+	float sizex = 1, sizez = 1;
 	int numx = 1, numz = 1;
 };
 

@@ -64,7 +64,7 @@ void CBillBoard::Init()
 	}
 
 	mpTexture = new CTexture();
-	mpTexture->LoadTexture("assest/dog.jpg");
+	mpTexture->LoadTexture("asset/dog.jpg");
 }
 
 void CBillBoard::Uninit(void)
@@ -77,15 +77,14 @@ void CBillBoard::Uninit(void)
 
 void CBillBoard::Draw(void)
 {
-	//g_pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	//g_pD3DDevice->SetRenderState(D3DRS_ALPHAREF, BILLBOARD_ALPHA);
-	//g_pD3DDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	CRenderer::SetVertexBuffers(mpVertexBuffer);
 	CRenderer::SetIndexBuffer(mpIndexBuffer);
 
 	XMMATRIX mtxInvView;
 	XMMATRIX world;
+
+	CRenderer::SetTexture(mpTexture);
 
 	mpCamera = CSceneManager::GetScene()->GetGameObject<CCamera>(FIRST);
 
@@ -105,11 +104,7 @@ void CBillBoard::Draw(void)
 	world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	CRenderer::SetWorldMatrix(&world);
 
-	CRenderer::SetTexture(mpTexture);
-
 	CRenderer::DrawIndexed(4, 0, 0);
-
-	//g_pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 void CBillBoard::Create(XMFLOAT3 position)

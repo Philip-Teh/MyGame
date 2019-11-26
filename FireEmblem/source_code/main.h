@@ -35,12 +35,12 @@ HWND GetWindow();
 
 enum class CObjectType
 {
-	Allies = 0x0A,
-	Enemy = 0x0E,
+	Allies = 0x01,
+	Enemy = 0x02,
 
-	Plain = 0x01,
-	Mountain = 0x02,
-	Forest = 0x03,
+	Plain = 0x03,
+	Mountain = 0x04,
+	Forest = 0x05,
 
 	None = 0x00,
 };

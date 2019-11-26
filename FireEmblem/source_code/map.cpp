@@ -3,10 +3,8 @@ CMap::CMap()
 {
 	mpLoadMap = std::make_unique<CLoadMap>();
 
-	mpAllies = std::make_unique<CAllies>();
-	mpAllies->Init();
-	mpEnemy = std::make_unique<CEnemy>();
-	mpEnemy->Init();
+	mpAlliesTroop = std::make_unique<CAlliesTroop>();
+	mpEnemyTroop = std::make_unique<CEnemyTroop>();
 	mpMountain = std::make_unique<CMountain>();
 	mpPlain = std::make_unique<CPlain>();
 	mpForest = std::make_unique<CForest>();
@@ -19,7 +17,7 @@ CMap::CMap()
 
 CMap::~CMap()
 {
-	OutputDebugString("delete map\n");
+	OutputDebugString("delete CMap\n");
 }
 
 void CMap::Update()
@@ -34,10 +32,10 @@ void CMap::Draw()
 		for (int x = 0; x < mMapX; x++)
 		{
 			if (mpLoadMap->GetType()[z][x] == CObjectType::Allies)
-				mpAllies->Draw(XMFLOAT3((float)x, 0, (float)z));
+				mpAlliesTroop->Draw(XMFLOAT3((float)x, 0, (float)z));
 
 			else if (mpLoadMap->GetType()[z][x] == CObjectType::Enemy)
-				mpEnemy->Draw(XMFLOAT3((float)x, 0, (float)z));
+				mpEnemyTroop->Draw(XMFLOAT3((float)x, 0, (float)z));
 
 			else if (mpLoadMap->GetType()[z][x] == CObjectType::Plain)
 				mpPlain->Draw(XMFLOAT3((float)x, 0, (float)z));
@@ -48,7 +46,10 @@ void CMap::Draw()
 			else if (mpLoadMap->GetType()[z][x] == CObjectType::Mountain)
 				mpMountain->Draw(XMFLOAT3((float)x, 0, (float)z));
 
-			else return;
+			else if (mpLoadMap->GetType()[z][x] == CObjectType::None)
+				continue;
+			else
+				OutputDebugString("CMap unknown type");
 		}
 	}
 }

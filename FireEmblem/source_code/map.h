@@ -21,8 +21,8 @@ public:
 private:
 	std::unique_ptr<CLoadMap> mpLoadMap;
 
-	std::unique_ptr<CAllies> mpAllies;
-	std::unique_ptr<CEnemy> mpEnemy;
+	std::unique_ptr<CAlliesTroop> mpAlliesTroop;
+	std::unique_ptr<CEnemyTroop> mpEnemyTroop;
 	std::unique_ptr<CPlain> mpPlain;
 	std::unique_ptr<CMountain> mpMountain;
 	std::unique_ptr<CForest> mpForest;

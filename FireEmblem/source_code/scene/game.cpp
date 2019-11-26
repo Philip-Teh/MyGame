@@ -5,11 +5,11 @@ void CGame::Init()
 
 	AddGameObject<CCamera>(FIRST);
 	AddGameObject<CSkydome>(WORLD);
-	AddGameObject<CMeshfield>(WORLD);
+	//AddGameObject<CMeshfield>(WORLD);
 	//AddGameObject<CField>(WORLD);
 	//AddGameObject<CBall>(CHARACTER);
-	AddGameObject<CBillBoard>(WORLD);
-	AddGameObject<CPlayer>(CHARACTER);
+	//AddGameObject<CBillBoard>(WORLD);
+	//AddGameObject<CPlayer>(CHARACTER);
 	AddGameObject<CBEnemy>(CHARACTER)->Create(XMFLOAT3(-5.0f, 3.0f, 5.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(1.0f, 1.0f, 1.0f));
 	AddGameObject<CBEnemy>(CHARACTER)->Create(XMFLOAT3(0.0f, 2.0f, 5.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(1.0f, 1.0f, 1.0f));
 	AddGameObject<CBEnemy>(CHARACTER)->Create(XMFLOAT3(5.0f, 1.0f, 5.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(1.0f, 1.0f, 1.0f));
