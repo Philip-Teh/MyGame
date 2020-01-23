@@ -11,8 +11,7 @@ private:
 	XMFLOAT3 front, up, right;
 	XMVECTOR vectorF = XMVectorZero(), vectorR = XMVectorZero(), vectorU = XMVectorZero();
 	XMVECTOR eye = XMVectorZero(), focus = XMVectorZero();
-	//CPlayer player;
-	//XMFLOAT3 pp;
+	float mLength = 0;
 
 public:
 	void Init();

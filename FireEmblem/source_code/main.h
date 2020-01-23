@@ -12,6 +12,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <ctime>
 
 #include <d3d11.h>
 #include <DirectXMath.h>
@@ -31,18 +32,53 @@ using namespace DirectX;
 #define MapSizeZ (40)
 #define MapSizeX (40)
 
+#define MaXStage (2)
+
 HWND GetWindow();
 
 enum class CObjectType
 {
-	Allies = 0x01,
-	Enemy = 0x02,
-
-	Plain = 0x03,
-	Mountain = 0x04,
-	Forest = 0x05,
-
 	None = 0x00,
+	Player = 0x01,
+
+	Goal = 0x04,
+	Wall = 0x05,
+	Floor = 0x06,
+
+	Enemy = 0x07,
+};
+
+enum class CBoxType
+{
+	Exists = 0x02,
+	None = 0x03,
+	Moving
+};
+
+enum class CDirection
+{
+	Up = 110,
+	Down = 0,
+	Left = -55,
+	Right = 55,
+};
+
+class CMath
+{
+public:
+	template<class T>
+	static const T & Min(const T & a, const T & b)
+	{
+		return (b < a) ? b : a;
+	}
+
+	static bool Float3Equal(XMFLOAT3 a,XMFLOAT3 b)
+	{
+		if (a.x == b.x && a.y == b.y && a.z == b.z)
+			return true;
+		else
+			return false;
+	}
 };
 
 class CScreen

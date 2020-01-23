@@ -2,11 +2,9 @@
 #define BILLBOARD_ALPHA (128)
 
 
-
-
 void CBillBoard::Init() 
 {
-	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_Position = XMFLOAT3(10.0f, 0.0f, 0.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
@@ -52,7 +50,7 @@ void CBillBoard::Init()
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 		bd.Usage = D3D11_USAGE_DEFAULT;
-		bd.ByteWidth = sizeof(unsigned short) * 4;
+		bd.ByteWidth = sizeof(unsigned short) * 6;
 		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 		bd.CPUAccessFlags = 0;
 
@@ -91,20 +89,24 @@ void CBillBoard::Draw(void)
 	mtxInvView = XMMatrixTranspose(mpCamera->GetViewMatrix());
 
 	XMFLOAT4X4 mIV;
+	XMStoreFloat4x4(&mIV, mtxInvView);
+
 	mIV._14 = 0.0f;
 	mIV._24 = 0.0f;
 	mIV._34 = 0.0f;
+	mIV._44 = 1.0f;
+
 
 	mtxInvView = XMLoadFloat4x4(&mIV);
 
-	world *= mtxInvView;
+	world = mtxInvView;
 
-	world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+	world *= XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 	world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 	world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	CRenderer::SetWorldMatrix(&world);
 
-	CRenderer::DrawIndexed(4, 0, 0);
+	CRenderer::DrawIndexed(6, 0, 0);
 }
 
 void CBillBoard::Create(XMFLOAT3 position)

@@ -97,16 +97,17 @@ public:
 		}
 	}
 
-	virtual void Draw()
-	{
-		for (int i = 0; i < MAXGAMEOBJ; i++)
-		{
-			for (CGameObject*object : m_GameObject[i])
-			{
-				object->Draw();
-			}
-		}
-	}
+	//virtual void Draw()
+	//{
+	//	for (int i = 0; i < MAXGAMEOBJ; i++)
+	//	{
+	//		for (CGameObject*object : m_GameObject[i])
+	//		{
+	//			object->Draw();
+	//		}
+	//	}
+	//}
+	virtual void Draw() = 0;
 };
 
 #endif 

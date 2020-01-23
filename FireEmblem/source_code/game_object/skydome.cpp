@@ -2,6 +2,9 @@
 
 void CSkydome::Init()
 {
+
+	mQuaternion = XMQuaternionIdentity();
+
 	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
@@ -148,7 +151,13 @@ void CSkydome::Uninit()
 
 void CSkydome::Update()
 {
+	//m_Rotation.y -= 0.01f;
 
+	XMFLOAT3 vz = XMFLOAT3(0.0f, 1.0f, 0.0f);
+	XMVECTOR axis = XMLoadFloat3(&vz);
+	XMVECTOR rotation = XMQuaternionRotationAxis(axis, 0.0005f);
+	mQuaternion = XMQuaternionMultiply(mQuaternion, rotation);
+	mQuaternion = XMQuaternionNormalize(mQuaternion);
 }
 
 void CSkydome::Draw()
@@ -161,7 +170,9 @@ void CSkydome::Draw()
 
 	XMMATRIX world;
 	world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-	world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	world *= XMMatrixRotationQuaternion(mQuaternion);
+
+	//world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 	world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	CRenderer::SetWorldMatrix(&world);
 

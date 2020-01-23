@@ -12,6 +12,9 @@ private:
 	unsigned short NumIndex = 0;
 
 	CTexture* m_Texture = nullptr;
+
+	XMVECTOR mQuaternion;
+
 public:
 	void Init();
 	void Uninit();

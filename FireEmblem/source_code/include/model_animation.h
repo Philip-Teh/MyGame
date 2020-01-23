@@ -17,7 +17,7 @@ class CModelAnimation
 public:
 	void Load(const char** Filename);
 	void Unload();
-	void Update(int Animation,int Frame);
+	void Update(int Animation,unsigned int Frame);
 	void Animation(int Animation1, int Animation2, float Blend, int Frame);
 	void Draw(XMMATRIX Matrix);
 	void DrawMesh(aiNode* Node, XMMATRIX Matrix);
@@ -28,6 +28,9 @@ private:
 	const aiScene* m_Scene[3] = {};
 	std::map<std::string, aiQuaternion> m_NodeRotation;
 	std::map<std::string, aiVector3D> m_NodePosition;
+	CTexture* texture;
+	std::string directory;
+	bool hastexture = false;
 };
 
 #endif // !MODELANIMATION_H_

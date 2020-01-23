@@ -12,89 +12,38 @@
 class CLoadMap
 {
 public:
-	void Load(int mapID)
-	{
-		FILE* file;
-		std::string mapid = std::to_string(mapID);
+	void Load(int mapID);
 
-		mFilename = "asset/map/map" + mapid + ".bin";
-
-		if ((file = fopen(mFilename.c_str(), "rb")) == nullptr)
-		{
-			MessageBox(NULL, "読み込み失敗", "エラー", MB_OK);
-		}
-
-		//マップサイズを取得
-		mMapX = fgetc(file);
-		mMapZ = fgetc(file);
-		
-		//メモリ確保
-		mpType = new CObjectType*[mMapZ];
-
-		for (int x = 0; x < mMapZ; x++)
-			mpType[x] = new CObjectType[mMapX];
-
-		//初期化
-		for (int i = 0; i < mMapX * mMapZ; i++)
-			mpType[i / mMapX][i % mMapX] = CObjectType::None;
-
-		fgets(mMap, MapSizeX * MapSizeZ, file);
-
-		//マップのオブジェクトの種類
-		for (int i = 0; i < mMapX * mMapZ; i++)
-		{
-			switch ((CObjectType)mMap[i])
-			{
-			case CObjectType::Allies:
-				mpType[i / mMapX][i % mMapX] = CObjectType::Allies;
-				break;
-			case CObjectType::Enemy:
-				mpType[i / mMapX][i % mMapX] = CObjectType::Enemy;
-				break;
-			case CObjectType::Plain:
-				mpType[i / mMapX][i % mMapX] = CObjectType::Plain;
-				break;
-			case CObjectType::Mountain:
-				mpType[i / mMapX][i % mMapX] = CObjectType::Mountain;
-				break;
-			case CObjectType::Forest:
-				mpType[i / mMapX][i % mMapX] = CObjectType::Forest;
-				break;
-			case CObjectType::None:
-				mpType[i / mMapX][i % mMapX] = CObjectType::None;
-				break;
-			default:
-				mpType[i / mMapX][i % mMapX] = CObjectType::None;
-				break;
-			}
-		}
-
-		fclose(file);
-	}
-
-	void ReleaseMap(void)
-	{
-		for (int z = 0; z < mMapZ; z++)
-			delete[] mpType[z];
-
-		delete[]mpType;
-	}
+	void ReleaseMap(void);
 	
-	CObjectType** GetType()
-	{
-		return mpType;
-	}
+	CObjectType** GetType() { return mpType; }
+	CBoxType** GetBox() { return mpBox; }
+	std::list<XMINT2> GetFirstBoxPosition() { return mFirstBoxPosition; }
 
-	int GetMapX() { return mMapX; }
-	int GetMapZ() { return mMapZ; }
+	const int& GetMapX() { return mMapX; }
+	const int& GetMapZ() { return mMapZ; }
+	const int& GetMaxEnemy() { return mMaxEnemyTroop; }
+
+	XMINT2 GetPlayerPosition() { return mPlayerPosition; }
+	std::vector<XMINT2> GetEnemyPosition() { return mEnemyPosition; }
 
 private:
 	std::string mFilename;
 	char mMap[MapSizeX * MapSizeZ] = {};
-	int mMapX = NULL;
-	int mMapZ = NULL;
+	int mMapX = 0;
+	int mMapZ = 0;
+	int mMaxEnemyTroop = 0;
+
+	XMINT2 mPlayerPosition = XMINT2(0, 0);
+	std::vector<XMINT2> mEnemyPosition;
 
 	CObjectType** mpType = nullptr;
+	CBoxType** mpBox = nullptr;
+	std::list<XMINT2> mFirstBoxPosition;
+
+	void Init();
+	void SetPlayerPosition(XMINT2 p) { mPlayerPosition = p; }
+	void SetEnemyPosition(XMINT2 p) { mEnemyPosition.push_back(p); }
 };
 
 #endif // !LOADMAP_H_

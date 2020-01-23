@@ -4,9 +4,10 @@
 class CField : public CGameObject {
 public:
 	void Init(std::string texture);
+	void Init(std::string texture, float x, float z,XMFLOAT3 rgb);
 	void Uninit();
 	void Update();
-	void Draw(XMFLOAT3 position);
+	void Draw(XMFLOAT3 position, float rotate);
 
 private:
 	ID3D11Buffer* mpVertexBuffer = nullptr;
@@ -14,7 +15,7 @@ private:
 	CTexture* mpTexture = nullptr;
 
 	int NumVertices = NULL;
-	float sizex = 1, sizez = 1;
+	float sizex = 1.0f, sizez = 1.0f;
 	int numx = 1, numz = 1;
 };
 

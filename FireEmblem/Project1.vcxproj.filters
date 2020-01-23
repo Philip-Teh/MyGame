@@ -28,6 +28,9 @@
     <Filter Include="source_code\lib">
       <UniqueIdentifier>{6dbeca23-a4a7-4aaf-a155-b484514a5210}</UniqueIdentifier>
     </Filter>
+    <Filter Include="map">
+      <UniqueIdentifier>{e41fb97f-5328-474d-817e-23f5543f121e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="pixelShader.hlsl">
@@ -119,16 +122,7 @@
     <ClInclude Include="source_code\load_map.h">
       <Filter>source_code</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\game_object\plain.h">
-      <Filter>source_code\game_object</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\game_object\character\allies.h">
-      <Filter>source_code\game_object\character</Filter>
-    </ClInclude>
-    <ClInclude Include="source_code\game_object\mountain.h">
-      <Filter>source_code\game_object</Filter>
-    </ClInclude>
-    <ClInclude Include="source_code\game_object\character\a_troop.h">
       <Filter>source_code\game_object\character</Filter>
     </ClInclude>
     <ClInclude Include="source_code\game_object\character\benemy.h">
@@ -143,9 +137,6 @@
     <ClInclude Include="source_code\lib\WICTextureLoader.h">
       <Filter>source_code\lib</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\game_object\forest.h">
-      <Filter>source_code\game_object</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\stage_manager.h">
       <Filter>source_code</Filter>
     </ClInclude>
@@ -154,6 +145,48 @@
     </ClInclude>
     <ClInclude Include="source_code\game_object\character\e_troop.h">
       <Filter>source_code\game_object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\selector.h">
+      <Filter>source_code\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\floor.h">
+      <Filter>source_code\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\scene\game_over.h">
+      <Filter>source_code\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\scene\tutorial.h">
+      <Filter>source_code\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\ui_manager.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\number.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\num_draw.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\box.h">
+      <Filter>source_code\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\wall.h">
+      <Filter>source_code\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\menu.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\step.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\score.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_status.h">
+      <Filter>source_code</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\goal.h">
+      <Filter>source_code\game_object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -226,23 +259,11 @@
     <ClCompile Include="source_code\map.cpp">
       <Filter>source_code</Filter>
     </ClCompile>
-    <ClCompile Include="source_code\game_object\plain.cpp">
-      <Filter>source_code\game_object</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\game_object\mountain.cpp">
-      <Filter>source_code\game_object</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\game_object\character\a_troop.cpp">
-      <Filter>source_code\game_object\character</Filter>
-    </ClCompile>
     <ClCompile Include="source_code\game_object\character\benemy.cpp">
       <Filter>source_code\game_object\character</Filter>
     </ClCompile>
     <ClCompile Include="source_code\lib\WICTextureLoader.cpp">
       <Filter>source_code\lib</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\game_object\forest.cpp">
-      <Filter>source_code\game_object</Filter>
     </ClCompile>
     <ClCompile Include="source_code\stage_manager.cpp">
       <Filter>source_code</Filter>
@@ -250,5 +271,58 @@
     <ClCompile Include="source_code\game_object\character\e_troop.cpp">
       <Filter>source_code\game_object\character</Filter>
     </ClCompile>
+    <ClCompile Include="source_code\game_object\selector.cpp">
+      <Filter>source_code\game_object</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\floor.cpp">
+      <Filter>source_code\game_object</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\scene\game_over.cpp">
+      <Filter>source_code\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\scene\tutorial.cpp">
+      <Filter>source_code\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\ui_manager.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\number.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\num_draw.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\box.cpp">
+      <Filter>source_code\game_object</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\wall.cpp">
+      <Filter>source_code\game_object</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\load_map.cpp">
+      <Filter>source_code</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\menu.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\step.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\score.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_status.cpp">
+      <Filter>source_code</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\goal.cpp">
+      <Filter>source_code\game_object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="asset\map\map1.txt">
+      <Filter>map</Filter>
+    </Text>
+    <Text Include="asset\map\map2.txt">
+      <Filter>map</Filter>
+    </Text>
   </ItemGroup>
 </Project>

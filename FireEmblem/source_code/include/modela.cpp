@@ -1,3 +1,4 @@
+using namespace std;
 
 void ModelA::Load(std::string filename)
 {
@@ -60,10 +61,10 @@ Mesh ModelA::processMesh(aiMesh* mesh, const aiScene* scene)
 		vertex.Normal.y = mesh->mNormals[i].y;
 		vertex.Normal.z = mesh->mNormals[i].z;
 
-		vertex.Diffuse.x = mesh->mColors[0][i].r;
-		vertex.Diffuse.y = mesh->mColors[0][i].g;
-		vertex.Diffuse.z = mesh->mColors[0][i].b;
-		vertex.Diffuse.w = mesh->mColors[0][i].a;
+		//vertex.Diffuse.x = mesh->mColors[0][i].r;
+		//vertex.Diffuse.y = mesh->mColors[0][i].g;
+		//vertex.Diffuse.z = mesh->mColors[0][i].b;
+		//vertex.Diffuse.w = mesh->mColors[0][i].a;
 
 		if (mesh->mTextureCoords[0])
 		{
@@ -128,10 +129,10 @@ Mesh ModelA::processMesh(aiMesh* mesh, const aiScene* scene)
 
 			std::string fileloc = basePath + path.data;
 
-			if (fileloc.find(".tga") == std::string::npos)
+			//if (fileloc.find(".tga") == std::string::npos)
+			//	text->Load(fileloc.c_str());
+			//else
 				text->LoadTexture(fileloc.c_str());
-			else
-				text->Load(fileloc.c_str());
 
 			textures.push_back(text);
 		}

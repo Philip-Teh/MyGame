@@ -12,8 +12,9 @@
 class CTitle : public CScene
 {
 private:
-	std::string mTexture;
-	CPolygon* mpPolygon = nullptr;
+	std::string mTexture[3];
+	std::unique_ptr<CPolygon> mpPolygon[3];
+	int mFrame = 0;
 public:
 	void Init();
 	void Uninit();

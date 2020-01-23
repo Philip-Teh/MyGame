@@ -40,5 +40,4 @@ void main( in  float4 inPosition		: POSITION0,
     outDiffuse = g_Texture.Sample( g_SamplerState, inTexCoord );
 
 	outDiffuse *= inDiffuse;
-
 }

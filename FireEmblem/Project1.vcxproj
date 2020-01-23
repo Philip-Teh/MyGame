@@ -166,22 +166,24 @@
   <ItemGroup>
     <ClInclude Include="source_code\game_object\ball.h" />
     <ClInclude Include="source_code\game_object\bill_board.h" />
+    <ClInclude Include="source_code\game_object\box.h" />
     <ClInclude Include="source_code\game_object\bullet.h" />
     <ClInclude Include="source_code\game_object\camera.h" />
     <ClInclude Include="source_code\game_object\character\allies.h" />
-    <ClInclude Include="source_code\game_object\character\a_troop.h" />
     <ClInclude Include="source_code\game_object\character\benemy.h" />
     <ClInclude Include="source_code\game_object\character\enemy.h" />
     <ClInclude Include="source_code\game_object\character\e_troop.h" />
     <ClInclude Include="source_code\game_object\character\player.h" />
     <ClInclude Include="source_code\game_object\field.h" />
-    <ClInclude Include="source_code\game_object\forest.h" />
+    <ClInclude Include="source_code\game_object\floor.h" />
     <ClInclude Include="source_code\game_object\game_object.h" />
+    <ClInclude Include="source_code\game_object\goal.h" />
     <ClInclude Include="source_code\game_object\mesh_field.h" />
-    <ClInclude Include="source_code\game_object\mountain.h" />
-    <ClInclude Include="source_code\game_object\plain.h" />
     <ClInclude Include="source_code\game_object\polygon.h" />
+    <ClInclude Include="source_code\game_object\selector.h" />
     <ClInclude Include="source_code\game_object\skydome.h" />
+    <ClInclude Include="source_code\game_object\wall.h" />
+    <ClInclude Include="source_code\game_status.h" />
     <ClInclude Include="source_code\include\audio_clip.h" />
     <ClInclude Include="source_code\include\collision.h" />
     <ClInclude Include="source_code\include\input.h" />
@@ -198,28 +200,38 @@
     <ClInclude Include="source_code\main.h" />
     <ClInclude Include="source_code\map.h" />
     <ClInclude Include="source_code\scene\game.h" />
+    <ClInclude Include="source_code\scene\game_over.h" />
     <ClInclude Include="source_code\scene\result.h" />
     <ClInclude Include="source_code\scene\scene.h" />
     <ClInclude Include="source_code\scene\scene_manager.h" />
     <ClInclude Include="source_code\scene\title.h" />
+    <ClInclude Include="source_code\scene\tutorial.h" />
     <ClInclude Include="source_code\stage_manager.h" />
+    <ClInclude Include="source_code\ui\menu.h" />
+    <ClInclude Include="source_code\ui\number.h" />
+    <ClInclude Include="source_code\ui\num_draw.h" />
+    <ClInclude Include="source_code\ui\score.h" />
+    <ClInclude Include="source_code\ui\step.h" />
+    <ClInclude Include="source_code\ui\ui_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source_code\game_object\ball.cpp" />
     <ClCompile Include="source_code\game_object\bill_board.cpp" />
+    <ClCompile Include="source_code\game_object\box.cpp" />
     <ClCompile Include="source_code\game_object\bullet.cpp" />
     <ClCompile Include="source_code\game_object\camera.cpp" />
-    <ClCompile Include="source_code\game_object\character\a_troop.cpp" />
     <ClCompile Include="source_code\game_object\character\benemy.cpp" />
     <ClCompile Include="source_code\game_object\character\e_troop.cpp" />
     <ClCompile Include="source_code\game_object\character\player.cpp" />
     <ClCompile Include="source_code\game_object\field.cpp" />
-    <ClCompile Include="source_code\game_object\forest.cpp" />
+    <ClCompile Include="source_code\game_object\floor.cpp" />
+    <ClCompile Include="source_code\game_object\goal.cpp" />
     <ClCompile Include="source_code\game_object\mesh_field.cpp" />
-    <ClCompile Include="source_code\game_object\plain.cpp" />
     <ClCompile Include="source_code\game_object\polygon.cpp" />
+    <ClCompile Include="source_code\game_object\selector.cpp" />
     <ClCompile Include="source_code\game_object\skydome.cpp" />
-    <ClCompile Include="source_code\game_object\mountain.cpp" />
+    <ClCompile Include="source_code\game_object\wall.cpp" />
+    <ClCompile Include="source_code\game_status.cpp" />
     <ClCompile Include="source_code\include\audio_clip.cpp" />
     <ClCompile Include="source_code\include\input.cpp" />
     <ClCompile Include="source_code\include\model.cpp" />
@@ -228,6 +240,7 @@
     <ClCompile Include="source_code\include\renderer.cpp" />
     <ClCompile Include="source_code\include\texture.cpp" />
     <ClCompile Include="source_code\lib\WICTextureLoader.cpp" />
+    <ClCompile Include="source_code\load_map.cpp" />
     <ClCompile Include="source_code\main.cpp" />
     <ClCompile Include="source_code\map.cpp" />
     <ClCompile Include="source_code\pch.cpp">
@@ -239,10 +252,22 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="source_code\scene\game.cpp" />
+    <ClCompile Include="source_code\scene\game_over.cpp" />
     <ClCompile Include="source_code\scene\result.cpp" />
     <ClCompile Include="source_code\scene\scene_manager.cpp" />
     <ClCompile Include="source_code\scene\title.cpp" />
+    <ClCompile Include="source_code\scene\tutorial.cpp" />
     <ClCompile Include="source_code\stage_manager.cpp" />
+    <ClCompile Include="source_code\ui\menu.cpp" />
+    <ClCompile Include="source_code\ui\number.cpp" />
+    <ClCompile Include="source_code\ui\num_draw.cpp" />
+    <ClCompile Include="source_code\ui\score.cpp" />
+    <ClCompile Include="source_code\ui\step.cpp" />
+    <ClCompile Include="source_code\ui\ui_manager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="asset\map\map1.txt" />
+    <Text Include="asset\map\map2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

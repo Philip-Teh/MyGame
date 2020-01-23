@@ -16,11 +16,11 @@ void CMeshfield::Init()
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
 	sizex = 5.0f, sizez = 5.0f;
-	numx = 5, numz = 5;
+	numx = 20, numz = 20;
 
 	//テクスチャ読み込み
 	m_Texture = new CTexture();
-	m_Texture->Load("asset/field004.tga");
+	m_Texture->LoadTexture("asset/texture/game_object/floor.png");
 
 	NumVertex = (numx + 1) * (numz + 1);
 	NumIndex = (2 + numx * 2)*numz + (numz - 1) * 2;
@@ -33,7 +33,7 @@ void CMeshfield::Init()
 		for (int j = 0; j < numx + 1; j++)
 		{
 			//DirectX Math ライブラリ
-			Vertex[j + (numx + 1) * i].Position =  XMFLOAT3(-(sizex * numx * 0.5f) + sizex * j, FieldY[i][j], (sizez * numz * 0.5f) - sizez * i);		//位置
+			Vertex[j + (numx + 1) * i].Position =  XMFLOAT3(-(sizex * numx * 0.5f) + sizex * j, -1.5f, (sizez * numz * 0.5f) - sizez * i);		//位置
 			Vertex[j + (numx + 1) * i].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);																			//法線
 			Vertex[j + (numx + 1) * i].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);																		//色
 			Vertex[j + (numx + 1) * i].TexCoord = XMFLOAT2((float)j,(float)i);														//テクスチャ座標
@@ -133,7 +133,7 @@ void CMeshfield::Uninit()
 	delete[] Index;
 	m_VertexBuffer->Release();
 	m_IndexBuffer->Release();
-	m_Texture->Unload();
+	m_Texture->UnloadTexture();
 	delete m_Texture;
 }
 

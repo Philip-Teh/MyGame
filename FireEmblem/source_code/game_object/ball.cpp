@@ -2,8 +2,8 @@
 #define SPEED (0.1f)
 
 XMFLOAT3 pp;
-//CModelAnimation* modelani;
-ModelA* modelani;
+CModelAnimation* modelani;
+//ModelA* modelani;
 
 void CBall::Init()
 {
@@ -16,9 +16,12 @@ void CBall::Init()
 	//modelani = new ModelA();
 	//modelani->Load("asset/model/ball.fbx");
 
-	//modelani = new CModelAnimation();
-	modelani = new ModelA();
-	modelani->Load("asset/model/cca.fbx");
+	file[0] = "asset/model/box3d.fbx";
+
+
+	modelani = new CModelAnimation();
+	//modelani = new ModelA();
+	modelani->Load(file);
 
 	pp = m_Position;
 }
@@ -105,7 +108,7 @@ void CBall::Draw()
 
 	world *= XMMatrixTranslation(m_Position.x, m_Position.y + 2, m_Position.z);
 
-	CRenderer::SetWorldMatrix(&world);
+	//CRenderer::SetWorldMatrix(&world);
 	//model->Draw();
-	modelani->Draw();
+	modelani->Draw(world);
 }

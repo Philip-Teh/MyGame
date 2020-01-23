@@ -19,7 +19,14 @@ public:
 
 private:
 	std::unique_ptr<CMap> mpMap;
+	std::unique_ptr<CUIManager> mpUIManager;
+	bool stageclear = false;
+	int mStage = 0;
 
+	void NextStage();
+	void ResetStage();
+
+	void ScoreCaculate();
 };
 
 #endif // !STAGEMANAGER_H_

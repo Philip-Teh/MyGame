@@ -3,9 +3,17 @@
 
 void CModelAnimation::Load(const char** Filename)
 {
+	texture = new CTexture();
+	this->directory = Filename[0];
+	hastexture = false;
+
 	m_Scene[0] = aiImportFile(Filename[0], aiProcessPreset_TargetRealtime_MaxQuality);
-	m_Scene[1] = aiImportFile(Filename[1], aiProcessPreset_TargetRealtime_MaxQuality);
-	m_Scene[2] = aiImportFile(Filename[2], aiProcessPreset_TargetRealtime_MaxQuality);
+
+	if (Filename[1])
+		m_Scene[1] = aiImportFile(Filename[1], aiProcessPreset_TargetRealtime_MaxQuality);
+	if(Filename[2])
+		m_Scene[2] = aiImportFile(Filename[2], aiProcessPreset_TargetRealtime_MaxQuality);
+
 
 	m_MeshNum = m_Scene[0]->mNumMeshes;
 	m_Mesh = new MESH[m_MeshNum];
@@ -22,6 +30,18 @@ void CModelAnimation::Load(const char** Filename)
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuse);
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &specular);
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &ambient);
+		
+		//テクスチャ
+		size_t pos = directory.find_last_of("\\/");
+		std::string basePath = directory.substr(0, pos + 1);
+		aiString path;
+
+		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS)
+		{
+			std::string fileloc = basePath + "modeltexture/" + path.data;
+			texture->LoadTexture(fileloc.c_str());
+			hastexture = true;
+		}
 
 		VERTEX_3D* vertex = new VERTEX_3D[mesh->mNumVertices];
 
@@ -29,8 +49,9 @@ void CModelAnimation::Load(const char** Filename)
 		{
 			vertex[i].Position = XMFLOAT3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
 			vertex[i].Normal = XMFLOAT3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
-			vertex[i].Diffuse = XMFLOAT4(100,1,1,2);
-			//vertex[i].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
+			vertex[i].Diffuse = XMFLOAT4(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+			if (hastexture)
+				vertex[i].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 		}
 
 		//VertexBuffer
@@ -89,16 +110,22 @@ void CModelAnimation::Unload()
 
 	for (int i = 0; i < 3; i++)
 		aiReleaseImport(m_Scene[i]);
+
+	if (hastexture)
+	{
+		texture->UnloadTexture();
+		delete texture;
+	}
 }
 
-void CModelAnimation::Update(int Animation,int Frame)
+void CModelAnimation::Update(int Animation,unsigned int Frame)
 {
 	aiAnimation* animation = m_Scene[Animation]->mAnimations[0];
 
 	for (unsigned int c = 0; c < animation->mNumChannels; c++)
 	{
 		aiNodeAnim* nodeAnim = animation->mChannels[c];
-		int f = Frame % nodeAnim->mNumRotationKeys;
+		unsigned int f = Frame % nodeAnim->mNumRotationKeys;
 		m_NodeRotation[nodeAnim->mNodeName.C_Str()] = nodeAnim->mRotationKeys[f].mValue;
 
 		f = Frame % nodeAnim->mNumPositionKeys;
@@ -152,6 +179,8 @@ void CModelAnimation::DrawMesh(aiNode* Node, XMMATRIX Matrix)
 		unsigned int m = Node->mMeshes[n];
 		CRenderer::SetVertexBuffers(m_Mesh[m].VertexBuffer);
 		CRenderer::SetIndexBuffer(m_Mesh[m].IndexBuffer);
+		if (hastexture)
+			CRenderer::SetTexture(texture);
 		CRenderer::DrawIndexed(m_Mesh[m].IndexNum, 0, 0);
 	}
 	//再帰呼び出し

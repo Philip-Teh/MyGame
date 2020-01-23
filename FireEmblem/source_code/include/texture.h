@@ -17,7 +17,7 @@ public:
 private:
 	ID3D11Resource*             pTexture;
 	ID3D11Texture2D*			m_Texture;
-	ID3D11ShaderResourceView*	m_ShaderResourceView;
+	ID3D11ShaderResourceView* m_ShaderResourceView;
 
 };
 

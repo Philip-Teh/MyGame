@@ -8,6 +8,12 @@ void CSceneManager::Init()
 	CInput::Init();
 	CAudioClip::Init();
 
+	CGameStatus::SetGameClear(false);
+	CGameStatus::SetGameOver(false);
+	CGameStatus::SetScore(0);
+	CGameStatus::SetStageClear(0);
+	CGameStatus::SetStageChoose(1);
+
 	SetScene<CTitle>();
 }
 

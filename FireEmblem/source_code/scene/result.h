@@ -11,14 +11,17 @@
 
 class CResult : public CScene
 {
-private:
-	std::string mTexture;
-	CPolygon* mpPolygon = nullptr;
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
+
+private:
+	std::string mTexture[3];
+	std::unique_ptr<CPolygon> mpPolygon[3];
+	float mMove, mMove1, mMove2;
+	float MaxMove(float move);
 };
 
 #endif // !RESULT_H_

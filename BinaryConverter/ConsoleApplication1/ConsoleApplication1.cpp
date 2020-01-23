@@ -3,14 +3,20 @@
 
 enum class Type
 {
-	Allies = 0x01,
-	Enemy = 0x02,
-
-	Plain = 0x03,
-	Mountain = 0x04,
-	Forest = 0x05,
-
 	None = 0x00,
+	Player = 0x01,
+
+	Goal = 0x04,
+	Wall = 0x05,
+	Floor = 0x06,
+
+	Enemy = 0x07,
+};
+
+enum class Box
+{
+	Exists = 0x02,
+	None = 0x03,
 };
 
 int main()
@@ -41,7 +47,7 @@ int main()
 
 		char map[MAPY][MAPX];
 		std::unique_ptr<Type[]> type;
-		//std::unique_ptr<Box[]> box;
+		std::unique_ptr<Box[]> box;
 
 		for (int y = 0; y < MAPY; y++)
 			for (int x = 0; x < MAPX; x++)
@@ -76,7 +82,7 @@ int main()
 		}
 
 		type = std::make_unique<Type[]>(sizeX*sizeY);
-		//box = std::make_unique<Box[]>(sizeX*sizeY);
+		box = std::make_unique<Box[]>(sizeX*sizeY);
 
 		unsigned int writecount = 0;
 
@@ -86,39 +92,51 @@ int main()
 			{
 				switch (map[y][x])
 				{
-				case 'A':
-					type[writecount] = Type::Allies;
-					//box[writecount] = Box::None;
+				case 'P':
+					type[writecount] = Type::Player;
+					box[writecount] = Box::None;
 					break;
 				case 'E':
 					type[writecount] = Type::Enemy;
-					//box[writecount] = Box::None;
+					box[writecount] = Box::None;
 					break;
 				case '.':
-					type[writecount] = Type::Plain;
-					//box[writecount] = Box::None;
+					type[writecount] = Type::Floor;
+					box[writecount] = Box::None;
 					break;
 				case 'M':
-					type[writecount] = Type::Mountain;
-					//box[writecount] = Box::None;
+					type[writecount] = Type::Wall;
+					box[writecount] = Box::None;
 					break;
-				case 'F':
-					type[writecount] = Type::Forest;
-					//box[writecount] = Box::None;
+				case 'B':
+					type[writecount] = Type::Floor;
+					box[writecount] = Box::Exists;
+					break;
+				case 'G':
+					type[writecount] = Type::Goal;
+					box[writecount] = Box::None;
+					break;
+				case 'X':
+					type[writecount] = Type::Goal;
+					box[writecount] = Box::Exists;
 					break;
 				case 'L':
 				case 'C':
-				//case 0x0D:
-				//case 0x0A:
+				case 0x0D:
+				case 0x0A:
 					break;
 				default:
 					type[writecount] = Type::None;
-					//box[writecount] = Box::None;
+					box[writecount] = Box::None;
 					break;
 				}
+				char i = (char)type[writecount];
+				char a = (char)box[writecount];
+
 				writecount++;
 			}
 		}
+
 
 		char outputfile[256];
 		std::cout << "File Name Ouput : ";
@@ -135,16 +153,19 @@ int main()
 		{
 			output[i + 2] = (char)type[i];
 		}
-		//for (unsigned int i = 0; i < sizeY*sizeX; i++)
-		//{
-		//	output[i + 2 + sizeX * sizeY] = (char)box[i];
-		//}
+		for (unsigned int i = 0; i < sizeY*sizeX; i++)
+		{
+			output[i + 2 + sizeX * sizeY] = (char)box[i];
+		}
 
-		fwrite(output, sizeof(char), 2 + (sizeX*sizeY), file);
+		char a = output[11 + 2 + sizeX * sizeY];
+		char b = output[12 + 2 + sizeX * sizeY];
+		char c = output[13+2+ sizeX * sizeY];
+
+		fwrite(output, sizeof(char), 2 + (sizeX * sizeY) * 2, file);
 
 		fclose(file);
 
 		delete[] output;
 	}
-
 }

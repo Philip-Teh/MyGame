@@ -3,8 +3,8 @@
 
 void CCamera::Init()
 {
-	m_Position = XMFLOAT3(0.0f, 5.0f, -20.0f);
-	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_Position = XMFLOAT3(0.0f, 1.0f, 0.0f);
+	m_Rotation = XMFLOAT3(1.0f, 0.0f, 0.0f);
 
 	eye = XMVectorSet(m_Position.x, m_Position.y, m_Position.z, 0);
 	focus = XMVectorSet(0, 0, 0, 0);
@@ -26,7 +26,7 @@ void CCamera::Init()
 	XMVector3TransformCoord(vectorU, m_ViewMatrix);
 	XMStoreFloat3(&up, vectorU);
 
-	//pp = player.GetPosition();
+	mLength = 10.0f;
 }
 
 void CCamera::Uninit()
@@ -114,8 +114,15 @@ void CCamera::Update()
 
 	m_ViewMatrix *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
-	eye = XMVectorSet(m_Position.x, m_Position.y, m_Position.z, 0);
-	focus = XMVectorSet(m_Rotation.x, m_Rotation.y, m_Rotation.z, 0);
+	eye = XMVectorSet(m_Position.x + 5, m_Position.y + 25, m_Position.z - 25, 0);
+	//eye = XMVectorSet(m_Position.x + 1, m_Position.y + 10, m_Position.z - 10, 0);
+
+	XMFLOAT3 f;
+	f.x = (front.x * mLength) + m_Position.x;
+	f.y = (front.y * mLength) + m_Position.y;
+	f.z = (front.z * mLength) + m_Position.z;
+
+	focus = XMVectorSet(f.x, f.y, f.z, 0);
 }
 
 void CCamera::Draw()
@@ -142,7 +149,6 @@ void CCamera::Draw()
 	m_ViewMatrix = XMMatrixLookAtLH(eye, focus, vectorU);
 
 	CRenderer::SetViewMatrix(&m_ViewMatrix);
-
 
 	// プロジェクションマトリクス設定
 	m_ProjectionMatrix = XMMatrixPerspectiveFovLH(1.0f, dxViewport.Width / dxViewport.Height, 1.0f, 1000.0f);

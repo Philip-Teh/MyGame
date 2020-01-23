@@ -5,12 +5,11 @@
 #include <sstream>
 #include <iostream>
 
-using namespace std;
 
 class Mesh {
 public:
 
-	Mesh(vector<MATERIAL> Material,vector<VERTEX_3D> vertices, vector<UINT> indices, vector<CTexture*> textures)
+	Mesh(std::vector<MATERIAL> Material, std::vector<VERTEX_3D> vertices, std::vector<UINT> indices, std::vector<CTexture*> textures)
 	{
 		this->material = Material;
 		this->vertices = vertices;
@@ -53,11 +52,11 @@ public:
 	}
 private:
 	/*  Render data  */
-	vector<VERTEX_3D> vertices;
-	vector<UINT> indices;
-	vector<CTexture*> textures;
+	std::vector<VERTEX_3D> vertices;
+	std::vector<UINT> indices;
+	std::vector<CTexture*> textures;
 	ID3D11Buffer* VertexBuffer, * IndexBuffer;
-	vector<MATERIAL> material;
+	std::vector<MATERIAL> material;
 
 	/*  Functions    */
 	// Initializes all the buffer objects/arrays

@@ -24,6 +24,11 @@
 #include "include/modela.h"
 #include "include/model_animation.h"
 #include "include/collision.h"
+#include "game_object/polygon.h"
+#include "ui/number.h"
+#include "ui/num_draw.h"
+
+#include "game_status.h"
 
 #include "game_object/game_object.h"
 #include "game_object/field.h"
@@ -32,29 +37,39 @@
 #include "game_object/character/player.h"
 #include "game_object/character/benemy.h"
 #include "game_object/character/allies.h"
-#include "game_object/character/a_troop.h"
 #include "game_object/character/e_troop.h"
 
 #include "game_object/camera.h"
 #include "game_object/bill_board.h"
 
-#include "game_object/polygon.h"
 #include "game_object/mesh_field.h"
 #include "game_object/skydome.h"
 #include "game_object/bullet.h"
 #include "game_object/ball.h"
-#include "game_object/plain.h"
-#include "game_object/mountain.h"
-#include "game_object/forest.h"
+#include "game_object/floor.h"
+#include "game_object/wall.h"
+#include "game_object/goal.h"
+#include "game_object/box.h"
+
+#include "game_object/selector.h"
 
 #include "load_map.h"
 #include "map.h"
+
+#include "ui/menu.h"
+#include "ui/score.h"
+#include "ui/step.h"
+#include "ui/num_enemy.h"
+#include "ui/ui_manager.h"
+
 #include "stage_manager.h"
 
 #include "scene/scene.h"
 #include "scene/scene_manager.h"
 #include "scene/title.h"
+#include "scene/tutorial.h"
 #include "scene/game.h"
+#include "scene/game_over.h"
 #include "scene/result.h"
 
 

@@ -14,6 +14,7 @@ public:
 private:
 	CModel* model = nullptr;
 	XMVECTOR mQuaternion;
+	const char* file[3];
 	int mFrame;
 };
 
