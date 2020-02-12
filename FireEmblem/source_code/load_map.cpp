@@ -73,7 +73,7 @@ void CLoadMap::Load(int mapID)
 		{
 		case CBoxType::Exists:
 			mpBox[i / mMapX][i % mMapX] = CBoxType::Exists;
-			mFirstBoxPosition.push_back(XMINT2(i / mMapX, i % mMapX));
+			//mFirstBoxPosition.push_back(XMINT2(i / mMapX, i % mMapX));
 			break;
 		case CBoxType::None:
 			mpBox[i / mMapX][i % mMapX] = CBoxType::None;
@@ -97,6 +97,8 @@ void CLoadMap::ReleaseMap(void)
 
 	delete[]mpType;
 	delete[]mpBox;
+
+	//mFirstBoxPosition.clear();
 }
 
 void CLoadMap::Init()

@@ -1,11 +1,14 @@
 
 
 
-void CModelAnimation::Load(const char** Filename)
+void CModelAnimation::Load(const char** Filename, CShader* shader)
 {
 	texture = new CTexture();
 	this->directory = Filename[0];
 	hastexture = false;
+
+	mpShader = new CShader();
+	mpShader = shader;
 
 	m_Scene[0] = aiImportFile(Filename[0], aiProcessPreset_TargetRealtime_MaxQuality);
 
@@ -172,7 +175,14 @@ void CModelAnimation::DrawMesh(aiNode* Node, XMMATRIX Matrix)
 	//world *= XMMatrixTranslation(vector.x, vector.y, vector.z);
 
 	world *= Matrix;											//©•ª‚Ìmatrix * e‚Ìmatrix
-	CRenderer::SetWorldMatrix(&world);
+
+	XMFLOAT4X4 w;
+	XMStoreFloat4x4(&w, world);
+
+	//CRenderer::SetWorldMatrix(&world);
+	//CShader::SetWorldMatrix(&w);
+	mpShader->SetWorldMatrix(&w);
+	mpShader->Set();
 
 	for (unsigned int n = 0; n < Node->mNumMeshes; n++)
 	{
@@ -180,7 +190,8 @@ void CModelAnimation::DrawMesh(aiNode* Node, XMMATRIX Matrix)
 		CRenderer::SetVertexBuffers(m_Mesh[m].VertexBuffer);
 		CRenderer::SetIndexBuffer(m_Mesh[m].IndexBuffer);
 		if (hastexture)
-			CRenderer::SetTexture(texture);
+			CRenderer::SetTexture(texture, 0);
+
 		CRenderer::DrawIndexed(m_Mesh[m].IndexNum, 0, 0);
 	}
 	//Ä‹AŒÄ‚Ño‚µ

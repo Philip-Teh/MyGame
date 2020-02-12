@@ -14,11 +14,14 @@ CGoal::CGoal()
 	mFile[0] = "asset/model/goal.fbx";
 	mAnimation[0] = "asset/model/goal1.fbx";
 
+	mpShader = new CShader();
+	mpShader->Init("shader_goal_vs.cso", "shader_goal_ps.cso");
+
 	mpModel = make_unique<CModelAnimation>();
-	mpModel->Load(mFile);
+	mpModel->Load(mFile, mpShader);
 
 	mpAnimation = make_unique<CModelAnimation>();
-	mpAnimation->Load(mAnimation);
+	mpAnimation->Load(mAnimation, mpShader);
 
 	mRotate = 0.0f;
 	mFrame = 0.0f;
@@ -28,7 +31,9 @@ CGoal::~CGoal()
 {
 	mpModel->Unload();
 	mpAnimation->Unload();
-	OutputDebugString("delete CAlliesTroop\n");
+	mpShader->Uninit();
+
+	OutputDebugString("delete CGoal\n");
 }
 
 void CGoal::Update()
@@ -44,17 +49,26 @@ void CGoal::Draw(XMFLOAT3 position, bool trigger)
 	{
 		m_Position = position;
 
-		XMMATRIX world;
+		XMMATRIX world,world1;
 		world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 		world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 		world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
+		world1 = XMMatrixScaling(m_Scale.x - 0.2f, m_Scale.y - 0.2f, m_Scale.z - 0.2f);
+		world1 *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
+		world1 *= XMMatrixTranslation(m_Position.x, m_Position.y + 1, m_Position.z);
+
+		CCamera* camera = CSceneManager::GetScene()->GetGameObject<CCamera>();
+
+		XMFLOAT4X4 view, projection;
+		XMStoreFloat4x4(&view, camera->GetViewMatrix());
+		XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
+
+		mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
+		mpShader->SetViewMatrix(&view);
+		mpShader->SetProjectionMatrix(&projection);
+
 		mpModel->Draw(world);
-
-		world = XMMatrixScaling(m_Scale.x - 0.2f, m_Scale.y - 0.2f, m_Scale.z - 0.2f);
-		world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
-		world *= XMMatrixTranslation(m_Position.x, m_Position.y + 1, m_Position.z);
-
-		mpAnimation->Draw(world);
+		mpAnimation->Draw(world1);
 	}
 }

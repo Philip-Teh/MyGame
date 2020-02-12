@@ -1,16 +1,16 @@
 using namespace std;
 
 
-void CNumDraw::Init(int digit, float sizeX, float sizeY)
+void CNumDraw::Init(float sizeX, float sizeY)
 {
 	mpNumber = make_unique<CNumber>();
 	mpNumber->Init(sizeX, sizeY);
 
-	mDigit = digit;
+	mDigit = NUMBER_DIGIT;
 
 	mCounterStop = 1;
 
-	for (int i = 0;i < digit;i++)
+	for (int i = 0;i < mDigit;i++)
 	{
 		mCounterStop *= 10;
 	}
@@ -22,18 +22,21 @@ void CNumDraw::Uninit(void)
 	mpNumber->Uninit();
 }
 
-void CNumDraw::Draw(XMFLOAT3 position, int score)
+void CNumDraw::Draw(XMFLOAT3 position, int num)
 {
 	//カウンターストップ(カンスト処理)
-	if (score >= mCounterStop)
-	{
-		score = mCounterStop;
-	}
+	if (num >= mCounterStop)
+		num = mCounterStop;
 
-	for (int i = mDigit - 1;i >= 0;i--)
-	{
-		mpNumber->Draw(XMFLOAT3(position.x + NUMBER_WIDTH*i, position.y,position.z), score % 10);
+	if (num <= 0)
+		num = 0;
 
-		score /= 10;
+	int digit = mpNumber->GetDigit(num);
+
+	for (int i = 0;i < digit;i++)
+	{
+		mpNumber->Draw(XMFLOAT3(position.x - NUMBER_WIDTH*i, position.y,position.z), num % 10);
+
+		num /= 10;
 	}
 }

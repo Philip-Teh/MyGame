@@ -148,12 +148,12 @@ void CCamera::Draw()
 	m_ViewMatrix = XMMatrixInverse(&det, m_InvViewMatrix);
 	m_ViewMatrix = XMMatrixLookAtLH(eye, focus, vectorU);
 
-	CRenderer::SetViewMatrix(&m_ViewMatrix);
+	//CRenderer::SetViewMatrix(&m_ViewMatrix);
 
 	// プロジェクションマトリクス設定
 	m_ProjectionMatrix = XMMatrixPerspectiveFovLH(1.0f, dxViewport.Width / dxViewport.Height, 1.0f, 1000.0f);
 
-	CRenderer::SetProjectionMatrix(&m_ProjectionMatrix);
+	//CRenderer::SetProjectionMatrix(&m_ProjectionMatrix);
 }
 
 bool CCamera::Getvisivility(XMFLOAT3 Position)

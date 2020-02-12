@@ -7,6 +7,7 @@
 #include <windows.h>
 #undef NOMINMAX
 #include <assert.h>
+#include <io.h>
 #include <vector>
 #include <typeinfo>
 #include <list>
@@ -29,10 +30,31 @@ using namespace DirectX;
 #define WORLD_Z		(100)
 #define WORLD_Y		(50)
 
+#define LAYER0	(0.0f)
+#define LAYER1	(0.1f)
+#define LAYER2	(0.2f)
+#define LAYER3	(0.3f)
+#define LAYER4  (0.4f)
+#define LAYER5  (0.5f)
+
+#define NUMBER_DIGIT (5)
+#define NUMBER_WIDTH (32)
+#define NUMBER_SIZEX (320)
+#define NUMBER_HEIGHT (32)
+
 #define MapSizeZ (40)
 #define MapSizeX (40)
 
 #define MaXStage (2)
+
+#define STATUS_POSITIONX (950.0f)
+#define STATUS_POSITIONY (10.0f)
+
+#define STATUS_POLYGONX (100)
+#define STATUS_POLYGONY (50)
+
+#define NUMSPACEX (250.0f)
+#define NUMSPACEY (10.0f)
 
 HWND GetWindow();
 
@@ -57,10 +79,34 @@ enum class CBoxType
 
 enum class CDirection
 {
-	Up = 110,
-	Down = 0,
-	Left = -55,
-	Right = 55,
+	Up,
+	Down,
+	Left,
+	Right,
+	None,
+};
+
+struct CRotation
+{
+	const float right1 = -1.6f;
+	const float down = 0.0f;
+	const float left = 1.6f;
+	const float up = 3.2f;
+	const float right = 4.8f;
+	const float down1 = 6.4f;
+};
+
+enum class CAction
+{
+	Idle,
+	Move
+};
+
+enum class CEnemyAI
+{
+	Easy,
+	Normal,
+	Hard,
 };
 
 class CMath

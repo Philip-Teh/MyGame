@@ -4,40 +4,107 @@
 //=																			 =
 //============================================================================
 
-#define L_2PI       (6.2830f)
-#define ADJUST_RAD(e) (((e)<(0.0000f))?(e)+(L_2PI):((e)>(L_2PI))?(e)-(L_2PI):(e))
-
 using namespace std;
 
 CEnemyTroop::CEnemyTroop()
 {
+	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_Scale = XMFLOAT3(0.5f, 0.5f, 0.5f);
+
 	mFile[0] = "asset/model/Eidle.fbx";
 	mFile[1] = "asset/model/Erun.fbx";
 	mFile[2] = "asset/model/Ejump.fbx";
 
 	mMove = false;
 	mEnable = true;
+	mCollisionEnable = true;
+	mHitting = false;
+
 	mDirection = CDirection::Down;
+	mCurrentDirection = CDirection::Down;
+	mPlayerDirect1 = CDirection::Down;
+	mPlayerDirect2 = CDirection::Down;
+
+	mpShader = new CShader();
+	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
 	mpModel = make_unique<CModelAnimation>();
-	mpModel->Load(mFile);
+	mpModel->Load(mFile, mpShader);
 
 	mFrame = 0;
+
+	mpState = new CEnemyStateIdle();
+	mAction = CAction::Idle;
+	mActionChange = false;
+
+	mpType = new CObjectType * [mRange];
+	mpBox = new CBoxType * [mRange];
+
+	for (int i = 0; i < mRange; i++)
+	{
+		mpType[i] = new CObjectType[mRange];
+		mpBox[i] = new CBoxType[mRange];
+	}
+
+	mMoving = false;
+	mComplete = true;
+	mMoveCount = 0;
+	mMoveDirection = XMINT2(0, 0);
+	mMoveOffset = XMFLOAT2(0.0f, 0.0f);
+
+	for (int i = 0; i < 4; i++)
+	{
+		mMovaD[i].direction = (CDirection)i;
+		mMovaD[i].enable = false;
+	}
 }
 
 CEnemyTroop::~CEnemyTroop()
 {
+	delete mpState;
+
+	mpShader->Uninit();
+	delete mpShader;
+
+	for (int i = 0; i < mRange; i++)
+	{
+		delete[] mpType[i];
+		delete[] mpBox[i];
+	}
+
+	delete[]mpType;
+	delete[]mpBox;
+
 	mpModel->Unload();
+
 	OutputDebugString("delete CEnemyTroop\n");
 }
 
-void CEnemyTroop::Update()
+void CEnemyTroop::Update(CObjectType** type, CBoxType** box, XMFLOAT3 playerposition)
 {
 	if (mEnable)
 	{
-		mpModel->Update(1, mFrame);
-		//Animation();
+		Action();
+
+		switch (mAction)
+		{
+		case CAction::Idle:
+			mpModel->Update(0, mFrame);
+			break;
+		case CAction::Move:
+			if (mDirection != CDirection::None)
+				mpModel->Update(1, mFrame);
+			Move(type, box, XMINT2((int)playerposition.x, (int)playerposition.z));
+			break;
+		}
+		Direction();
 		mFrame++;
+
+		if (MoveAnimation())
+			mComplete = true;
+		else
+			mComplete = false;
 	}
 }
 
@@ -48,44 +115,45 @@ void CEnemyTroop::Draw(XMFLOAT3 position)
 		XMMATRIX world;
 		world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 		world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
-		world *= XMMatrixTranslation(position.x, position.y, position.z);
 
+		if (mHitting)
+			world *= XMMatrixTranslation(position.x, position.y, position.z);
+		else
+			world *= XMMatrixTranslation(position.x, position.y + 1.0f, position.z);
 
-		//m_Position = position;
+		CCamera* camera = CSceneManager::GetScene()->GetGameObject<CCamera>();
+
+		XMFLOAT4X4 view, projection;
+		XMStoreFloat4x4(&view, camera->GetViewMatrix());
+		XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
+
+		mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
+		mpShader->SetViewMatrix(&view);
+		mpShader->SetProjectionMatrix(&projection);
+
 		mpModel->Draw(world);
 	}
 }
 
-void CEnemyTroop::Move(CObjectType** type, CBoxType** box, XMFLOAT3 Pposition)
+void CEnemyTroop::Action()
 {
-	if (mEnable)
+	if (mActionChange)
 	{
-		mFrame++;
-		if (mFrame >= 30) mFrame = 0;
-
-		if (mFrame == 0 && mDirection == CDirection::Down) {
-			Patrol(XMINT2(0, 1), type, box, Pposition);
-			mMove = true;
-		}
-		else if (mFrame == 0 && mDirection == CDirection::Up) {
-			Patrol(XMINT2(0, -1), type, box, Pposition);
-			mMove = true;
-		}
-		else if (mFrame == 0 && mDirection == CDirection::Left) {
-			Patrol(XMINT2(-1, 0), type, box, Pposition);
-			mMove = true;
-		}
-		else if (mFrame == 0 && mDirection == CDirection::Right) {
-			Patrol(XMINT2(1, 0), type, box, Pposition);
-			mMove = true;
-		}
-		else {
-			mMove = false;
-		}
+		mpState->ActionTime();
+		mActionChange = false;
 	}
+
+	mAction = mpState->Action(this);
 }
 
-bool CEnemyTroop::Hit(CBoxType** box)
+void CEnemyTroop::ChangeState(CEnemyState* p)
+{
+	delete mpState;
+	mpState = p;
+	mActionChange = true;
+}
+
+bool CEnemyTroop::Hit(CBoxType** box,CDirection playerdirection)
 {
 	if (mEnable)
 	{
@@ -93,141 +161,391 @@ bool CEnemyTroop::Hit(CBoxType** box)
 		p.x = m_Position.x;
 		p.y = m_Position.z;
 
-		if (box[p.y][p.x] == CBoxType::Exists)
+		if (box[p.y][p.x] == CBoxType::Exists || box[p.y][p.x] == CBoxType::Moving)
 		{
-			mEnable = false;
-			return true;
+			mHitting = true;
+			mCollisionEnable = false;
 		}
+
+		if (mHitting)return DownDirection(playerdirection);
 		else return false;
 	}
 	else
 		return false;
 }
 
-void CEnemyTroop::Patrol(XMINT2 position, CObjectType** type, CBoxType** box,XMFLOAT3 Pposition)
+void CEnemyTroop::Move(CObjectType** type, CBoxType** box, XMINT2 playerposition)
 {
-	if (mEnable)
+	if (mEnable && mComplete)
+	{
+		mFrame++;
+		if (mFrame >= mMoveSpeed) mFrame = 0;
+
+		if (mFrame == 0 && mDirection == CDirection::Down) {
+			Patrol(XMINT2(0, 1), type, box, playerposition);
+		}
+		else if (mFrame == 0 && mDirection == CDirection::Up) {
+			Patrol(XMINT2(0, -1), type, box, playerposition);
+		}
+		else if (mFrame == 0 && mDirection == CDirection::Left) {
+			Patrol(XMINT2(-1, 0), type, box, playerposition);
+		}
+		else if (mFrame == 0 && mDirection == CDirection::Right) {
+			Patrol(XMINT2(1, 0), type, box, playerposition);
+		}
+		//else {
+		//	Patrol(XMINT2(0, 1), type, box, playerposition);
+		//}
+	}
+}
+
+
+void CEnemyTroop::Patrol(XMINT2 position, CObjectType** type, CBoxType** box, XMINT2 playerposition)
+{
+	if (mEnable && !mHitting)
 	{
 		XMINT2 front;
 		front.x = m_Position.x + position.x;
 		front.y = m_Position.z + position.y;
 
-		int right = m_Position.x + 1;
-		int down = m_Position.y + 1;
-		int left = m_Position.x - 1;
-		int up = m_Position.y - 1;
+		CDirection direction = CDirection::None;
 
-		//“G‚ÌŽl–Ê‚ª•Ç‚©” ‚ÌŽž@‰½‚à‚µ‚È‚¢
-		/*if ((type[up][m_Position.x] == CObjectType::Wall || box[up][m_Position.x] == CBox::Exists) &&
-			(type[down][m_Position.x] == CObjectType::Wall || box[down][m_Position.x] == CBox::Exists) &&
-			(type[m_Position.y][left] == CObjectType::Wall || box[m_Position.y][left] == CBox::Exists) &&
-			(type[m_Position.y][right] == CObjectType::Wall || box[m_Position.y][right] == CBox::Exists))
-		{
-			mMove = false;
-			return;
-		}*/
+		if (m_Position.z > playerposition.y)
+			direction = CDirection::Up;
+		if (m_Position.z < playerposition.y)
+			direction = CDirection::Down;
 
-		if (type[front.y][front.x] == CObjectType::Wall || box[front.y][front.x] == CBoxType::Exists)
+		if (direction == CDirection::Up || direction == CDirection::Down && m_Position.x == playerposition.x)
 		{
-			mDirection = Tracking(Pposition);
-			m_Rotation.y = (float)mDirection;
+			mDirection = Chase(playerposition, type, box);
+		}
+
+		if (Collision(front,type,box))
+		{
+			mDirection = Chase(playerposition, type, box);
 			return;
 		}
+
+		mMoving = true;
+		mMoveCount = 0;
+		mMoveDirection = XMINT2(position.x, position.y);
 
 		m_Position.x = front.x;
 		m_Position.z = front.y;
 	}
 }
 
-CDirection CEnemyTroop::Tracking(XMFLOAT3 position)
+CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType** box)
 {
-	if (mDirection == CDirection::Down)
+	XMINT2 up, down, right, left;
+	up.x = m_Position.x;
+	up.y = (int)m_Position.z - 1;
+	down.x = m_Position.x;
+	down.y = (int)m_Position.z + 1;
+	right.x = (int)m_Position.x + 1;
+	right.y = m_Position.z;
+	left.x = (int)m_Position.x - 1;
+	left.y = m_Position.z;
+
+	if (Collision(up, type, box))
+		mMovaD[(int)CDirection::Up].enable = false;
+	else
+		mMovaD[(int)CDirection::Up].enable = true;
+
+	if (Collision(down, type, box))
+		mMovaD[(int)CDirection::Down].enable = false;
+	else						
+		mMovaD[(int)CDirection::Down].enable = true;
+
+	if (Collision(left, type, box))
+		mMovaD[(int)CDirection::Left].enable = false;
+	else
+		mMovaD[(int)CDirection::Left].enable = true;
+
+	if (Collision(right, type, box))
+		mMovaD[(int)CDirection::Right].enable = false;
+	else
+		mMovaD[(int)CDirection::Right].enable = true;
+
+	int directionNum = 0;
+	int enable1 = 0, enable2 = 0, enable3 = 0;
+
+	for (int i = 0; i < 4; i++)
 	{
-		for (int i = 1; i < 6; i++)
+		if (mMovaD[i].enable)
 		{
-			XMFLOAT2 front;
-			front.x = m_Position.x;
-			front.y = m_Position.z + i;
-
-			if (position.x == front.x && position.z == front.y)
-				return CDirection::Down;
-
-			else if (i == 5)
-				return random();
+			if (directionNum == 0)
+			{
+				enable1 = i;
+			}
+			if (directionNum == 1)
+			{
+				enable2 = i;
+			}
+			if (directionNum == 2)
+			{
+				enable3 = i;
+			}
+			directionNum++;
 		}
 	}
-	else if (mDirection == CDirection::Up)
+
+	XMINT2 PlayerPos = playerposition;
+	CDirection direction = CDirection::None;
+	CDirection randomdirection = CDirection::None;
+
+	if (PlayerPos.x > m_Position.x)
+		mPlayerDirect1 = CDirection::Right;
+	else if (PlayerPos.x < m_Position.x)
+		mPlayerDirect1 = CDirection::Left;
+	else
+		mPlayerDirect1 = CDirection::None;
+
+	if (PlayerPos.y < m_Position.z)
+		mPlayerDirect2 = CDirection::Up;
+	else if (PlayerPos.y > m_Position.z)
+		mPlayerDirect2 = CDirection::Down;
+	else
+		mPlayerDirect2 = CDirection::None;
+
+	if (m_Position.x != PlayerPos.x && m_Position.z != PlayerPos.y)
+		direction = RandomDirection2(mPlayerDirect1, mPlayerDirect2);
+	else if (m_Position.z == PlayerPos.y)
+		direction = mPlayerDirect1;
+	else if (m_Position.x == PlayerPos.x)
+		direction = mPlayerDirect2;
+
+	switch (directionNum)
 	{
-		for (int i = 1; i < 6; i++)
-		{
-			XMFLOAT2 front;
-			front.x = m_Position.x;
-			front.y = m_Position.z - i;
-
-			if (position.x == front.x && position.z == front.y)
-				return CDirection::Up;
-
-			else if (i == 5)
-				return random();
-		}
+	case 0:
+		return CDirection::None;
+		break;
+	case 1:
+		if (direction == mMovaD[enable1].direction)
+			return direction;
+		else
+			return mMovaD[enable1].direction;
+		break;
+	case 2:
+		randomdirection = RandomDirection2(mMovaD[enable1].direction, mMovaD[enable2].direction);
+		if (direction == mMovaD[enable1].direction)
+			return direction;
+		else if(direction == mMovaD[enable2].direction)
+			return direction;
+		else
+			return randomdirection;
+		break;
+	case 3:
+		randomdirection = RandomDirection3(mMovaD[enable1].direction, mMovaD[enable2].direction, mMovaD[enable3].direction);
+		if (direction == mMovaD[enable1].direction)
+			return direction;
+		else if (direction == mMovaD[enable2].direction)
+			return direction;
+		else if (direction == mMovaD[enable3].direction)
+			return direction;
+		else
+			return randomdirection;
+		break;
+	case 4:
+		randomdirection = RandomDirection4();
+		if (direction == randomdirection)
+			return direction;
+		else
+			return randomdirection;
+		break;
 	}
-	else if (mDirection == CDirection::Left)
-	{
-		for (int i = 1; i < 6; i++)
-		{
-			XMFLOAT2 front;
-			front.x = m_Position.x - i;
-			front.y = m_Position.z;
-
-			if (position.x == front.x && position.z == front.y)
-				return CDirection::Left;
-
-			else if (i == 5)
-				return random();
-		}
-	}
-	else if (mDirection == CDirection::Right)
-	{
-		for (int i = 1; i < 6; i++)
-		{
-			XMFLOAT2 front;
-			front.x = m_Position.x + i;
-			front.y = m_Position.z;
-
-			if (position.x == front.x && position.z == front.y)
-				return CDirection::Right;
-
-			else if (i == 5)
-				return random();
-
-		}
-	}
-	else return random();
 }
 
-CDirection CEnemyTroop::DirectionConform(XMFLOAT3 position, int i, XMFLOAT2 front)
+
+bool CEnemyTroop::Collision(XMINT2 position, CObjectType** type, CBoxType** box)
 {
-	if (position.x == front.x && position.z == front.y)
-	{
-		if(mDirection == CDirection::Down)
-			return CDirection::Down;
-
-		if (mDirection == CDirection::Up)
-			return CDirection::Up;
-
-		if (mDirection == CDirection::Left)
-			return CDirection::Left;
-
-		if (mDirection == CDirection::Right)
-			return CDirection::Right;
-	}	
-	else if (i == 5)
-		return random();
+	if (type[position.y][position.x] == CObjectType::Wall
+		|| box[position.y][position.x] == CBoxType::Exists
+		|| box[position.y][position.x] == CBoxType::Moving)
+		return true;
+	else
+		return false;
 }
 
-void CEnemyTroop::Animation()
+bool CEnemyTroop::MoveAnimation()
 {
-	if (mMove)
-		mpModel->Update(1, mFrame);
+	if (mMoving)
+	{
+		mMoveCount++;
 
+		if (mMoveCount < mMoveDuration)
+		{
+			float rate = (float)mMoveCount / mMoveDuration;
+
+			mMoveOffset.x = -mMoveDirection.x * CELLSIZE * (1.0f - rate);
+			mMoveOffset.y = -mMoveDirection.y * CELLSIZE * (1.0f - rate);
+		}
+		else
+		{
+			mMoveOffset = XMFLOAT2(0.0f, 0.0f);
+
+			mMoving = false;
+			return true;
+		}
+		return false;
+	}
+}
+
+bool CEnemyTroop::DownDirection(CDirection playerdirection)
+{
+	if (mDirection == CDirection::Down && playerdirection == CDirection::Down
+		|| mDirection == CDirection::Up && playerdirection == CDirection::Up
+		|| mDirection == CDirection::Left && playerdirection == CDirection::Left
+		|| mDirection == CDirection::Right && playerdirection == CDirection::Right)
+	{
+		return Falling(true, true);
+	}
+	else if (mDirection == CDirection::Up && playerdirection == CDirection::Down
+		|| mDirection == CDirection::Down && playerdirection == CDirection::Up
+		|| mDirection == CDirection::Left && playerdirection == CDirection::Right
+		|| mDirection == CDirection::Right && playerdirection == CDirection::Left)
+	{
+		return Falling(true, false);
+	}
+	else if (mDirection == CDirection::Down && playerdirection == CDirection::Right
+		|| mDirection == CDirection::Up && playerdirection == CDirection::Left
+		|| mDirection == CDirection::Left && playerdirection == CDirection::Down
+		|| mDirection == CDirection::Right && playerdirection == CDirection::Up)
+	{
+		return Falling(false, true);
+	}
+	else if (mDirection == CDirection::Down && playerdirection == CDirection::Up
+		|| mDirection == CDirection::Up && playerdirection == CDirection::Right
+		|| mDirection == CDirection::Right && playerdirection == CDirection::Down
+		|| mDirection == CDirection::Left && playerdirection == CDirection::Up)
+	{
+		return Falling(false, false);
+	}
+}
+
+bool CEnemyTroop::Falling(bool rotation,bool minus)
+{
+	if (minus && rotation)
+		m_Rotation.x -= mDownSpeed;
+
+	else if (minus && !rotation)
+		m_Rotation.z -= mDownSpeed;
+
+	else if (!minus && rotation)
+		m_Rotation.x += mDownSpeed;
+
+	else if (!minus && !rotation)
+		m_Rotation.z += mDownSpeed;
+
+	if (m_Rotation.x >= mDown || m_Rotation.x <= -mDown || m_Rotation.z >= mDown || m_Rotation.z <= -mDown)
+	{
+		mEnable = false;
+		return true;
+	}
+	else
+		return false;
+}
+
+void CEnemyTroop::Direction()
+{
+	switch (mDirection)
+	{
+	case CDirection::Down:
+		if (mCurrentDirection == CDirection::Left)
+		{
+			m_Rotation.y -= mTurnSpeed;
+			if (m_Rotation.y <= mCurrentRotation.down)
+				mCurrentDirection = CDirection::Down;
+		}
+		else if (mCurrentDirection == CDirection::Right)
+		{
+			m_Rotation.y += mTurnSpeed;
+			if (m_Rotation.y >= mCurrentRotation.down1)
+			{
+				mCurrentDirection = CDirection::Down;
+				m_Rotation.y = mCurrentRotation.down;
+			}
+		}
+		else if (mCurrentDirection == CDirection::Up)
+		{
+			m_Rotation.y -= mTurnSpeed;
+			if (m_Rotation.y <= mCurrentRotation.down)
+				mCurrentDirection = CDirection::Down;
+		}
+		else
+			m_Rotation.y = mCurrentRotation.down;
+		break;
+
+	case CDirection::Up:
+		if (mCurrentDirection == CDirection::Left)
+		{
+			m_Rotation.y += mTurnSpeed;
+			if (m_Rotation.y >= mCurrentRotation.up)
+				mCurrentDirection = CDirection::Up;
+		}
+		else if (mCurrentDirection == CDirection::Right)
+		{
+			m_Rotation.y -= mTurnSpeed;
+			if (m_Rotation.y <= mCurrentRotation.up)
+				mCurrentDirection = CDirection::Up;
+		}
+		else if (mCurrentDirection == CDirection::Down)
+		{
+			m_Rotation.y += mTurnSpeed;
+			if (m_Rotation.y >= mCurrentRotation.up)
+				mCurrentDirection = CDirection::Up;
+		}
+		else
+			m_Rotation.y = mCurrentRotation.up;
+		break;
+
+	case CDirection::Left:
+		if (mCurrentDirection == CDirection::Down)
+		{
+			m_Rotation.y += mTurnSpeed;
+			if (m_Rotation.y >= mCurrentRotation.left)
+				mCurrentDirection = CDirection::Left;
+		}
+		else if (mCurrentDirection == CDirection::Right)
+		{
+			m_Rotation.y -= mTurnSpeed;
+			if (m_Rotation.y <= mCurrentRotation.left)
+				mCurrentDirection = CDirection::Left;
+		}
+		else if (mCurrentDirection == CDirection::Up)
+		{
+			m_Rotation.y -= mTurnSpeed;
+			if (m_Rotation.y <= mCurrentRotation.left)
+				mCurrentDirection = CDirection::Left;
+		}
+		else
+			m_Rotation.y = mCurrentRotation.left;
+		break;
+
+	case CDirection::Right:
+		if (mCurrentDirection == CDirection::Down)
+		{
+			m_Rotation.y -= mTurnSpeed;
+			if (m_Rotation.y <= mCurrentRotation.right1)
+			{
+				mCurrentDirection = CDirection::Right;
+				m_Rotation.y = mCurrentRotation.right;
+			}
+		}
+		else if (mCurrentDirection == CDirection::Left)
+		{
+			m_Rotation.y += mTurnSpeed;
+			if (m_Rotation.y >= mCurrentRotation.right)
+				mCurrentDirection = CDirection::Right;
+		}
+		else if (mCurrentDirection == CDirection::Up)
+		{
+			m_Rotation.y += mTurnSpeed;
+			if (m_Rotation.y >= mCurrentRotation.right)
+				mCurrentDirection = CDirection::Right;
+		}
+		else
+			m_Rotation.y = mCurrentRotation.right;
+		break;
+	}
 }

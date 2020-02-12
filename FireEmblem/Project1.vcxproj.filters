@@ -31,13 +31,28 @@
     <Filter Include="map">
       <UniqueIdentifier>{e41fb97f-5328-474d-817e-23f5543f121e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\shader">
+      <UniqueIdentifier>{44570427-7f60-4be0-8c76-8c4b8ea13be0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="pixelShader.hlsl">
-      <Filter>リソース ファイル</Filter>
+    <FxCompile Include="shader\shader_3d_vs.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
-    <FxCompile Include="vertexShader.hlsl">
-      <Filter>リソース ファイル</Filter>
+    <FxCompile Include="shader\shader_3d_ps.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\shader_2d_vs.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\shader_2d_ps.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\shader_goal_ps.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\shader_goal_vs.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,9 +80,6 @@
     <ClInclude Include="source_code\include\audio_clip.h">
       <Filter>source_code\include</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\include\collision.h">
-      <Filter>source_code\include</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\include\input.h">
       <Filter>source_code\include</Filter>
     </ClInclude>
@@ -92,13 +104,7 @@
     <ClInclude Include="source_code\game_object\character\player.h">
       <Filter>source_code\game_object\character</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\game_object\ball.h">
-      <Filter>source_code\game_object</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\game_object\bill_board.h">
-      <Filter>source_code\game_object</Filter>
-    </ClInclude>
-    <ClInclude Include="source_code\game_object\bullet.h">
       <Filter>source_code\game_object</Filter>
     </ClInclude>
     <ClInclude Include="source_code\game_object\camera.h">
@@ -146,9 +152,6 @@
     <ClInclude Include="source_code\game_object\character\e_troop.h">
       <Filter>source_code\game_object\character</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\game_object\selector.h">
-      <Filter>source_code\game_object</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\game_object\floor.h">
       <Filter>source_code\game_object</Filter>
     </ClInclude>
@@ -187,6 +190,33 @@
     </ClInclude>
     <ClInclude Include="source_code\game_object\goal.h">
       <Filter>source_code\game_object</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\num_enemy.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\character\enemy_state.h">
+      <Filter>source_code\game_object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\character\enemy_state_idle.h">
+      <Filter>source_code\game_object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\game_object\character\enemy_state_move.h">
+      <Filter>source_code\game_object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\include\renderern.h">
+      <Filter>source_code\include</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\include\shader.h">
+      <Filter>source_code\include</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\stage_clear.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\scene\loading.h">
+      <Filter>source_code\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\help.h">
+      <Filter>source_code\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -229,13 +259,7 @@
     <ClCompile Include="source_code\game_object\character\player.cpp">
       <Filter>source_code\game_object\character</Filter>
     </ClCompile>
-    <ClCompile Include="source_code\game_object\ball.cpp">
-      <Filter>source_code\game_object</Filter>
-    </ClCompile>
     <ClCompile Include="source_code\game_object\bill_board.cpp">
-      <Filter>source_code\game_object</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\game_object\bullet.cpp">
       <Filter>source_code\game_object</Filter>
     </ClCompile>
     <ClCompile Include="source_code\game_object\camera.cpp">
@@ -270,9 +294,6 @@
     </ClCompile>
     <ClCompile Include="source_code\game_object\character\e_troop.cpp">
       <Filter>source_code\game_object\character</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\game_object\selector.cpp">
-      <Filter>source_code\game_object</Filter>
     </ClCompile>
     <ClCompile Include="source_code\game_object\floor.cpp">
       <Filter>source_code\game_object</Filter>
@@ -315,6 +336,30 @@
     </ClCompile>
     <ClCompile Include="source_code\game_object\goal.cpp">
       <Filter>source_code\game_object</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\num_enemy.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\character\enemy_state_idle.cpp">
+      <Filter>source_code\game_object\character</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\character\enemy_state_move.cpp">
+      <Filter>source_code\game_object\character</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\include\renderern.cpp">
+      <Filter>source_code\include</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\include\shader.cpp">
+      <Filter>source_code\include</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\stage_clear.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\scene\loading.cpp">
+      <Filter>source_code\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\help.cpp">
+      <Filter>source_code\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef FIELD_H_
 #define FIELD_H_
 
@@ -12,11 +14,12 @@ public:
 private:
 	ID3D11Buffer* mpVertexBuffer = nullptr;
 	ID3D11Buffer* mpIndexBuffer = nullptr;
+	std::unique_ptr<CShader> mpShader = nullptr;
 	CTexture* mpTexture = nullptr;
 
-	int NumVertices = NULL;
-	float sizex = 1.0f, sizez = 1.0f;
-	int numx = 1, numz = 1;
+	int mNumVertices = NULL;
+	const XMFLOAT2 mSize = XMFLOAT2(1.0f, 1.0f);
+	XMINT2 mNum = XMINT2(1, 1);
 };
 
 #endif

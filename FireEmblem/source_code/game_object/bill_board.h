@@ -21,6 +21,7 @@ public:
 
 private:
 	CTexture* mpTexture = nullptr;
+	std::unique_ptr<CShader> mpShader = nullptr;
 
 	ID3D11Buffer* mpVertexBuffer = nullptr;
 	ID3D11Buffer* mpIndexBuffer = nullptr;

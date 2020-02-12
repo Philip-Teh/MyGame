@@ -15,7 +15,7 @@ struct MESH
 class CModelAnimation
 {
 public:
-	void Load(const char** Filename);
+	void Load(const char** Filename, CShader* shader);
 	void Unload();
 	void Update(int Animation,unsigned int Frame);
 	void Animation(int Animation1, int Animation2, float Blend, int Frame);
@@ -29,6 +29,7 @@ private:
 	std::map<std::string, aiQuaternion> m_NodeRotation;
 	std::map<std::string, aiVector3D> m_NodePosition;
 	CTexture* texture;
+	CShader* mpShader;
 	std::string directory;
 	bool hastexture = false;
 };

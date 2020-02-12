@@ -19,7 +19,7 @@ public:
 	void Draw(XMFLOAT3 position);
 
 private:
-	std::unique_ptr<CField> mpField;
+	std::unique_ptr<CField> mpField = nullptr;
 	std::string mTexture = "";
 };
 

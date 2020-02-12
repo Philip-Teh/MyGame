@@ -12,6 +12,7 @@ private:
 	unsigned short NumIndex = 0;
 
 	CTexture* m_Texture = nullptr;
+	std::unique_ptr<CShader> mpShader = nullptr;
 
 	XMVECTOR mQuaternion;
 

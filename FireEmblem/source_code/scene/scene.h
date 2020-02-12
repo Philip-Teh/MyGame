@@ -9,19 +9,19 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
-enum GAMEOBJ
-{
-	FIRST,
-	WORLD,
-	CHARACTER,
-	UI,
-
-	MAXGAMEOBJ
-};
+//enum GAMEOBJ
+//{
+//	FIRST,
+//	WORLD,
+//	CHARACTER,
+//	UI,
+//
+//	MAXGAMEOBJ
+//};
 
 class CScene {
 protected:
-	std::list<CGameObject*> m_GameObject[5];
+	std::list<CGameObject*> m_GameObject;
 
 public:
 	CScene(){}
@@ -31,19 +31,19 @@ public:
 	void DestroyGameObject(CGameObject* gameObject) { gameObject->SetDestroy(); }
 
 	template <typename T>
-	T* AddGameObject(int layer)
+	T* AddGameObject()
 	{
 		T* object = new T();
 		object->Init();
-		m_GameObject[layer].push_back(object);
+		m_GameObject.push_back(object);
 		return object;
 	}
 
 	//一つのオブジェクト取得
 	template<typename T>
-	T* GetGameObject(int layer)
+	T* GetGameObject()
 	{
-		for (CGameObject* object : m_GameObject[layer])
+		for (CGameObject* object : m_GameObject)
 		{
 			if (typeid(*object) == typeid(T))
 			{
@@ -55,11 +55,11 @@ public:
 
 	//複数のオブジェクト取得
 	template<typename T>
-	std::vector<T*>GetGameObjects(int layer)
+	std::vector<T*>GetGameObjects()
 	{
 		std::vector<T*>objects;
 
-		for (CGameObject* object : m_GameObject[layer])
+		for (CGameObject* object : m_GameObject)
 		{
 			if (typeid(*object) == typeid(T))
 			{
@@ -71,42 +71,37 @@ public:
 
 	virtual void Uninit()
 	{
-		for (int i = 0; i < MAXGAMEOBJ; i++)
-		{
-			for (CGameObject* object : m_GameObject[i])
+			for (CGameObject* object : m_GameObject)
 			{
 				object->Uninit();
 				delete object;
 			}
 			//Listをクリアするため必ず呼ぶもの
-			m_GameObject[i].clear();
-		}
+			m_GameObject.clear();
+		
 	}
 
 	virtual void Update()
 	{
-		for (int i = 0; i < MAXGAMEOBJ; i++)
-		{
-			for (CGameObject*object : m_GameObject[i])
+		
+			for (CGameObject*object : m_GameObject)
 			{
 				object->Update();
 			}
-			m_GameObject[i].remove_if([](CGameObject* object)
+			m_GameObject.remove_if([](CGameObject* object)
 				{ return object->Destroy(); }
 			);
-		}
+		
 	}
 
-	//virtual void Draw()
-	//{
-	//	for (int i = 0; i < MAXGAMEOBJ; i++)
-	//	{
-	//		for (CGameObject*object : m_GameObject[i])
-	//		{
-	//			object->Draw();
-	//		}
-	//	}
-	//}
+	virtual void Draw0()
+	{
+			for (CGameObject*object : m_GameObject)
+			{
+				object->Draw();
+			}
+	}
+
 	virtual void Draw() = 0;
 };
 

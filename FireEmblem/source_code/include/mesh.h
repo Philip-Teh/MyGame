@@ -28,10 +28,10 @@ public:
 		CRenderer::SetIndexBuffer(IndexBuffer);
 
 			// マテリアル設定
-		CRenderer::SetMaterial(material[0]);
+		//CRenderer::SetMaterial(material[0]);
 
 			// テクスチャ設定
-		CRenderer::SetTexture(textures[0]);
+		CRenderer::SetTexture(textures[0],0);
 
 			// ポリゴン描画
 		CRenderer::DrawIndexed(indices.size(), 0, 0);

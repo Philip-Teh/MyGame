@@ -18,7 +18,7 @@ public:
 	
 	CObjectType** GetType() { return mpType; }
 	CBoxType** GetBox() { return mpBox; }
-	std::list<XMINT2> GetFirstBoxPosition() { return mFirstBoxPosition; }
+	//std::list<XMINT2> GetFirstBoxPosition() { return mFirstBoxPosition; }
 
 	const int& GetMapX() { return mMapX; }
 	const int& GetMapZ() { return mMapZ; }
@@ -39,7 +39,7 @@ private:
 
 	CObjectType** mpType = nullptr;
 	CBoxType** mpBox = nullptr;
-	std::list<XMINT2> mFirstBoxPosition;
+	//std::list<XMINT2> mFirstBoxPosition;
 
 	void Init();
 	void SetPlayerPosition(XMINT2 p) { mPlayerPosition = p; }

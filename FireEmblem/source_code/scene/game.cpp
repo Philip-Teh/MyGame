@@ -2,11 +2,11 @@ using namespace std;
 
 void CGame::Init()
 {
-	mTexture = "asset/aim.png";
+	//mpCamera = make_unique<CCamera>();
+	//mpCamera->Init();
+	//mpCamera->Set(XMFLOAT3(3.0f, 5.0f, -7.0f));
 
-	mpCamera = make_unique<CCamera>();
-	mpCamera->Init();
-	mpCamera->Set(XMFLOAT3(3.0f, 5.0f, -7.0f));
+	AddGameObject<CCamera>()->Set(XMFLOAT3(3.0f, 5.0f, -7.0f));
 
 	mpSkydome = make_unique<CSkydome>();
 	mpSkydome->Init();
@@ -22,11 +22,13 @@ void CGame::Init()
 	m_BGM = new CAudioClip();
 	m_BGM->Load("asset/game.wav");
 	m_BGM->Play(false);
+
+	CLoading::SetChange(false);
 }
 
 void CGame::Uninit()
 {
-	mpCamera->Uninit();
+	//mpCamera->Uninit();
 	mpSkydome->Uninit();
 	mpMeshField->Uninit();
 	mpStageManager->Uninit();
@@ -40,7 +42,7 @@ void CGame::Uninit()
 
 void CGame::Update()
 {
-	mpCamera->Update();
+	//mpCamera->Update();
 	mpSkydome->Update();
 	mpMeshField->Update();
 	mpStageManager->Update();
@@ -56,7 +58,7 @@ void CGame::Update()
 
 void CGame::Draw()
 {
-	mpCamera->Draw();
+	//mpCamera->Draw();
 	mpSkydome->Draw();
 	mpMeshField->Draw();
 	mpStageManager->Draw();

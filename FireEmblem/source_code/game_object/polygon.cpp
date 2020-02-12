@@ -3,30 +3,30 @@
 void CPolygon::Init(std::string file,XMFLOAT3 position, float sizeX, float sizeY)
 {
 	mPosition = position;
-	size = XMFLOAT2(sizeX, sizeY);
+	mSize = XMFLOAT2(sizeX, sizeY);
 
 	mVertex[0].Position = XMFLOAT3(mPosition.x, mPosition.y, mPosition.z);
 	mVertex[0].Normal = XMFLOAT3(0, 1, 0);
 	mVertex[0].Diffuse = XMFLOAT4(1, 1, 1, 1);
 	mVertex[0].TexCoord = XMFLOAT2(0, 0);
 
-	mVertex[1].Position = XMFLOAT3(mPosition.x + size.x, mPosition.y, mPosition.z);
+	mVertex[1].Position = XMFLOAT3(mPosition.x + mSize.x, mPosition.y, mPosition.z);
 	mVertex[1].Normal = XMFLOAT3(0, 1, 0);
 	mVertex[1].Diffuse = XMFLOAT4(1, 1, 1, 1);
 	mVertex[1].TexCoord = XMFLOAT2(1, 0);
 
-	mVertex[2].Position = XMFLOAT3(mPosition.x, mPosition.y + size.y, mPosition.z);
+	mVertex[2].Position = XMFLOAT3(mPosition.x, mPosition.y + mSize.y, mPosition.z);
 	mVertex[2].Normal = XMFLOAT3(0, 1, 0);
 	mVertex[2].Diffuse = XMFLOAT4(1, 1, 1, 1);
 	mVertex[2].TexCoord = XMFLOAT2(0, 1);
 
-	mVertex[3].Position = XMFLOAT3(mPosition.x + size.x, mPosition.y + size.y, mPosition.z);
+	mVertex[3].Position = XMFLOAT3(mPosition.x + mSize.x, mPosition.y + mSize.y, mPosition.z);
 	mVertex[3].Normal = XMFLOAT3(0, 1, 0);
 	mVertex[3].Diffuse = XMFLOAT4(1, 1, 1, 1);
 	mVertex[3].TexCoord = XMFLOAT2(1, 1);
 
 	//頂点バッファ生成
-	D3D11_BUFFER_DESC bd;
+	/*D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
@@ -37,27 +37,33 @@ void CPolygon::Init(std::string file,XMFLOAT3 position, float sizeX, float sizeY
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = mVertex;
 
-	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpVertexBuffer);*/
 
-	mTexture = new CTexture();
-	mTexture->LoadTexture(file);
+	mpShader = new CShader();
+	mpShader->Init("shader_2d_vs.cso", "shader_2d_ps.cso");
+
+	mpTexture = new CTexture();
+	mpTexture->LoadTexture(file);
 }
 
 void CPolygon::Init(std::string file,float sizeX, float sizeY)
 {
-	size = XMFLOAT2(sizeX, sizeY);
+	mSize = XMFLOAT2(sizeX, sizeY);
 
-	mTexture = new CTexture();
-	mTexture->LoadTexture(file);
+	mpShader = new CShader();
+	mpShader->Init("shader_2d_vs.cso", "shader_2d_ps.cso");
+
+	mpTexture = new CTexture();
+	mpTexture->LoadTexture(file);
 }
 
 void CPolygon::Uninit()
 {
-	if (m_VertexBuffer)
-		m_VertexBuffer->Release();
+	mpShader->Uninit();
+	delete mpShader;
 
-	mTexture->UnloadTexture();
-	delete mTexture;
+	mpTexture->UnloadTexture();
+	delete mpTexture;
 }
 
 void CPolygon::Update(XMFLOAT3 position)
@@ -67,14 +73,42 @@ void CPolygon::Update(XMFLOAT3 position)
 
 void CPolygon::Draw()
 {
+	//頂点バッファ生成
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.pSysMem = mVertex;
+
+	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpVertexBuffer);
+
+	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);//頂点バッファ設定
-	CRenderer::SetTexture(mTexture);//テクスチャ設定
-	CRenderer::SetWorldViewProjection2D();//2Dマトリクス設定
-	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//トポロジ設定
-	CRenderer::GetDeviceContext()->Draw(4, 0);//ポリゴン描画
-									//頂点数
+	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &mpVertexBuffer, &stride, &offset);
+	//CRenderer::SetWorldViewProjection2D();//2Dマトリクス設定
+
+	XMFLOAT4X4 projection;
+	XMStoreFloat4x4(&projection, XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f));
+	mpShader->SetProjectionMatrix(&projection);
+
+	mpShader->Set();
+
+	//テクスチャ設定
+	CRenderer::SetTexture(mpTexture, 0); 
+
+	// プリミティブトポロジ設定
+	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	//ポリゴン描画
+	CRenderer::GetDeviceContext()->Draw(4, 0);
+
+	mpVertexBuffer->Release();
 }
 
 void CPolygon::Draw(XMFLOAT3 position)
@@ -84,17 +118,17 @@ void CPolygon::Draw(XMFLOAT3 position)
 	mVertex[0].Diffuse = XMFLOAT4(1, 1, 1, 1);
 	mVertex[0].TexCoord = XMFLOAT2(0, 0);
 
-	mVertex[1].Position = XMFLOAT3(position.x + size.x, position.y, position.z);
+	mVertex[1].Position = XMFLOAT3(position.x + mSize.x, position.y, position.z);
 	mVertex[1].Normal = XMFLOAT3(0, 1, 0);
 	mVertex[1].Diffuse = XMFLOAT4(1, 1, 1, 1);
 	mVertex[1].TexCoord = XMFLOAT2(1, 0);
 
-	mVertex[2].Position = XMFLOAT3(position.x, position.y + size.y, position.z);
+	mVertex[2].Position = XMFLOAT3(position.x, position.y + mSize.y, position.z);
 	mVertex[2].Normal = XMFLOAT3(0, 1, 0);
 	mVertex[2].Diffuse = XMFLOAT4(1, 1, 1, 1);
 	mVertex[2].TexCoord = XMFLOAT2(0, 1);
 
-	mVertex[3].Position = XMFLOAT3(position.x + size.x, position.y + size.y, position.z);
+	mVertex[3].Position = XMFLOAT3(position.x + mSize.x, position.y + mSize.y, position.z);
 	mVertex[3].Normal = XMFLOAT3(0, 1, 0);
 	mVertex[3].Diffuse = XMFLOAT4(1, 1, 1, 1);
 	mVertex[3].TexCoord = XMFLOAT2(1, 1);
@@ -111,27 +145,32 @@ void CPolygon::Draw(XMFLOAT3 position)
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = mVertex;
 
-	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpVertexBuffer);
 
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
-	CRenderer::SetTexture(mTexture);
-	CRenderer::SetWorldViewProjection2D();
+	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &mpVertexBuffer, &stride, &offset);
+
+	XMFLOAT4X4 projection;
+	XMStoreFloat4x4(&projection, XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f));
+	mpShader->SetProjectionMatrix(&projection);
+	mpShader->Set();
+
+	CRenderer::SetTexture(mpTexture, 0);
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	CRenderer::GetDeviceContext()->Draw(4, 0);
 
-	m_VertexBuffer->Release();
+	mpVertexBuffer->Release();
 }
 
 void CPolygon::Draw(XMFLOAT3 position, int tx, int ty, int tw, int th)
 {
 	//mPosition = position;
 
-	float u0 = (float)tx / size.x;
-	float v0 = (float)ty / size.y;
-	float u1 = (float)(tx + tw) / size.x;
-	float v1 = (float)(ty + th) / size.y;
+	float u0 = (float)tx / mSize.x;
+	float v0 = (float)ty / mSize.y;
+	float u1 = (float)(tx + tw) / mSize.x;
+	float v1 = (float)(ty + th) / mSize.y;
 
 	mVertex[0].Position = XMFLOAT3(position.x, position.y, position.z);
 	mVertex[0].Normal = XMFLOAT3(0, 1, 0);
@@ -165,15 +204,20 @@ void CPolygon::Draw(XMFLOAT3 position, int tx, int ty, int tw, int th)
 	ZeroMemory(&msd, sizeof(msd));
 	msd.pSysMem = mVertex;
 
-	CRenderer::GetDevice()->CreateBuffer(&mbd, &msd, &m_VertexBuffer);
+	CRenderer::GetDevice()->CreateBuffer(&mbd, &msd, &mpVertexBuffer);
 
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);//頂点バッファ設定
-	CRenderer::SetTexture(mTexture);//テクスチャ設定
-	CRenderer::SetWorldViewProjection2D();//2Dマトリクス設定
-	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);//トポロジ設定
-	CRenderer::GetDeviceContext()->Draw(4, 0);//ポリゴン描画
+	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &mpVertexBuffer, &stride, &offset);
 
-	m_VertexBuffer->Release();
+	XMFLOAT4X4 projection;
+	XMStoreFloat4x4(&projection, XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f));
+	mpShader->SetProjectionMatrix(&projection);
+	mpShader->Set();
+
+	CRenderer::SetTexture(mpTexture, 0);
+	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	CRenderer::GetDeviceContext()->Draw(4, 0);
+
+	mpVertexBuffer->Release();
 }

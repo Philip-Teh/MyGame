@@ -12,6 +12,8 @@ CFloor::CFloor()
 CFloor::~CFloor()
 {
 	mpField->Uninit();
+
+	OutputDebugString("delete CFloor\n");
 }
 
 void CFloor::Update()

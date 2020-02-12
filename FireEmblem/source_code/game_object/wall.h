@@ -19,7 +19,9 @@ public:
 	void Draw(XMFLOAT3 position);
 
 private:
-	std::unique_ptr<CModelAnimation> mpModel;
+	std::unique_ptr<CModelAnimation> mpModel = nullptr;
+	CShader* mpShader = nullptr;
+
 	const char* mFile[3] = {};
 };
 

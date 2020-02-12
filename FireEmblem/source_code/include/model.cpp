@@ -11,10 +11,10 @@ void CModel::Draw()
 	for( unsigned short i = 0; i < m_SubsetNum; i++ )
 	{
 		// マテリアル設定
-		CRenderer::SetMaterial( m_SubsetArray[i].Material.Material );
+		//CRenderer::SetMaterial( m_SubsetArray[i].Material.Material );
 
 		// テクスチャ設定
-		CRenderer::SetTexture( m_SubsetArray[i].Material.Texture );
+		CRenderer::SetTexture( m_SubsetArray[i].Material.Texture, 0 );
 
 		// ポリゴン描画
 		CRenderer::DrawIndexed( m_SubsetArray[i].IndexNum, m_SubsetArray[i].StartIndex, 0 );

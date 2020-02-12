@@ -2,16 +2,16 @@ using namespace std;
 
 void CResult::Init()
 {
-	mTexture[0] = "asset/texture/clear.png";
-	mTexture[1] = "asset/texture/gameclear.png";
-	mTexture[2] = "asset/texture/pp.png";
+	mTexture[0] = "asset/texture/scene/clear.png";
+	mTexture[1] = "asset/texture/scene/gameclear.png";
+	mTexture[2] = "asset/texture/scene/pp.png";
 
 	for (int i = 0; i < 3; i++)
 		mpPolygon[i] = make_unique<CPolygon>();
 
-	mpPolygon[0]->Init(mTexture[0], XMFLOAT3(0.0f, 0.0f, 0.2f), SCREEN_WIDTH, SCREEN_HEIGHT);
-	mpPolygon[1]->Init(mTexture[1], XMFLOAT3(0.0f, 0.0f, 0.1f), 700, 270);
-	mpPolygon[2]->Init(mTexture[2], XMFLOAT3(0.0f, 0.0f, 0.0f), 150, 150);
+	mpPolygon[0]->Init(mTexture[0], SCREEN_WIDTH, SCREEN_HEIGHT);
+	mpPolygon[1]->Init(mTexture[1], 700, 270);
+	mpPolygon[2]->Init(mTexture[2], 150, 150);
 
 	mMove = mMove1 = mMove2 = 0.0f;
 }
@@ -43,9 +43,9 @@ void CResult::Update()
 
 void CResult::Draw()
 {
-	mpPolygon[0]->Draw(XMFLOAT3(mMove - (float)SCREEN_WIDTH, 0.0f, 0.2f));
-	mpPolygon[1]->Draw(XMFLOAT3(mMove1 - 750.0f, 10.0f, 0.1f));
-	mpPolygon[2]->Draw(XMFLOAT3(mMove2 - 200.0f, 310.0f, 0.0f));
+	mpPolygon[0]->Draw(XMFLOAT3(mMove - (float)SCREEN_WIDTH, 0.0f, LAYER5));
+	mpPolygon[1]->Draw(XMFLOAT3(mMove1 - 750.0f, 10.0f, LAYER4));
+	mpPolygon[2]->Draw(XMFLOAT3(mMove2 - 200.0f, 310.0f, LAYER3));
 }
 
 float CResult::MaxMove(float move)

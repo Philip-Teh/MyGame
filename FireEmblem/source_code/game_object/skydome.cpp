@@ -1,8 +1,7 @@
-
+using namespace std;
 
 void CSkydome::Init()
 {
-
 	mQuaternion = XMQuaternionIdentity();
 
 	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -15,6 +14,9 @@ void CSkydome::Init()
 	//テクスチャ読み込み
 	m_Texture = new CTexture();
 	m_Texture->LoadTexture("asset/sky.jpg");
+
+	mpShader = make_unique<CShader>();
+	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
 	NumVertex = (numx + 1) * (numz + 1);
 	NumIndex = (2 + numx * 2) * numz + (numz - 1) * 2;
@@ -147,6 +149,8 @@ void CSkydome::Uninit()
 	m_IndexBuffer->Release();
 	m_Texture->UnloadTexture();
 	delete m_Texture;
+
+	mpShader->Uninit();
 }
 
 void CSkydome::Update()
@@ -166,15 +170,29 @@ void CSkydome::Draw()
 	CRenderer::SetVertexBuffers(m_VertexBuffer);
 	CRenderer::SetIndexBuffer(m_IndexBuffer);
 
-	CRenderer::SetTexture(m_Texture);					//テクスチャ設定
+	CRenderer::SetTexture(m_Texture, 0);					//テクスチャ設定
 
 	XMMATRIX world;
 	world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 	world *= XMMatrixRotationQuaternion(mQuaternion);
-
 	//world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 	world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-	CRenderer::SetWorldMatrix(&world);
 
-	CRenderer::DrawIndexedSTRIP(NumIndex, 0, 0);
+	XMFLOAT4X4 worldf;
+	XMStoreFloat4x4(&worldf, world);
+	mpShader->SetWorldMatrix(&worldf);
+
+	CCamera* camera = CSceneManager::GetScene()->GetGameObject<CCamera>();
+
+	XMFLOAT4X4 view, projection;
+	XMStoreFloat4x4(&view, camera->GetViewMatrix());
+	XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
+
+	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
+	mpShader->SetViewMatrix(&view);
+	mpShader->SetProjectionMatrix(&projection);
+	mpShader->Set();
+
+	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	CRenderer::GetDeviceContext()->DrawIndexed(NumIndex, 0, 0);
 }

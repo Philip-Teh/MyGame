@@ -22,12 +22,14 @@ public:
 	void SetPosition(XMFLOAT3 position) { m_Position = position; }
 
 private:
+	std::unique_ptr<CModelAnimation> mpModel = nullptr;
+	std::unique_ptr<CModelAnimation> mpAnimation = nullptr;
+	CShader* mpShader = nullptr;
+
 	const char* mFile[3] = {};
 	const char* mAnimation[3] = {};
-	float mFrame = 0;
-	std::unique_ptr<CModelAnimation> mpModel;
-	std::unique_ptr<CModelAnimation> mpAnimation;
 
+	unsigned int mFrame = 0;
 	float mRotate = 0.0f;
 };
 

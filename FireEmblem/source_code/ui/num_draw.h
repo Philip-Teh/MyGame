@@ -6,7 +6,7 @@
 class CNumDraw
 {
 public:
-	void Init(int digit, float sizeX, float sizeY);
+	void Init(float sizeX, float sizeY);
 	void Uninit(void);
 	void Draw(XMFLOAT3 position, int score);
 private:

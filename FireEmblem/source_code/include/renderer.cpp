@@ -1,4 +1,3 @@
-#include <io.h>
 
 
 D3D_FEATURE_LEVEL       CRenderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
@@ -9,21 +8,8 @@ IDXGISwapChain*         CRenderer::m_SwapChain = NULL;
 ID3D11RenderTargetView* CRenderer::m_RenderTargetView = NULL;
 ID3D11DepthStencilView* CRenderer::m_DepthStencilView = NULL;
 
-
-
-ID3D11VertexShader*     CRenderer::m_VertexShader = NULL;
-ID3D11PixelShader*      CRenderer::m_PixelShader = NULL;
-ID3D11InputLayout*      CRenderer::m_VertexLayout = NULL;
-ID3D11Buffer*			CRenderer::m_WorldBuffer = NULL;
-ID3D11Buffer*			CRenderer::m_ViewBuffer = NULL;
-ID3D11Buffer*			CRenderer::m_ProjectionBuffer = NULL;
-ID3D11Buffer*			CRenderer::m_MaterialBuffer = NULL;
-ID3D11Buffer*			CRenderer::m_LightBuffer = NULL;
-
-
 ID3D11DepthStencilState* CRenderer::m_DepthStateEnable;
 ID3D11DepthStencilState* CRenderer::m_DepthStateDisable;
-
 
 
 void CRenderer::Init()
@@ -36,7 +22,7 @@ void CRenderer::Init()
 	sd.BufferCount = 1;
 	sd.BufferDesc.Width = SCREEN_WIDTH;
 	sd.BufferDesc.Height = SCREEN_HEIGHT;
-	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;//DXGI_FORMAT_UNKNOWN
+	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	sd.BufferDesc.RefreshRate.Numerator = 60;
 	sd.BufferDesc.RefreshRate.Denominator = 1;
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -79,8 +65,8 @@ void CRenderer::Init()
 	td.SampleDesc		= sd.SampleDesc;
 	td.Usage			= D3D11_USAGE_DEFAULT;
 	td.BindFlags		= D3D11_BIND_DEPTH_STENCIL;
-	td.CPUAccessFlags	= 0;
-	td.MiscFlags		= 0;
+    td.CPUAccessFlags	= 0;
+    td.MiscFlags		= 0;
 	m_D3DDevice->CreateTexture2D( &td, NULL, &depthTexture );
 
 	//ステンシルターゲット作成
@@ -180,140 +166,14 @@ void CRenderer::Init()
 	m_D3DDevice->CreateSamplerState( &samplerDesc, &samplerState );
 
 	m_ImmediateContext->PSSetSamplers( 0, 1, &samplerState );
-
-
-
-
-	// 頂点シェーダ生成
-	{
-		FILE* file;
-		long int fsize;
-
-		file = fopen("vertexShader.cso", "rb");
-		fsize = _filelength(_fileno(file));
-		unsigned char* buffer = new unsigned char[fsize];
-		fread(buffer, fsize, 1, file);
-		fclose(file);
-
-		m_D3DDevice->CreateVertexShader(buffer, fsize, NULL, &m_VertexShader);
-
-
-		// 入力レイアウト生成
-		D3D11_INPUT_ELEMENT_DESC layout[] =
-		{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 4 * 6, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 4 * 10, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-		};
-		UINT numElements = ARRAYSIZE(layout);
-
-		m_D3DDevice->CreateInputLayout(layout,
-			numElements,
-			buffer,
-			fsize,
-			&m_VertexLayout);
-
-		delete[] buffer;
-	}
-
-
-
-	// ピクセルシェーダ生成
-	{
-		FILE* file;
-		long int fsize;
-
-		file = fopen("pixelShader.cso", "rb");
-		fsize = _filelength(_fileno(file));
-		unsigned char* buffer = new unsigned char[fsize];
-		fread(buffer, fsize, 1, file);
-		fclose(file);
-
-		m_D3DDevice->CreatePixelShader(buffer, fsize, NULL, &m_PixelShader);
-
-		delete[] buffer;
-	}
-
-
-
-
-	// 定数バッファ生成
-	D3D11_BUFFER_DESC hBufferDesc;
-	hBufferDesc.ByteWidth = sizeof(XMMATRIX);
-	hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	hBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	hBufferDesc.CPUAccessFlags = 0;
-	hBufferDesc.MiscFlags = 0;
-	hBufferDesc.StructureByteStride = sizeof(float);
-
-	m_D3DDevice->CreateBuffer( &hBufferDesc, NULL, &m_WorldBuffer );
-	m_ImmediateContext->VSSetConstantBuffers( 0, 1, &m_WorldBuffer);
-
-	m_D3DDevice->CreateBuffer( &hBufferDesc, NULL, &m_ViewBuffer );
-	m_ImmediateContext->VSSetConstantBuffers( 1, 1, &m_ViewBuffer );
-
-	m_D3DDevice->CreateBuffer( &hBufferDesc, NULL, &m_ProjectionBuffer );
-	m_ImmediateContext->VSSetConstantBuffers( 2, 1, &m_ProjectionBuffer );
-
-
-	hBufferDesc.ByteWidth = sizeof(MATERIAL);
-
-	m_D3DDevice->CreateBuffer( &hBufferDesc, NULL, &m_MaterialBuffer );
-	m_ImmediateContext->VSSetConstantBuffers( 3, 1, &m_MaterialBuffer );
-
-
-	hBufferDesc.ByteWidth = sizeof(LIGHT);
-
-	m_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &m_LightBuffer);
-	m_ImmediateContext->VSSetConstantBuffers( 4, 1, &m_LightBuffer );
-
-
-
-
-
-	// 入力レイアウト設定
-	m_ImmediateContext->IASetInputLayout( m_VertexLayout );
-
-	// シェーダ設定
-	m_ImmediateContext->VSSetShader( m_VertexShader, NULL, 0 );
-	m_ImmediateContext->PSSetShader( m_PixelShader, NULL, 0 );
-
-
-
-	// ライト初期化
-	LIGHT light;
-	light.Direction = XMFLOAT4(0.0f, -1.0f, 1.0f, 0.0f);
-	light.Diffuse = COLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	light.Ambient = COLOR(0.1f, 0.1f, 0.1f, 1.0f);
-	SetLight(light);
-
-
-	// マテリアル初期化
-	MATERIAL material;
-	ZeroMemory( &material, sizeof(material) );
-	material.Diffuse = COLOR( 1.0f, 1.0f, 1.0f, 1.0f );
-	material.Ambient = COLOR( 1.0f, 1.0f, 1.0f, 1.0f );
-	SetMaterial(material);
-
 }
-
-
 
 void CRenderer::Uninit()
 {
 	// オブジェクト解放
-	if ( m_WorldBuffer )		m_WorldBuffer->Release();
-	if ( m_ViewBuffer )			m_ViewBuffer->Release();
-	if ( m_ProjectionBuffer )	m_ProjectionBuffer->Release();
-
-	if( m_MaterialBuffer )		m_MaterialBuffer->Release();
-	if( m_VertexLayout )		m_VertexLayout->Release();
-	if( m_VertexShader )		m_VertexShader->Release();
-	if( m_PixelShader )			m_PixelShader->Release();
-
 	if( m_ImmediateContext )	m_ImmediateContext->ClearState();
 	if( m_RenderTargetView )	m_RenderTargetView->Release();
+
 	if( m_SwapChain )			m_SwapChain->Release();
 	if( m_ImmediateContext )	m_ImmediateContext->Release();
 	if( m_D3DDevice )			m_D3DDevice->Release();
@@ -326,8 +186,8 @@ void CRenderer::Begin()
 {
 	// バックバッファクリア
 	float ClearColor[4] = { 0.0f, 0.5f, 0.0f, 1.0f };
-	m_ImmediateContext->ClearRenderTargetView( m_RenderTargetView, ClearColor );
-	m_ImmediateContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, ClearColor);
+	m_ImmediateContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 }
 
@@ -347,61 +207,6 @@ void CRenderer::SetDepthEnable( bool Enable )
 		m_ImmediateContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
 	else
 		m_ImmediateContext->OMSetDepthStencilState( m_DepthStateDisable, NULL );
-
-}
-
-void CRenderer::SetWorldViewProjection2D()
-{
-	XMMATRIX world;
-	world = XMMatrixIdentity();
-	m_ImmediateContext->UpdateSubresource(m_WorldBuffer, 0, NULL, &XMMatrixTranspose(world), 0, 0);
-
-	XMMATRIX view;
-	view = XMMatrixIdentity();
-	m_ImmediateContext->UpdateSubresource(m_ViewBuffer, 0, NULL, &XMMatrixTranspose(view), 0, 0);
-
-	XMMATRIX projection;
-	projection = XMMatrixOrthographicOffCenterLH( 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f );
-	m_ImmediateContext->UpdateSubresource( m_ProjectionBuffer, 0, NULL, &XMMatrixTranspose(projection), 0, 0 );
-
-}
-
-
-void CRenderer::SetWorldMatrix( XMMATRIX *WorldMatrix )
-{
-	XMMATRIX world;
-	world = *WorldMatrix;
-	m_ImmediateContext->UpdateSubresource(m_WorldBuffer, 0, NULL, &XMMatrixTranspose(world), 0, 0);
-
-}
-
-void CRenderer::SetViewMatrix( XMMATRIX *ViewMatrix )
-{
-	XMMATRIX view;
-	view = *ViewMatrix;
-	m_ImmediateContext->UpdateSubresource(m_ViewBuffer, 0, NULL, &XMMatrixTranspose(view), 0, 0);
-}
-
-void CRenderer::SetProjectionMatrix( XMMATRIX *ProjectionMatrix )
-{
-	XMMATRIX projection;
-	projection = *ProjectionMatrix;
-	m_ImmediateContext->UpdateSubresource(m_ProjectionBuffer, 0, NULL, &XMMatrixTranspose(projection), 0, 0);
-}
-
-
-
-void CRenderer::SetMaterial( MATERIAL Material )
-{
-
-	m_ImmediateContext->UpdateSubresource( m_MaterialBuffer, 0, NULL, &Material, 0, 0 );
-
-}
-
-void CRenderer::SetLight(LIGHT Light)
-{
-
-	m_ImmediateContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 
 }
 
@@ -425,29 +230,19 @@ void CRenderer::SetIndexBuffer( ID3D11Buffer* IndexBuffer )
 
 }
 
-
-void CRenderer::SetTexture( CTexture* Texture )
+void CRenderer::SetTexture( CTexture* Texture ,int num)
 {
 
 	ID3D11ShaderResourceView* srv[1] = { Texture->GetShaderResourceView() };
-	m_ImmediateContext->PSSetShaderResources( 0, 1, srv );
+	m_ImmediateContext->PSSetShaderResources( num, 1, srv );
 
 }
-
 
 void CRenderer::DrawIndexed( unsigned int IndexCount, unsigned int StartIndexLocation, int BaseVertexLocation )
 {
 
 	m_ImmediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	m_ImmediateContext->DrawIndexed( IndexCount, StartIndexLocation, BaseVertexLocation );
-
-}
-
-void CRenderer::DrawIndexedSTRIP(unsigned int IndexCount, unsigned int StartIndexLocation, int BaseVertexLocation)
-{
-
-	m_ImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	m_ImmediateContext->DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
 
 }
 

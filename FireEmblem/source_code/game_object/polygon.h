@@ -1,7 +1,7 @@
+#pragma once
+
 #ifndef POLYGON_H_
 #define POLYGON_H_
-
-#define TEXTURE (10)
 
 class CPolygon {
 public:
@@ -16,10 +16,10 @@ public:
 private:
 	VERTEX_3D mVertex[4];
 	XMFLOAT3 mPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	ID3D11Buffer* m_VertexBuffer = nullptr;
-	CTexture* mTexture = nullptr;
-	bool enable = false;
-	XMFLOAT2 size = XMFLOAT2(0.0f, 0.0f);
+	ID3D11Buffer* mpVertexBuffer = nullptr;
+	CShader* mpShader = nullptr;
+	CTexture* mpTexture = nullptr;
+	XMFLOAT2 mSize = XMFLOAT2(0.0f, 0.0f);
 };
 
 #endif

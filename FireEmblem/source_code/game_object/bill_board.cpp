@@ -1,3 +1,4 @@
+using namespace std;
 
 #define BILLBOARD_ALPHA (128)
 
@@ -63,6 +64,9 @@ void CBillBoard::Init()
 
 	mpTexture = new CTexture();
 	mpTexture->LoadTexture("asset/dog.jpg");
+
+	mpShader = make_unique<CShader>();
+	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 }
 
 void CBillBoard::Uninit(void)
@@ -71,6 +75,8 @@ void CBillBoard::Uninit(void)
 	mpVertexBuffer->Release();
 	mpTexture->UnloadTexture();
 	delete mpTexture;
+
+	mpShader->Uninit();
 }
 
 void CBillBoard::Draw(void)
@@ -82,9 +88,9 @@ void CBillBoard::Draw(void)
 	XMMATRIX mtxInvView;
 	XMMATRIX world;
 
-	CRenderer::SetTexture(mpTexture);
+	CRenderer::SetTexture(mpTexture, 0);
 
-	mpCamera = CSceneManager::GetScene()->GetGameObject<CCamera>(FIRST);
+	mpCamera = CSceneManager::GetScene()->GetGameObject<CCamera>();
 
 	mtxInvView = XMMatrixTranspose(mpCamera->GetViewMatrix());
 
@@ -104,7 +110,22 @@ void CBillBoard::Draw(void)
 	world *= XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 	world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 	world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-	CRenderer::SetWorldMatrix(&world);
+	
+	XMFLOAT4X4 w;
+	XMStoreFloat4x4(&w, world);
+
+	CCamera* camera = CSceneManager::GetScene()->GetGameObject<CCamera>();
+
+	XMFLOAT4X4 view, projection;
+	XMStoreFloat4x4(&view, camera->GetViewMatrix());
+	XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
+
+	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
+	mpShader->SetViewMatrix(&view);
+	mpShader->SetProjectionMatrix(&projection);
+
+	mpShader->SetWorldMatrix(&w);
+	mpShader->Set();
 
 	CRenderer::DrawIndexed(6, 0, 0);
 }

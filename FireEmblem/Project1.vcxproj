@@ -146,32 +146,53 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <FxCompile Include="pixelShader.hlsl">
+    <FxCompile Include="shader\shader_2d_ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="vertexShader.hlsl">
+    <FxCompile Include="shader\shader_2d_vs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shader\shader_3d_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\shader_3d_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\shader_goal_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\shader_goal_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source_code\game_object\ball.h" />
     <ClInclude Include="source_code\game_object\bill_board.h" />
     <ClInclude Include="source_code\game_object\box.h" />
-    <ClInclude Include="source_code\game_object\bullet.h" />
     <ClInclude Include="source_code\game_object\camera.h" />
     <ClInclude Include="source_code\game_object\character\allies.h" />
     <ClInclude Include="source_code\game_object\character\benemy.h" />
     <ClInclude Include="source_code\game_object\character\enemy.h" />
+    <ClInclude Include="source_code\game_object\character\enemy_state.h" />
+    <ClInclude Include="source_code\game_object\character\enemy_state_idle.h" />
+    <ClInclude Include="source_code\game_object\character\enemy_state_move.h" />
     <ClInclude Include="source_code\game_object\character\e_troop.h" />
     <ClInclude Include="source_code\game_object\character\player.h" />
     <ClInclude Include="source_code\game_object\field.h" />
@@ -180,18 +201,18 @@
     <ClInclude Include="source_code\game_object\goal.h" />
     <ClInclude Include="source_code\game_object\mesh_field.h" />
     <ClInclude Include="source_code\game_object\polygon.h" />
-    <ClInclude Include="source_code\game_object\selector.h" />
     <ClInclude Include="source_code\game_object\skydome.h" />
     <ClInclude Include="source_code\game_object\wall.h" />
     <ClInclude Include="source_code\game_status.h" />
     <ClInclude Include="source_code\include\audio_clip.h" />
-    <ClInclude Include="source_code\include\collision.h" />
     <ClInclude Include="source_code\include\input.h" />
     <ClInclude Include="source_code\include\mesh.h" />
     <ClInclude Include="source_code\include\model.h" />
     <ClInclude Include="source_code\include\modela.h" />
     <ClInclude Include="source_code\include\model_animation.h" />
     <ClInclude Include="source_code\include\renderer.h" />
+    <ClInclude Include="source_code\include\renderern.h" />
+    <ClInclude Include="source_code\include\shader.h" />
     <ClInclude Include="source_code\include\texture.h" />
     <ClInclude Include="source_code\include_all.h" />
     <ClInclude Include="source_code\lib\assimp.h" />
@@ -201,26 +222,30 @@
     <ClInclude Include="source_code\map.h" />
     <ClInclude Include="source_code\scene\game.h" />
     <ClInclude Include="source_code\scene\game_over.h" />
+    <ClInclude Include="source_code\scene\loading.h" />
     <ClInclude Include="source_code\scene\result.h" />
     <ClInclude Include="source_code\scene\scene.h" />
     <ClInclude Include="source_code\scene\scene_manager.h" />
     <ClInclude Include="source_code\scene\title.h" />
     <ClInclude Include="source_code\scene\tutorial.h" />
     <ClInclude Include="source_code\stage_manager.h" />
+    <ClInclude Include="source_code\ui\help.h" />
     <ClInclude Include="source_code\ui\menu.h" />
     <ClInclude Include="source_code\ui\number.h" />
     <ClInclude Include="source_code\ui\num_draw.h" />
+    <ClInclude Include="source_code\ui\num_enemy.h" />
     <ClInclude Include="source_code\ui\score.h" />
+    <ClInclude Include="source_code\ui\stage_clear.h" />
     <ClInclude Include="source_code\ui\step.h" />
     <ClInclude Include="source_code\ui\ui_manager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source_code\game_object\ball.cpp" />
     <ClCompile Include="source_code\game_object\bill_board.cpp" />
     <ClCompile Include="source_code\game_object\box.cpp" />
-    <ClCompile Include="source_code\game_object\bullet.cpp" />
     <ClCompile Include="source_code\game_object\camera.cpp" />
     <ClCompile Include="source_code\game_object\character\benemy.cpp" />
+    <ClCompile Include="source_code\game_object\character\enemy_state_idle.cpp" />
+    <ClCompile Include="source_code\game_object\character\enemy_state_move.cpp" />
     <ClCompile Include="source_code\game_object\character\e_troop.cpp" />
     <ClCompile Include="source_code\game_object\character\player.cpp" />
     <ClCompile Include="source_code\game_object\field.cpp" />
@@ -228,7 +253,6 @@
     <ClCompile Include="source_code\game_object\goal.cpp" />
     <ClCompile Include="source_code\game_object\mesh_field.cpp" />
     <ClCompile Include="source_code\game_object\polygon.cpp" />
-    <ClCompile Include="source_code\game_object\selector.cpp" />
     <ClCompile Include="source_code\game_object\skydome.cpp" />
     <ClCompile Include="source_code\game_object\wall.cpp" />
     <ClCompile Include="source_code\game_status.cpp" />
@@ -238,6 +262,8 @@
     <ClCompile Include="source_code\include\modela.cpp" />
     <ClCompile Include="source_code\include\model_animation.cpp" />
     <ClCompile Include="source_code\include\renderer.cpp" />
+    <ClCompile Include="source_code\include\renderern.cpp" />
+    <ClCompile Include="source_code\include\shader.cpp" />
     <ClCompile Include="source_code\include\texture.cpp" />
     <ClCompile Include="source_code\lib\WICTextureLoader.cpp" />
     <ClCompile Include="source_code\load_map.cpp" />
@@ -253,15 +279,19 @@
     </ClCompile>
     <ClCompile Include="source_code\scene\game.cpp" />
     <ClCompile Include="source_code\scene\game_over.cpp" />
+    <ClCompile Include="source_code\scene\loading.cpp" />
     <ClCompile Include="source_code\scene\result.cpp" />
     <ClCompile Include="source_code\scene\scene_manager.cpp" />
     <ClCompile Include="source_code\scene\title.cpp" />
     <ClCompile Include="source_code\scene\tutorial.cpp" />
     <ClCompile Include="source_code\stage_manager.cpp" />
+    <ClCompile Include="source_code\ui\help.cpp" />
     <ClCompile Include="source_code\ui\menu.cpp" />
     <ClCompile Include="source_code\ui\number.cpp" />
     <ClCompile Include="source_code\ui\num_draw.cpp" />
+    <ClCompile Include="source_code\ui\num_enemy.cpp" />
     <ClCompile Include="source_code\ui\score.cpp" />
+    <ClCompile Include="source_code\ui\stage_clear.cpp" />
     <ClCompile Include="source_code\ui\step.cpp" />
     <ClCompile Include="source_code\ui\ui_manager.cpp" />
   </ItemGroup>

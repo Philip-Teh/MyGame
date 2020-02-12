@@ -3,15 +3,16 @@
 #ifndef _NUMBER_H_
 #define _NUMBER_H_
 
-#define NUMBER_WIDTH (32)
-#define NUMBER_HEIGHT (32)
-
 class CNumber
 {
 public:
 	void Init(float sizeX, float sizeY);
 	void Uninit(void);
 	void Draw(XMFLOAT3 position, int n);
+
+	unsigned GetDigit(unsigned num)const {
+		return (int)std::to_string(num).length();
+	}
 
 private:
 	std::string mFile;

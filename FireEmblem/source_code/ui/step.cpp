@@ -4,10 +4,10 @@ CStep::CStep()
 {
 	mFile = "asset/texture/ui/step.png";
 	mpPolygon = make_unique<CPolygon>();
-	mpPolygon->Init(mFile, XMFLOAT3(800.0f, 50.0f, 0.0f), 100, 50);
+	mpPolygon->Init(mFile, XMFLOAT3(STATUS_POSITIONX, STATUS_POSITIONY + 40.0f, LAYER5), STATUS_POLYGONX, STATUS_POLYGONY);
 
 	mpNumDraw = make_unique<CNumDraw>();
-	mpNumDraw->Init(5, 320, NUMBER_HEIGHT);
+	mpNumDraw->Init(NUMBER_SIZEX, NUMBER_HEIGHT);
 }
 
 CStep::~CStep()
@@ -26,5 +26,5 @@ void CStep::Update()
 void CStep::Draw(int step)
 {
 	mpPolygon->Draw();
-	mpNumDraw->Draw(XMFLOAT3(950.0f, 50.0f, 0.0f), step);
+	mpNumDraw->Draw(XMFLOAT3(STATUS_POSITIONX + NUMSPACEX, STATUS_POSITIONY + 40.0f + NUMSPACEY, LAYER5), step);
 }

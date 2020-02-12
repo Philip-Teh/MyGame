@@ -20,7 +20,8 @@ public:
 private:
 	std::unique_ptr<CMap> mpMap;
 	std::unique_ptr<CUIManager> mpUIManager;
-	bool stageclear = false;
+	std::unique_ptr<CStageClear> mpStageClear;
+	bool mStageClear = false;
 	int mStage = 0;
 
 	void NextStage();

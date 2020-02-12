@@ -16,27 +16,37 @@ public:
 	void Uninit();
 	void Update();
 	void Draw(XMFLOAT3 position);
+	void MoveAnimation(bool move);
 
-	CDirection GetDirection() { return mDirection; }
+	const CDirection& GetDirection() { return mDirection; }
 	void SetDirection(CDirection direction) { mDirection = direction; }
 
-	XMFLOAT3 GetPosition() { return m_Position; }
+	const XMFLOAT3& GetPosition() { return m_Position; }
 	void SetPosition(XMFLOAT3 position) { m_Position = position; }
 
-	bool GetMove() { return mMove; }
+	const bool& GetMove() { return mMove; }
+	const bool& GetPull() { return mPull; }
+	void SetPullEnable(bool enable) { mPullEnable = enable; }
 
-	int GetStep() { return mStep; }
+	const int& GetStep() { return mStep; }
 	void SetStep(int step) { mStep = step; }
 	void CaculateStep(int step) { mStep += step; }
 
 private:
 	const char* mAnimation[3] = {};
 	CModelAnimation* mpModelA = nullptr;
-	unsigned int mFrame = NULL;
+	CShader* mpShader = nullptr;
+
+	unsigned int mFrame = 0;
+	const float mTurnSpeed = 0.15f;
 
 	int mStep = 0;
 	bool mMove = false;
+	bool mPull = false;
+	bool mPullEnable = false;
 	CDirection mDirection = CDirection::Down;
+	CDirection mCurrentDirection = CDirection::Down;
+	CRotation mCurrentRotation;
 
 	void Move();
 	void Direction();

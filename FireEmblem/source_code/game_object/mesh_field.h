@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef MESHFIELD_H_
 #define MESHFIELD_H_
 
@@ -23,6 +25,7 @@ private:
 	int numx = NULL, numz = NULL;
 
 	CTexture* m_Texture = nullptr;
+	std::unique_ptr<CShader> mpShader = nullptr;
 };
 
 #endif
