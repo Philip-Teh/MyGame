@@ -3,7 +3,7 @@ using namespace std;
 
 void CTutorial::Init()
 {
-	mTexture[0] = "asset/texture/ui/tabinfo.png";
+	mTexture[0] = "asset/texture/ui/key_info.png";
 	mTexture[1] = "";
 	mTexture[2] = "";
 

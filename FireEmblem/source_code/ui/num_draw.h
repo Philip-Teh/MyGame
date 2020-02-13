@@ -9,6 +9,7 @@ public:
 	void Init(float sizeX, float sizeY);
 	void Uninit(void);
 	void Draw(XMFLOAT3 position, int score);
+	void Draw(XMFLOAT3 position, int score,int tw,int th);
 private:
 	std::unique_ptr<CNumber> mpNumber;
 	int mDigit = 0;

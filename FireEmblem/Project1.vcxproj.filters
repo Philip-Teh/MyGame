@@ -218,6 +218,15 @@
     <ClInclude Include="source_code\ui\help.h">
       <Filter>source_code\ui</Filter>
     </ClInclude>
+    <ClInclude Include="source_code\ui\pull.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\stage_num.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\key_info.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source_code\main.cpp">
@@ -359,6 +368,15 @@
       <Filter>source_code\scene</Filter>
     </ClCompile>
     <ClCompile Include="source_code\ui\help.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\pull.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\stage_num.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\key_info.cpp">
       <Filter>source_code\ui</Filter>
     </ClCompile>
   </ItemGroup>

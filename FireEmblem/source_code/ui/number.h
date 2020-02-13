@@ -9,6 +9,7 @@ public:
 	void Init(float sizeX, float sizeY);
 	void Uninit(void);
 	void Draw(XMFLOAT3 position, int n);
+	void Draw(XMFLOAT3 position, int n, int tw, int th);
 
 	unsigned GetDigit(unsigned num)const {
 		return (int)std::to_string(num).length();

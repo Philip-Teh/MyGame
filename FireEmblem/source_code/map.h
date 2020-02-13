@@ -23,8 +23,9 @@ public:
 	void Draw();
 	bool StageIsClear();
 
-	int GetStep() { return mpPlayer->GetStep(); }
-	int GetNumEnemy() { return mEnemy; }
+	const int& GetStep() { return mpPlayer->GetStep(); }
+	const int& GetNumEnemy() { return mEnemy; }
+	const int& GetMaxEnemy() { return mNumEnemy; }
 
 private:
 	std::unique_ptr<CLoadMap> mpLoadMap;

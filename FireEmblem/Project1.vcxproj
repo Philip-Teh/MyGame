@@ -230,12 +230,15 @@
     <ClInclude Include="source_code\scene\tutorial.h" />
     <ClInclude Include="source_code\stage_manager.h" />
     <ClInclude Include="source_code\ui\help.h" />
+    <ClInclude Include="source_code\ui\key_info.h" />
     <ClInclude Include="source_code\ui\menu.h" />
     <ClInclude Include="source_code\ui\number.h" />
     <ClInclude Include="source_code\ui\num_draw.h" />
     <ClInclude Include="source_code\ui\num_enemy.h" />
+    <ClInclude Include="source_code\ui\pull.h" />
     <ClInclude Include="source_code\ui\score.h" />
     <ClInclude Include="source_code\ui\stage_clear.h" />
+    <ClInclude Include="source_code\ui\stage_num.h" />
     <ClInclude Include="source_code\ui\step.h" />
     <ClInclude Include="source_code\ui\ui_manager.h" />
   </ItemGroup>
@@ -286,12 +289,15 @@
     <ClCompile Include="source_code\scene\tutorial.cpp" />
     <ClCompile Include="source_code\stage_manager.cpp" />
     <ClCompile Include="source_code\ui\help.cpp" />
+    <ClCompile Include="source_code\ui\key_info.cpp" />
     <ClCompile Include="source_code\ui\menu.cpp" />
     <ClCompile Include="source_code\ui\number.cpp" />
     <ClCompile Include="source_code\ui\num_draw.cpp" />
     <ClCompile Include="source_code\ui\num_enemy.cpp" />
+    <ClCompile Include="source_code\ui\pull.cpp" />
     <ClCompile Include="source_code\ui\score.cpp" />
     <ClCompile Include="source_code\ui\stage_clear.cpp" />
+    <ClCompile Include="source_code\ui\stage_num.cpp" />
     <ClCompile Include="source_code\ui\step.cpp" />
     <ClCompile Include="source_code\ui\ui_manager.cpp" />
   </ItemGroup>

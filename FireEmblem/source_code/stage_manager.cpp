@@ -12,6 +12,14 @@ void CStageManager::Init()
 
 	mpMap->Load(mStage);
 	mpMap->Init();
+
+	if (mpMap->GetMaxEnemy() > 0)
+	{
+		mpUIManager->Appear();
+		mEnemyAppear = true;
+	}
+	else
+		mEnemyAppear = false;
 }
 
 void CStageManager::Uninit()
@@ -25,9 +33,11 @@ void CStageManager::Update()
 	{
 		if (!mStageClear)
 		{
-			if (!mpUIManager->GetHelp())
+			if (!mpUIManager->GetPress())
 				mpMap->Update();
+
 			mpUIManager->Update();
+			mpUIManager->Update(mEnemyAppear);
 
 			if (CInput::GetKeyTrigger('R'))
 				CLoading::SetEnable(true);
@@ -36,6 +46,10 @@ void CStageManager::Update()
 				ResetStage();
 		}
 
+		if (mpMap->GetNumEnemy() == 0)
+			mpUIManager->SetLock(true);
+		else
+			mpUIManager->SetLock(false);
 
 		if (mpMap->StageIsClear())
 		{
@@ -56,7 +70,12 @@ void CStageManager::Draw()
 	if (!CGameStatus::GetGameClear())
 	{
 		mpMap->Draw();
-		mpUIManager->DrawStatus(CGameStatus::GetScore(), mpMap->GetStep(), mpMap->GetNumEnemy());
+		mpUIManager->DrawStatus(CGameStatus::GetScore(), mpMap->GetStep());
+
+		if (mpMap->GetMaxEnemy() > 0)
+			mpUIManager->DrawEnemyStatus(mpMap->GetNumEnemy());
+
+		mpUIManager->DrawStageNum(mStage);
 		mpUIManager->DrawMenu();
 
 		if (mStageClear)
@@ -81,6 +100,14 @@ void CStageManager::NextStage()
 		mpStageClear->SetMove();
 		mpMap->Load(mStage);
 		mpMap->Init();
+
+		if (mpMap->GetMaxEnemy() > 0)
+		{
+			mpUIManager->Appear();
+			mEnemyAppear = true;
+		}
+		else
+			mEnemyAppear = false;
 	}
 
 	CLoading::SetChange(false);

@@ -18,8 +18,10 @@ private:
 	std::string mFile[2];
 	std::unique_ptr<CPolygon> mpPolygon[2];
 
-	int mMove;
-	bool mKeyUp, mKeyDown, mKeyTrigger;
+	int mMove = 0;
+	bool mKeyUp = false;
+	bool mKeyDown = false;
+	bool mKeyTrigger = false;
 };
 
 #endif // !MENU_H_

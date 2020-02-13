@@ -6,10 +6,12 @@ CUIManager::CUIManager()
 	mpScore = make_unique<CScore>();
 	mpStep = make_unique<CStep>();
 	mpNumEnemy = make_unique<CNumEnemy>();
+	mpPull = make_unique<CPull>();
+	mpStageNum = make_unique<CStageNum>();
+
 	mpMenu = make_unique<CMenu>();
 	mpHelp = make_unique<CHelp>();
-
-	//mpKeyInfo = std::make_unique<KeyInfo>();
+	mpKeyInfo = make_unique<CKeyInfo>();
 }
 
 CUIManager::~CUIManager()
@@ -22,28 +24,60 @@ void CUIManager::Update()
 	mpMenu->Update();
 
 	if (mpMenu->GetKeyUp())
+	{
 		mpHelp->Update();
+		mpKeyInfo->Update();
+	}
 
 	if (mpMenu->GetKeyDown())
+	{
 		mpHelp->TabCancel();
+		mpKeyInfo->TabCancel();
+	}
 }
 
-void CUIManager::DrawStatus(int score,int step,int num)
+void CUIManager::Update(bool enable)
+{
+	if (enable)
+	{
+		mpNumEnemy->Update();
+		mpPull->Update();
+	}
+}
+
+void CUIManager::DrawStatus(int score,int step)
 {
 	mpScore->Draw(score);
 	mpStep->Draw(step);
-	mpNumEnemy->Draw(num);
+	
 	//Draw::Texture(x - 340,y+YSIZE, x - 210, y + YSIZE*2, mtStep, 1);
 }
 
-void CUIManager::DrawStageNum(int x, int y, int num)
+void CUIManager::DrawEnemyStatus(int num)
 {
-	//mpNumDraw->Draw(VECTOR2(x+550, y+25), VECTOR2(x + 550+XSIZE*3, y +25+YSIZE*3),2, num,1);
-	//Draw::Texture(x + 10, y, x + 470, y + 240, mtStage, 1);
+	mpNumEnemy->Draw(num);
+	mpPull->Draw();
+}
+
+void CUIManager::DrawStageNum(int num)
+{
+	mpStageNum->Draw(num);
 }
 
 void CUIManager::DrawMenu()
 {
 	mpMenu->Draw();
 	mpHelp->Draw();
+	mpKeyInfo->Draw();
+}
+
+void CUIManager::Appear()
+{
+	mpNumEnemy->Appear();
+	mpPull->Appear();
+}
+
+const bool& CUIManager::GetPress()
+{
+	return mpHelp->GetPress() || mpKeyInfo->GetPress();
 }

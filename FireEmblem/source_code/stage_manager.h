@@ -21,6 +21,8 @@ private:
 	std::unique_ptr<CMap> mpMap;
 	std::unique_ptr<CUIManager> mpUIManager;
 	std::unique_ptr<CStageClear> mpStageClear;
+
+	bool mEnemyAppear = false;
 	bool mStageClear = false;
 	int mStage = 0;
 

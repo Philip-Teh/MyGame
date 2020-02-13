@@ -36,6 +36,7 @@ using namespace DirectX;
 #define LAYER3	(0.3f)
 #define LAYER4  (0.4f)
 #define LAYER5  (0.5f)
+#define LAYER6  (0.6f)
 
 #define NUMBER_DIGIT (5)
 #define NUMBER_WIDTH (32)
@@ -49,6 +50,7 @@ using namespace DirectX;
 
 #define STATUS_POSITIONX (950.0f)
 #define STATUS_POSITIONY (10.0f)
+#define HIDDEN_STATUS_POSITIONY (60.0f)
 
 #define STATUS_POLYGONX (100)
 #define STATUS_POLYGONY (50)

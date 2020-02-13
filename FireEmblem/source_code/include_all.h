@@ -14,7 +14,6 @@
 #include "lib/assimp.h"
 #include "lib/WICTextureLoader.h"
 
-#include "include/renderern.h"
 #include "include/renderer.h"
 #include "include/shader.h"
 #include "include/audio_clip.h"
@@ -60,8 +59,12 @@
 #include "ui/score.h"
 #include "ui/step.h"
 #include "ui/num_enemy.h"
+#include "ui/pull.h"
+#include "ui/stage_num.h"
 #include "ui/stage_clear.h"
 #include "ui/help.h"
+#include "ui/key_info.h"
+#include "ui/pause.h"
 #include "ui/ui_manager.h"
 
 #include "stage_manager.h"
