@@ -3,13 +3,11 @@ using namespace std;
 #define BILLBOARD_ALPHA (128)
 
 
-void CBillBoard::Init() 
+void CBillBoard::Init(std::string texture, float sizex, float sizey)
 {
-	m_Position = XMFLOAT3(10.0f, 0.0f, 0.0f);
+	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
-
-	float sizex = 10, sizey = 10;
 
 	VERTEX_3D mVertex[4];
 
@@ -63,24 +61,52 @@ void CBillBoard::Init()
 	}
 
 	mpTexture = new CTexture();
-	mpTexture->LoadTexture("asset/dog.jpg");
+	mpTexture->LoadTexture(texture);
 
 	mpShader = make_unique<CShader>();
-	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
+	mpShader->Init("shader_3d_vs.cso", "shader_effect_ps.cso");
+
+	mpPolygon = nullptr;
 }
 
-void CBillBoard::Uninit(void)
+void CBillBoard::Init(std::string texture, XMFLOAT2 size)
 {
-	mpIndexBuffer->Release();
-	mpVertexBuffer->Release();
-	mpTexture->UnloadTexture();
-	delete mpTexture;
+	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
+
+	mpPolygon = make_unique<CPolygon>();
+	mpPolygon->InitBillBoard(texture, size.x, size.y);
+
+	mpShader = make_unique<CShader>();
+	mpShader->Init("shader_3d_vs.cso", "shader_effect_ps.cso");
+
+	mpTexture = nullptr;
+}
+
+void CBillBoard::Uninit()
+{
+	if (mpIndexBuffer)
+		mpIndexBuffer->Release();
+
+	if (mpVertexBuffer)
+		mpVertexBuffer->Release();
+
+	if (mpTexture)
+	{
+		mpTexture->UnloadTexture();
+		delete mpTexture;
+	}
+
+	if (mpPolygon)
+		mpPolygon->Uninit();
 
 	mpShader->Uninit();
 }
 
-void CBillBoard::Draw(void)
+void CBillBoard::Draw(XMFLOAT3 position)
 {
+	m_Position = position;
 
 	CRenderer::SetVertexBuffers(mpVertexBuffer);
 	CRenderer::SetIndexBuffer(mpIndexBuffer);
@@ -130,7 +156,55 @@ void CBillBoard::Draw(void)
 	CRenderer::DrawIndexed(6, 0, 0);
 }
 
-void CBillBoard::Create(XMFLOAT3 position)
+void CBillBoard::Draw(XMFLOAT3 position, int tx, int ty, int tw, int th)
 {
-	m_Position = XMFLOAT3(position.x, position.y, position.z);
+	m_Position = position;
+
+	mpPolygon->DrawBillBoard(position, tx, ty, tw, th);
+
+	//CRenderer::SetVertexBuffers(mpVertexBuffer);
+	//CRenderer::SetIndexBuffer(mpIndexBuffer);
+
+	XMMATRIX mtxInvView;
+	XMMATRIX world;
+
+	//CRenderer::SetTexture(mpTexture, 0);
+
+	mpCamera = CSceneManager::GetScene()->GetGameObject<CCamera>();
+
+	mtxInvView = XMMatrixTranspose(mpCamera->GetViewMatrix());
+
+	XMFLOAT4X4 mIV;
+	XMStoreFloat4x4(&mIV, mtxInvView);
+
+	mIV._14 = 0.0f;
+	mIV._24 = 0.0f;
+	mIV._34 = 0.0f;
+	mIV._44 = 1.0f;
+
+	mtxInvView = XMLoadFloat4x4(&mIV);
+
+	world = mtxInvView;
+
+	world *= XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+	world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	world *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+
+	XMFLOAT4X4 w;
+	XMStoreFloat4x4(&w, world);
+
+	//CCamera* camera = CSceneManager::GetScene()->GetGameObject<CCamera>();
+
+	XMFLOAT4X4 view, projection;
+	XMStoreFloat4x4(&view, mpCamera->GetViewMatrix());
+	XMStoreFloat4x4(&projection, mpCamera->GetProjectionMatrix());
+
+	mpShader->SetCameraPosition(XMFLOAT4(mpCamera->GetPosition().x, mpCamera->GetPosition().y, mpCamera->GetPosition().z, 0.0f));
+	mpShader->SetViewMatrix(&view);
+	mpShader->SetProjectionMatrix(&projection);
+
+	mpShader->SetWorldMatrix(&w);
+	mpShader->Set();
+
+	CRenderer::DrawIndexed(6, 0, 0);
 }

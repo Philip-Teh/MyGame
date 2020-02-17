@@ -8,6 +8,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 
 HWND g_Window;
+bool CExitTrigger::mExit = false;
 
 HWND GetWindow()
 {
@@ -124,9 +125,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 //=============================================================================
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-
-
-
 	switch(uMsg)
 	{
 	case WM_DESTROY:
@@ -136,8 +134,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		switch(wParam)
 		{
-		case VK_ESCAPE:
-			DestroyWindow(hWnd);
+		case VK_YEA:
+			if (CExitTrigger::GetExit())
+				DestroyWindow(hWnd);
 			break;
 		}
 		break;

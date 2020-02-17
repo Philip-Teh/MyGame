@@ -16,17 +16,17 @@ CPause::~CPause()
 {
 	mpPolygon->Uninit();
 
-	OutputDebugString("delete CKeyInfo\n");
+	OutputDebugString("delete CPause\n");
 }
 
 void CPause::Update()
 {
-	if (!mkeyUpDown && CInput::GetKeyTrigger('2')) {
+	if (!mkeyUpDown && CInput::GetKeyTrigger('3')) {
 		mkeyUp = true;
 		mkeyDown = false;
 	}
 
-	if (mkeyUpDown && CInput::GetKeyTrigger('2')) {
+	if (mkeyUpDown && CInput::GetKeyTrigger('3')) {
 		mkeyDown = true;
 		mkeyUp = false;
 	}

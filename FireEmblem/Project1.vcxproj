@@ -170,6 +170,12 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+    <FxCompile Include="shader\shader_effect_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="shader\shader_goal_ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -177,6 +183,12 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shader\shader_goal_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\shader_player_vs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
@@ -195,6 +207,7 @@
     <ClInclude Include="source_code\game_object\character\enemy_state_move.h" />
     <ClInclude Include="source_code\game_object\character\e_troop.h" />
     <ClInclude Include="source_code\game_object\character\player.h" />
+    <ClInclude Include="source_code\game_object\effect.h" />
     <ClInclude Include="source_code\game_object\field.h" />
     <ClInclude Include="source_code\game_object\floor.h" />
     <ClInclude Include="source_code\game_object\game_object.h" />
@@ -211,7 +224,6 @@
     <ClInclude Include="source_code\include\modela.h" />
     <ClInclude Include="source_code\include\model_animation.h" />
     <ClInclude Include="source_code\include\renderer.h" />
-    <ClInclude Include="source_code\include\renderern.h" />
     <ClInclude Include="source_code\include\shader.h" />
     <ClInclude Include="source_code\include\texture.h" />
     <ClInclude Include="source_code\include_all.h" />
@@ -221,21 +233,29 @@
     <ClInclude Include="source_code\main.h" />
     <ClInclude Include="source_code\map.h" />
     <ClInclude Include="source_code\scene\game.h" />
+    <ClInclude Include="source_code\scene\game_clear.h" />
     <ClInclude Include="source_code\scene\game_over.h" />
     <ClInclude Include="source_code\scene\loading.h" />
     <ClInclude Include="source_code\scene\result.h" />
     <ClInclude Include="source_code\scene\scene.h" />
     <ClInclude Include="source_code\scene\scene_manager.h" />
+    <ClInclude Include="source_code\scene\stage_select.h" />
     <ClInclude Include="source_code\scene\title.h" />
     <ClInclude Include="source_code\scene\tutorial.h" />
+    <ClInclude Include="source_code\select_button.h" />
     <ClInclude Include="source_code\stage_manager.h" />
+    <ClInclude Include="source_code\ui\exit.h" />
     <ClInclude Include="source_code\ui\help.h" />
     <ClInclude Include="source_code\ui\key_info.h" />
     <ClInclude Include="source_code\ui\menu.h" />
     <ClInclude Include="source_code\ui\number.h" />
     <ClInclude Include="source_code\ui\num_draw.h" />
     <ClInclude Include="source_code\ui\num_enemy.h" />
+    <ClInclude Include="source_code\ui\pause.h" />
     <ClInclude Include="source_code\ui\pull.h" />
+    <ClInclude Include="source_code\ui\replay.h" />
+    <ClInclude Include="source_code\ui\reset.h" />
+    <ClInclude Include="source_code\ui\return.h" />
     <ClInclude Include="source_code\ui\score.h" />
     <ClInclude Include="source_code\ui\stage_clear.h" />
     <ClInclude Include="source_code\ui\stage_num.h" />
@@ -251,6 +271,7 @@
     <ClCompile Include="source_code\game_object\character\enemy_state_move.cpp" />
     <ClCompile Include="source_code\game_object\character\e_troop.cpp" />
     <ClCompile Include="source_code\game_object\character\player.cpp" />
+    <ClCompile Include="source_code\game_object\effect.cpp" />
     <ClCompile Include="source_code\game_object\field.cpp" />
     <ClCompile Include="source_code\game_object\floor.cpp" />
     <ClCompile Include="source_code\game_object\goal.cpp" />
@@ -265,7 +286,6 @@
     <ClCompile Include="source_code\include\modela.cpp" />
     <ClCompile Include="source_code\include\model_animation.cpp" />
     <ClCompile Include="source_code\include\renderer.cpp" />
-    <ClCompile Include="source_code\include\renderern.cpp" />
     <ClCompile Include="source_code\include\shader.cpp" />
     <ClCompile Include="source_code\include\texture.cpp" />
     <ClCompile Include="source_code\lib\WICTextureLoader.cpp" />
@@ -281,20 +301,28 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="source_code\scene\game.cpp" />
+    <ClCompile Include="source_code\scene\game_clear.cpp" />
     <ClCompile Include="source_code\scene\game_over.cpp" />
     <ClCompile Include="source_code\scene\loading.cpp" />
     <ClCompile Include="source_code\scene\result.cpp" />
     <ClCompile Include="source_code\scene\scene_manager.cpp" />
+    <ClCompile Include="source_code\scene\stage_select.cpp" />
     <ClCompile Include="source_code\scene\title.cpp" />
     <ClCompile Include="source_code\scene\tutorial.cpp" />
+    <ClCompile Include="source_code\select_button.cpp" />
     <ClCompile Include="source_code\stage_manager.cpp" />
+    <ClCompile Include="source_code\ui\exit.cpp" />
     <ClCompile Include="source_code\ui\help.cpp" />
     <ClCompile Include="source_code\ui\key_info.cpp" />
     <ClCompile Include="source_code\ui\menu.cpp" />
     <ClCompile Include="source_code\ui\number.cpp" />
     <ClCompile Include="source_code\ui\num_draw.cpp" />
     <ClCompile Include="source_code\ui\num_enemy.cpp" />
+    <ClCompile Include="source_code\ui\pause.cpp" />
     <ClCompile Include="source_code\ui\pull.cpp" />
+    <ClCompile Include="source_code\ui\replay.cpp" />
+    <ClCompile Include="source_code\ui\reset.cpp" />
+    <ClCompile Include="source_code\ui\return.cpp" />
     <ClCompile Include="source_code\ui\score.cpp" />
     <ClCompile Include="source_code\ui\stage_clear.cpp" />
     <ClCompile Include="source_code\ui\stage_num.cpp" />
@@ -304,6 +332,7 @@
   <ItemGroup>
     <Text Include="asset\map\map1.txt" />
     <Text Include="asset\map\map2.txt" />
+    <Text Include="asset\map\map3.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,7 @@ using namespace std;
 
 void CPlayer::Init()
 {
-	mAnimation[0] = "asset/model/Hidle1.fbx";
+	mAnimation[0] = "asset/model/Hidle.fbx";
 	mAnimation[1] = "asset/model/Hjump.fbx";
 	mAnimation[2] = "asset/model/Hrun.fbx";
 
@@ -13,7 +13,7 @@ void CPlayer::Init()
 	mpShader = new CShader();
 	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
-	mpModelA = new CModelAnimation();
+	mpModelA =make_unique<CModelAnimation>();
 	mpModelA->Load(mAnimation, mpShader);
 	mMove = false;
 	mPull = false;
@@ -26,10 +26,12 @@ void CPlayer::Init()
 void CPlayer::Uninit()
 {
 	mpModelA->Unload();
-	delete mpModelA;
 
-	mpShader->Uninit();
-	delete mpShader;
+	if (mpShader)
+	{
+		mpShader->Uninit();
+		delete mpShader;
+	}
 }
 
 void CPlayer::Update()
@@ -73,6 +75,7 @@ void CPlayer::Draw(XMFLOAT3 position)
 	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 	mpShader->SetViewMatrix(&view);
 	mpShader->SetProjectionMatrix(&projection);
+	//mpShader->SetPlayerPosition(m_Position);
 	 
 	mpModelA->Draw(world);
 }

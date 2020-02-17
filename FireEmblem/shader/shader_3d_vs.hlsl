@@ -49,7 +49,7 @@ void main(in float4 inPosition : POSITION0, in float4 inNormal : NORMAL0, in flo
 
 	float3 eyev = worldPosition - CameraPosition;	//‹üƒxƒNƒgƒ‹
 	eyev = normalize(eyev);
-
+    
 	float specular = -dot(eyev, refv);
 	specular = saturate(specular);
 	specular = pow(specular, 10);	//10æ

@@ -21,16 +21,28 @@
 		const bool& GetPress();
 		void SetLock(bool lock) { mpPull->SetLock(lock); }
 
-	private:
-		std::unique_ptr<CScore> mpScore;
-		std::unique_ptr<CStep> mpStep;
-		std::unique_ptr<CNumEnemy> mpNumEnemy;
-		std::unique_ptr<CPull> mpPull;
-		std::unique_ptr<CStageNum> mpStageNum;
+		const bool& GetReturn() { return mpReturn->GetPress(); }
+		void ReturnNay() { mpReturn->TabCancel(); }
 
-		std::unique_ptr<CMenu> mpMenu;
-		std::unique_ptr<CHelp> mpHelp;
-		std::unique_ptr<CKeyInfo> mpKeyInfo;
+		const bool& GetReset() { return mpReset->GetPress(); }
+		void ResetNay() { mpReset->TabCancel(); }
+
+	private:
+		std::unique_ptr<CScore> mpScore = nullptr;
+		std::unique_ptr<CStep> mpStep = nullptr;
+		std::unique_ptr<CNumEnemy> mpNumEnemy = nullptr;
+		std::unique_ptr<CPull> mpPull = nullptr;
+		std::unique_ptr<CStageNum> mpStageNum = nullptr;
+
+		std::unique_ptr<CMenu> mpMenu = nullptr;
+		std::unique_ptr<CHelp> mpHelp = nullptr;
+		std::unique_ptr<CKeyInfo> mpKeyInfo = nullptr;
+		std::unique_ptr<CPause> mpPause = nullptr;
+		std::unique_ptr<CReturn> mpReturn = nullptr;
+
+		std::unique_ptr<CReset> mpReset = nullptr;
+		std::unique_ptr<CExit> mpExit = nullptr;
+
 	};
 
 #endif

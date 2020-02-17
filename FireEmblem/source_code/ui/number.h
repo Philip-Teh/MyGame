@@ -6,7 +6,7 @@
 class CNumber
 {
 public:
-	void Init(float sizeX, float sizeY);
+	void Init(std::string texture,float sizeX, float sizeY);
 	void Uninit(void);
 	void Draw(XMFLOAT3 position, int n);
 	void Draw(XMFLOAT3 position, int n, int tw, int th);
@@ -16,8 +16,7 @@ public:
 	}
 
 private:
-	std::string mFile;
-	std::unique_ptr<CPolygon> mpPolygon;
+	std::unique_ptr<CPolygon> mpPolygon = nullptr;
 
 };
 

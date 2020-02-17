@@ -3,11 +3,9 @@
 
 void CModelAnimation::Load(const char** Filename, CShader* shader)
 {
-	texture = new CTexture();
 	this->directory = Filename[0];
 	hastexture = false;
 
-	mpShader = new CShader();
 	mpShader = shader;
 
 	m_Scene[0] = aiImportFile(Filename[0], aiProcessPreset_TargetRealtime_MaxQuality);
@@ -42,6 +40,7 @@ void CModelAnimation::Load(const char** Filename, CShader* shader)
 		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS)
 		{
 			std::string fileloc = basePath + "modeltexture/" + path.data;
+			texture = new CTexture();
 			texture->LoadTexture(fileloc.c_str());
 			hastexture = true;
 		}

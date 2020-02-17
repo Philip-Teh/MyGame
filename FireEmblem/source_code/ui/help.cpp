@@ -5,7 +5,7 @@ std::string gTexture = "asset/texture/ui/gamehelp.png";
 CHelp::CHelp()
 {
 	mpPolygon = std::make_unique<CPolygon>();
-	mpPolygon->Init(gTexture, 640, 480);
+	mpPolygon->Init(gTexture, mWidth, mHeight);
 
 	mMove = (int)SCREEN_HEIGHT;
 	mkeyUpDown = mkeyUp = mkeyDown = false;
@@ -32,13 +32,13 @@ void CHelp::Update()
 
 
 	if (!mkeyDown && mkeyUp && !mkeyUpDown) {
-		mMove -= 100;
+		mMove -= mSpeed;
 		if (mMove <= 0)
 			mkeyUpDown = true;
 	}
 
 	if (mkeyDown && !mkeyUp && mkeyUpDown) {
-		mMove += 100;
+		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)
 			mkeyUpDown = false;
 	}
@@ -51,12 +51,12 @@ void CHelp::Update()
 
 void CHelp::Draw()
 {
-	mpPolygon->Draw(XMFLOAT3(350.0f, 100.0f + mMove, LAYER1));
+	mpPolygon->Draw(XMFLOAT3(mPosition.x, mPosition.y + mMove, LAYER1));
 }
 
 void CHelp::TabCancel(void)
 {
 	mkeyDown = true;
 	mkeyUp = false;
-	mMove += 100;
+	mMove += mSpeed;
 }

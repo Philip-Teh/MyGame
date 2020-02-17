@@ -38,10 +38,10 @@ struct COLOR
 		a = _a;
 	}
 
-	float r;
-	float g;
-	float b;
-	float a;
+	float r = 0.0f;
+	float g = 0.0f;
+	float b = 0.0f;
+	float a = 0.0f;
 };
 
 // マテリアル構造体

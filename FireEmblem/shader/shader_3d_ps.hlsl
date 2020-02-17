@@ -15,7 +15,7 @@ void main(in float4 inPosition : SV_POSITION, in float4 inWorldPosition : POSITI
 	//outDiffuse *= Texture[1].Sample(Sampler, inTexcoord);
 	inNormal = normalize(inNormal);
 
-	float light = -dot(inNormal.xyz, inLightDirection);
+	float light = -dot(inNormal.xyz, inLightDirection.xyz);
 	light += 0.5 - inNormal * inDiffuse * 0.5;
 	light = saturate(light);
 

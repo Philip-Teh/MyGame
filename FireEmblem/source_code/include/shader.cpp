@@ -127,7 +127,6 @@ void CShader::Set()
 	// 入力レイアウト設定
 	CRenderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
-
 	// 定数バッファ更新
 	CRenderer::GetDeviceContext()->UpdateSubresource(m_ConstantBuffer, 0, NULL, &m_Constant, 0, 0);
 	CRenderer::GetDeviceContext()->UpdateSubresource(m_LightBuffer, 0, NULL, &m_Light, 0, 0);
@@ -140,86 +139,86 @@ void CShader::Set()
 	CRenderer::GetDeviceContext()->PSSetConstantBuffers(1, 1, &m_LightBuffer);
 }
 
-void CShader::CreateLayout()
-{
-	for (unsigned long i = 0L; i < mFsize - 4; i++) {
-		if (memcmp(mpBuffer.data()+i, "ISGN", 4) == NULL) {
-			mpInstruct = mpBuffer.data() + i;
-			break;
-		}
-	}
-	//if (mpInstruct == nullptr) {
-	//	return FWP_E_NOT_FOUND;
-	//}
-
-
-	mVariable = mpInstruct[8];
-	mSemanticsname.resize(mVariable);
-	mSemanticsindex.resize(mVariable);
-	mFormat.resize(mVariable);
-
-	str = &mpInstruct[16];
-
-	for (int i = 0; i < mVariable; i++) {
-		mSemanticsname[i] = (char*)(str[i * 24] + mpInstruct + 8);
-
-		if (strcmp(mSemanticsname[i], "SV_InstanceID") == 0) {		//システム値セマンティクスが付いている変数は無視
-			mVariablesystem++;
-			continue;
-		}
-		mSemanticsindex[i] = str[i * 24 + 4];
-
-		switch (str[i * 24 + 20]) {
-		case '\x0f'://4次元
-			switch (str[i * 24 + 12]) {
-			case D3D_REGISTER_COMPONENT_FLOAT32://float
-				mFormat[i] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-				break;
-			default:
-				mFormat[i] = DXGI_FORMAT_UNKNOWN;
-				break;
-			}
-			break;
-		case '\x07'://3次元
-			switch (str[i * 24 + 12]) {
-			case D3D_REGISTER_COMPONENT_FLOAT32://float
-				mFormat[i] = DXGI_FORMAT_R32G32B32_FLOAT;
-				break;
-			default:
-				mFormat[i] = DXGI_FORMAT_UNKNOWN;
-				break;
-			}
-			break;
-		case '\x03'://2次元
-			switch (str[i * 24 + 12]) {
-			case D3D_REGISTER_COMPONENT_FLOAT32://float
-				mFormat[i] = DXGI_FORMAT_R32G32_FLOAT;
-				break;
-			default:
-				mFormat[i] = DXGI_FORMAT_UNKNOWN;
-				break;
-			}
-			break;
-		case '\x01'://1次元
-			switch (str[i * 24 + 12]) {
-			case D3D_REGISTER_COMPONENT_FLOAT32://float
-				mFormat[i] = DXGI_FORMAT_R32_FLOAT;
-				break;
-			case D3D_REGISTER_COMPONENT_UINT32://uint
-				mFormat[i] = DXGI_FORMAT_R32_UINT;
-				break;
-			default:
-				mFormat[i] = DXGI_FORMAT_UNKNOWN;
-				break;
-			}
-			break;
-		default:
-			mFormat[i] = DXGI_FORMAT_UNKNOWN;
-			break;
-		}
-	}
-
-	//変数の数からシステム値セマンティクスが付いている変数の数を引いて無かったものとする
-	mVariable -= mVariablesystem;	
-
-}
+//void CShader::CreateLayout()
+//{
+//	for (unsigned long i = 0L; i < mFsize - 4; i++) {
+//		if (memcmp(mpBuffer.data()+i, "ISGN", 4) == NULL) {
+//			mpInstruct = mpBuffer.data() + i;
+//			break;
+//		}
+//	}
+//	//if (mpInstruct == nullptr) {
+//	//	return FWP_E_NOT_FOUND;
+//	//}
+//
+//
+//	mVariable = mpInstruct[8];
+//	mSemanticsname.resize(mVariable);
+//	mSemanticsindex.resize(mVariable);
+//	mFormat.resize(mVariable);
+//
+//	str = &mpInstruct[16];
+//
+//	for (int i = 0; i < mVariable; i++) {
+//		mSemanticsname[i] = (char*)(str[i * 24] + mpInstruct + 8);
+//
+//		if (strcmp(mSemanticsname[i], "SV_InstanceID") == 0) {		//システム値セマンティクスが付いている変数は無視
+//			mVariablesystem++;
+//			continue;
+//		}
+//		mSemanticsindex[i] = str[i * 24 + 4];
+//
+//		switch (str[i * 24 + 20]) {
+//		case '\x0f'://4次元
+//			switch (str[i * 24 + 12]) {
+//			case D3D_REGISTER_COMPONENT_FLOAT32://float
+//				mFormat[i] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+//				break;
+//			default:
+//				mFormat[i] = DXGI_FORMAT_UNKNOWN;
+//				break;
+//			}
+//			break;
+//		case '\x07'://3次元
+//			switch (str[i * 24 + 12]) {
+//			case D3D_REGISTER_COMPONENT_FLOAT32://float
+//				mFormat[i] = DXGI_FORMAT_R32G32B32_FLOAT;
+//				break;
+//			default:
+//				mFormat[i] = DXGI_FORMAT_UNKNOWN;
+//				break;
+//			}
+//			break;
+//		case '\x03'://2次元
+//			switch (str[i * 24 + 12]) {
+//			case D3D_REGISTER_COMPONENT_FLOAT32://float
+//				mFormat[i] = DXGI_FORMAT_R32G32_FLOAT;
+//				break;
+//			default:
+//				mFormat[i] = DXGI_FORMAT_UNKNOWN;
+//				break;
+//			}
+//			break;
+//		case '\x01'://1次元
+//			switch (str[i * 24 + 12]) {
+//			case D3D_REGISTER_COMPONENT_FLOAT32://float
+//				mFormat[i] = DXGI_FORMAT_R32_FLOAT;
+//				break;
+//			case D3D_REGISTER_COMPONENT_UINT32://uint
+//				mFormat[i] = DXGI_FORMAT_R32_UINT;
+//				break;
+//			default:
+//				mFormat[i] = DXGI_FORMAT_UNKNOWN;
+//				break;
+//			}
+//			break;
+//		default:
+//			mFormat[i] = DXGI_FORMAT_UNKNOWN;
+//			break;
+//		}
+//	}
+//
+//	//変数の数からシステム値セマンティクスが付いている変数の数を引いて無かったものとする
+//	mVariable -= mVariablesystem;	
+//
+//}

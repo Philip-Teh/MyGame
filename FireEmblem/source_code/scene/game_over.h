@@ -3,7 +3,7 @@
 #ifndef GAMEOVER_H
 #define GAMEOVER_H
 
-class CGameOver : public CScene
+class CGameOver
 {
 
 public:
@@ -12,8 +12,10 @@ public:
 
 	void Update();
 	void Draw();
-	bool ResetShow(void);
-	bool ShowEnd(void);
+
+	bool ResetShow();
+	bool ShowEnd();
+
 	void SetKey(bool press) { mKeypress = press; }
 	bool GetKey() { return mKeypress; }
 

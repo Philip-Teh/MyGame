@@ -3,7 +3,7 @@
 
 CKeyInfo::CKeyInfo()
 {
-	mFile = "asset/texture/ui/key_info.png";
+	mFile = "asset/texture/ui/key_info1.png";
 
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, SCREEN_WIDTH, SCREEN_HEIGHT);

@@ -1,12 +1,10 @@
 using namespace std;
 
 
-void CNumber::Init(float sizeX,float sizeY)
+void CNumber::Init(std::string texture,float sizeX,float sizeY)
 {
-	mFile = "asset/texture/number.png";
-	
 	mpPolygon = make_unique<CPolygon>();
-	mpPolygon->Init(mFile, sizeX, sizeY);
+	mpPolygon->Init(texture, sizeX, sizeY);
 }
 
 void  CNumber::Uninit(void)

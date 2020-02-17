@@ -32,6 +32,9 @@ CEnemyTroop::CEnemyTroop()
 	mpModel = make_unique<CModelAnimation>();
 	mpModel->Load(mFile, mpShader);
 
+	mpEffect = make_unique<CEffect>();
+	mpEffect->Init("asset/texture/hit.png", XMFLOAT2(25, 5), 5);
+
 	mFrame = 0;
 
 	mpState = new CEnemyStateIdle();
@@ -77,6 +80,7 @@ CEnemyTroop::~CEnemyTroop()
 	delete[]mpBox;
 
 	mpModel->Unload();
+	mpEffect->Uninit();
 
 	OutputDebugString("delete CEnemyTroop\n");
 }
@@ -106,6 +110,7 @@ void CEnemyTroop::Update(CObjectType** type, CBoxType** box, XMFLOAT3 playerposi
 		else
 			mComplete = false;
 	}
+	mpEffect->Update();
 }
 
 void CEnemyTroop::Draw(XMFLOAT3 position)
@@ -132,7 +137,9 @@ void CEnemyTroop::Draw(XMFLOAT3 position)
 		mpShader->SetProjectionMatrix(&projection);
 
 		mpModel->Draw(world);
+
 	}
+	mpEffect->Draw();
 }
 
 void CEnemyTroop::Action()
@@ -153,18 +160,23 @@ void CEnemyTroop::ChangeState(CEnemyState* p)
 	mActionChange = true;
 }
 
-bool CEnemyTroop::Hit(CBoxType** box,CDirection playerdirection)
+bool CEnemyTroop::Hit(CBoxType** box,CDirection playerdirection,XMINT2 map)
 {
 	if (mEnable)
 	{
 		XMINT2 p;
-		p.x = m_Position.x;
-		p.y = m_Position.z;
+		p.x = (int)m_Position.x;
+		p.y = (int)m_Position.z;
+
+		XMFLOAT3 effect;
+		effect.x = CELLSIZE * m_Position.x - map.x * CELLSIZE / 2;
+		effect.z = CELLSIZE * m_Position.z - map.y * CELLSIZE / 2;
 
 		if (box[p.y][p.x] == CBoxType::Exists || box[p.y][p.x] == CBoxType::Moving)
 		{
 			mHitting = true;
 			mCollisionEnable = false;
+			mpEffect->Create(effect);
 		}
 
 		if (mHitting)return DownDirection(playerdirection);
@@ -205,8 +217,8 @@ void CEnemyTroop::Patrol(XMINT2 position, CObjectType** type, CBoxType** box, XM
 	if (mEnable && !mHitting)
 	{
 		XMINT2 front;
-		front.x = m_Position.x + position.x;
-		front.y = m_Position.z + position.y;
+		front.x = (int)m_Position.x + position.x;
+		front.y = (int)m_Position.z + position.y;
 
 		CDirection direction = CDirection::None;
 
@@ -215,7 +227,7 @@ void CEnemyTroop::Patrol(XMINT2 position, CObjectType** type, CBoxType** box, XM
 		if (m_Position.z < playerposition.y)
 			direction = CDirection::Down;
 
-		if (direction == CDirection::Up || direction == CDirection::Down && m_Position.x == playerposition.x)
+		if ((direction == CDirection::Up || direction == CDirection::Down) && m_Position.x == playerposition.x)
 		{
 			mDirection = Chase(playerposition, type, box);
 		}
@@ -230,22 +242,22 @@ void CEnemyTroop::Patrol(XMINT2 position, CObjectType** type, CBoxType** box, XM
 		mMoveCount = 0;
 		mMoveDirection = XMINT2(position.x, position.y);
 
-		m_Position.x = front.x;
-		m_Position.z = front.y;
+		m_Position.x = (float)front.x;
+		m_Position.z = (float)front.y;
 	}
 }
 
 CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType** box)
 {
 	XMINT2 up, down, right, left;
-	up.x = m_Position.x;
+	up.x = (int)m_Position.x;
 	up.y = (int)m_Position.z - 1;
-	down.x = m_Position.x;
+	down.x = (int)m_Position.x;
 	down.y = (int)m_Position.z + 1;
 	right.x = (int)m_Position.x + 1;
-	right.y = m_Position.z;
+	right.y = (int)m_Position.z;
 	left.x = (int)m_Position.x - 1;
-	left.y = m_Position.z;
+	left.y = (int)m_Position.z;
 
 	if (Collision(up, type, box))
 		mMovaD[(int)CDirection::Up].enable = false;
@@ -353,6 +365,9 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 		else
 			return randomdirection;
 		break;
+	default:
+		return CDirection::None;
+		break;
 	}
 }
 
@@ -389,6 +404,7 @@ bool CEnemyTroop::MoveAnimation()
 		}
 		return false;
 	}
+	else return true;
 }
 
 bool CEnemyTroop::DownDirection(CDirection playerdirection)
@@ -421,6 +437,7 @@ bool CEnemyTroop::DownDirection(CDirection playerdirection)
 	{
 		return Falling(false, false);
 	}
+	else return true;
 }
 
 bool CEnemyTroop::Falling(bool rotation,bool minus)

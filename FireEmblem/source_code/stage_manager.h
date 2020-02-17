@@ -17,6 +17,11 @@ public:
 	void Update();
 	void Draw();
 
+	const bool& GetReturn() { return mpUIManager->GetReturn(); }
+	void ReturnNay() { mpUIManager->ReturnNay(); }
+
+	void ResetStage();
+
 private:
 	std::unique_ptr<CMap> mpMap;
 	std::unique_ptr<CUIManager> mpUIManager;
@@ -24,11 +29,10 @@ private:
 
 	bool mEnemyAppear = false;
 	bool mStageClear = false;
+	bool mPlusScore = false;
 	int mStage = 0;
 
 	void NextStage();
-	void ResetStage();
-
 	void ScoreCaculate();
 };
 

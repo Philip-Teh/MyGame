@@ -6,6 +6,7 @@ void CTitle::Init()
 	CGameStatus::SetGameClear(false);
 	CGameStatus::SetGameOver(false);
 	CGameStatus::SetScore(0);
+	CGameStatus::SetStageClear(1);
 
 	mTexture[0] = "asset/texture/scene/title.png";
 	mTexture[1] = "asset/texture/scene/title.jpg";
@@ -15,9 +16,11 @@ void CTitle::Init()
 	{
 		mpPolygon[i] = make_unique<CPolygon>();
 	}
-	mpPolygon[0]->Init(mTexture[0],XMFLOAT3(0.0f, 0.0f, LAYER4), SCREEN_WIDTH, SCREEN_HEIGHT);
-	mpPolygon[1]->Init(mTexture[1], XMFLOAT3(0.0f, 0.0f, LAYER5), SCREEN_WIDTH, SCREEN_HEIGHT);
-	mpPolygon[2]->Init(mTexture[2], XMFLOAT3(400.0f, 450.0f, LAYER3), 400, 200);
+	mpPolygon[0]->Init(mTexture[0],XMFLOAT3(0.0f, 0.0f, LAYER5), SCREEN_WIDTH, SCREEN_HEIGHT);
+	mpPolygon[1]->Init(mTexture[1], XMFLOAT3(0.0f, 0.0f, LAYER6), SCREEN_WIDTH, SCREEN_HEIGHT);
+	mpPolygon[2]->Init(mTexture[2], XMFLOAT3(400.0f, 450.0f, LAYER4), 400, 200);
+
+	CLoading::SetChange(false);
 }
 
 void CTitle::Uninit()

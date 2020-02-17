@@ -24,7 +24,7 @@ CGoal::CGoal()
 	mpAnimation->Load(mAnimation, mpShader);
 
 	mRotate = 0.0f;
-	mFrame = 0.0f;
+	mFrame = 0;
 }
 
 CGoal::~CGoal()
@@ -32,6 +32,7 @@ CGoal::~CGoal()
 	mpModel->Unload();
 	mpAnimation->Unload();
 	mpShader->Uninit();
+	delete mpShader;
 
 	OutputDebugString("delete CGoal\n");
 }

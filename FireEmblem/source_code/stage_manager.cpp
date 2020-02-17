@@ -20,30 +20,42 @@ void CStageManager::Init()
 	}
 	else
 		mEnemyAppear = false;
+
+	mPlusScore = false;
 }
 
 void CStageManager::Uninit()
 {
+	mpMap->Uninit();
+
 	OutputDebugString("delete CStageManager\n");
 }
 
 void CStageManager::Update()
 {
-	if (!CGameStatus::GetGameClear())
+	if (!CGameStatus::GetGameClear() && !CGameStatus::GetGameOver())
 	{
 		if (!mStageClear)
 		{
-			if (!mpUIManager->GetPress())
+			if (!mpUIManager->GetPress()&& !mpUIManager->GetReset())
 				mpMap->Update();
 
 			mpUIManager->Update();
 			mpUIManager->Update(mEnemyAppear);
 
-			if (CInput::GetKeyTrigger('R'))
-				CLoading::SetEnable(true);
+			if (mpUIManager->GetReset())
+			{
+				if (CInput::GetKeyTrigger(VK_YEA))
+					CLoading::SetEnable(true);
+				else if (CInput::GetKeyTrigger(VK_NAY))
+					mpUIManager->ResetNay();
 
-			if (CLoading::GetChange())
-				ResetStage();
+				if (CLoading::GetChange())
+				{
+					mpUIManager->ResetNay();
+					ResetStage();
+				}
+			}
 		}
 
 		if (mpMap->GetNumEnemy() == 0)
@@ -58,11 +70,17 @@ void CStageManager::Update()
 		}
 	}
 
-	if (mStageClear && mpStageClear->DrawCompleted() && CInput::GetKeyTrigger(VK_RETURN))
-		CLoading::SetEnable(true);
+	if (mStageClear && mpStageClear->DrawCompleted())
+	{
+		if (!mPlusScore)
+			ScoreCaculate();
 
-	if (CLoading::GetChange())
-		NextStage();
+		if (CInput::GetKeyTrigger(VK_RETURN))
+			CLoading::SetEnable(true);
+
+		if (CLoading::GetChange())
+			NextStage();
+	}
 }
 
 void CStageManager::Draw()
@@ -85,12 +103,9 @@ void CStageManager::Draw()
 
 void CStageManager::NextStage()
 {
-	mpMap->Uninit();
-
-	CGameStatus::SetStageClear(mStage);
 	mStage++;
+	CGameStatus::SetStageClear(mStage);
 	mStageClear = false;
-	ScoreCaculate();
 
 	if (mStage > MaXStage)
 		CGameStatus::SetGameClear(true);
@@ -98,6 +113,7 @@ void CStageManager::NextStage()
 	if (!CGameStatus::GetGameClear())
 	{
 		mpStageClear->SetMove();
+		mpMap->Uninit();
 		mpMap->Load(mStage);
 		mpMap->Init();
 
@@ -109,6 +125,8 @@ void CStageManager::NextStage()
 		else
 			mEnemyAppear = false;
 	}
+
+	mPlusScore = false;
 
 	CLoading::SetChange(false);
 }
@@ -129,4 +147,5 @@ void CStageManager::ScoreCaculate()
 		if (mStage * 100 - mpMap->GetStep() > 0)
 			CGameStatus::PlusScore(mStage * 100 - mpMap->GetStep());
 	}
+	mPlusScore = true;
 }

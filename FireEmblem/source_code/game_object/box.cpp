@@ -25,6 +25,7 @@ CBox::~CBox()
 		mpModel[i]->Unload();
 
 	mpShader->Uninit();
+	delete mpShader;
 
 	OutputDebugString("delete CBox\n");
 }

@@ -1,27 +1,34 @@
 #pragma once
 
-//============================================================================
-//=																			 =
-//=								シーン　リザルト							 =
-//=																			 =
-//============================================================================
+#ifndef RESULT_H
+#define RESULT_H
 
-#ifndef RESULT_H_
-#define RESULT_H_
+//namespace Scene
+//{
+	class CResult : public CScene
+	{
 
-class CResult : public CScene
-{
-public:
-	void Init();
-	void Uninit();
-	void Update();
-	void Draw();
+	public:
+		void Init();
+		void Uninit();
+		void Update();							
+		void Draw();						
 
-private:
-	std::string mTexture[3];
-	std::unique_ptr<CPolygon> mpPolygon[3];
-	float mMove, mMove1, mMove2;
-	float MaxMove(float move);
-};
+	private:
+		std::string mTexture[4] = {};
+		std::unique_ptr<CPolygon> mpPolygon[4] = {};
+		std::unique_ptr<CNumDraw> mpNumDraw[2] = {};
+		
+		FILE* mFile;
+		std::string mFilename = "";
 
-#endif // !RESULT_H_
+		std::list<int> mGet = {};
+		char mRead[15] = {};
+		const int mMaxScore = 10;
+
+		int mMove = SCREEN_HEIGHT;
+		int mScore = 0;
+
+	};
+//}
+#endif

@@ -7,6 +7,7 @@ struct CONSTANT
 	XMFLOAT4X4 ViewMatrix;
 	XMFLOAT4X4 ProjectionMatrix;
 	XMFLOAT4 CameraPosition;
+	//XMFLOAT3 PlayerPosition;
 };
 
 class CShader
@@ -20,6 +21,8 @@ public:
 	void SetViewMatrix(XMFLOAT4X4* ViewMatrix){ m_Constant.ViewMatrix = Transpose(ViewMatrix); }
 	void SetProjectionMatrix(XMFLOAT4X4* ProjectionMatrix) { m_Constant.ProjectionMatrix = Transpose( ProjectionMatrix ); }
 	void SetCameraPosition(XMFLOAT4 cameraPosition) { m_Constant.CameraPosition = cameraPosition; }
+	//void SetPlayerPosition(XMFLOAT3 playerPosition) { m_Constant.PlayerPosition = playerPosition; }
+
 
 	XMFLOAT4X4 Transpose(XMFLOAT4X4* Matrix)
 	{
@@ -61,14 +64,14 @@ private:
 	std::vector<unsigned char> mpBuffer;
 	unsigned long mFsize = 0;
 
-	unsigned char* mpInstruct = nullptr;	//入力構造体の情報がある位置へのポインタ
-	int mVariable = 0;					//変数の数
-	int mVariablesystem = 0;			//システム値セマンティクスが割り当てられた変数の数
-	std::vector<char*> mSemanticsname;	//セマンティクス名
-	std::vector<UINT> mSemanticsindex;	//セマンティクスインデックス
-	std::vector<DXGI_FORMAT> mFormat;	//変数の型
-	unsigned char* str = nullptr;
+	//unsigned char* mpInstruct = nullptr;	//入力構造体の情報がある位置へのポインタ
+	//int mVariable = 0;					//変数の数
+	//int mVariablesystem = 0;			//システム値セマンティクスが割り当てられた変数の数
+	//std::vector<char*> mSemanticsname;	//セマンティクス名
+	//std::vector<UINT> mSemanticsindex;	//セマンティクスインデックス
+	//std::vector<DXGI_FORMAT> mFormat;	//変数の型
+	//unsigned char* str = nullptr;
 
-	void CreateLayout();
+	//void CreateLayout();
 
 };

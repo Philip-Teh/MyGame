@@ -10,9 +10,9 @@ void CGameOver::Init()
 	for (int i = 0; i < 3; i++)
 		mpPolygon[i] = make_unique<CPolygon>();
 
-	mpPolygon[0]->Init(mFile[0], XMFLOAT3(0.0f, 0.0f, LAYER2), SCREEN_WIDTH, SCREEN_HEIGHT);
-	mpPolygon[1]->Init(mFile[1], XMFLOAT3(350.0f, 130.0f, LAYER1), 600, 250);
-	mpPolygon[2]->Init(mFile[2], XMFLOAT3(100.0f, 430.0f, LAYER0), 1050, 250);
+	mpPolygon[0]->Init(mFile[0], SCREEN_WIDTH, SCREEN_HEIGHT);
+	mpPolygon[1]->Init(mFile[1], 600, 250);
+	mpPolygon[2]->Init(mFile[2], 1050, 250);
 
 	mMove = mMove1 = mMove2 = 0;
 	mKeypress = false;
@@ -50,17 +50,13 @@ void CGameOver::Update()
 	if (mMove <= 0)mMove = 0;
 	if (mMove1 <= 0)mMove1 = 0;
 	if (mMove2 <= 0)mMove2 = 0;
-
-	if (CInput::GetKeyTrigger(VK_RETURN))
-	{
-		CSceneManager::SetScene<CTitle>();
-	}
 }
 
 void CGameOver::Draw()
 {
-	for (int i = 0; i < 3; i++)
-		mpPolygon[i]->Draw();
+	mpPolygon[0]->Draw(XMFLOAT3(0.0f, (float)mMove - SCREEN_HEIGHT, LAYER5));
+	mpPolygon[1]->Draw(XMFLOAT3(350.0f, (float)mMove1 - 650.0f, LAYER4));
+	mpPolygon[2]->Draw(XMFLOAT3(100.0f, (float)mMove2 - 300.0f, LAYER3));
 }
 
 int CGameOver::MaxMove(int move)

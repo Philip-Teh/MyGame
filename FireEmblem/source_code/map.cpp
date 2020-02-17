@@ -26,12 +26,12 @@ void CMap::Init()
 	mpFloor = std::make_unique<CFloor>();
 	mpBox = std::make_unique<CBox>();
 
-	mpPlayer->SetPosition(XMFLOAT3(mpLoadMap->GetPlayerPosition().x, 0, mpLoadMap->GetPlayerPosition().y));
+	mpPlayer->SetPosition(XMFLOAT3((float)mpLoadMap->GetPlayerPosition().x, 0, (float)mpLoadMap->GetPlayerPosition().y));
 
 	for (int i = 0; i < mNumEnemy; i++)
 	{
 		mpEnemyTroop.push_back(std::make_unique<CEnemyTroop>());
-		mpEnemyTroop[i]->SetPosition(XMFLOAT3(mpLoadMap->GetEnemyPosition()[i].x, 0, mpLoadMap->GetEnemyPosition()[i].y));
+		mpEnemyTroop[i]->SetPosition(XMFLOAT3((float)mpLoadMap->GetEnemyPosition()[i].x, 0, (float)mpLoadMap->GetEnemyPosition()[i].y));
 	}
 
 	//mPstep.push_back(PlayerbyStep(XMINT2(mpPlayer->GetPosition().x, mpPlayer->GetPosition().z), CDirection::Down));
@@ -95,7 +95,7 @@ void CMap::Update()
 		{
 			mpEnemyTroop[i]->Update(mType, mBox, mpPlayer->GetPosition());
 
-			if (mpEnemyTroop[i]->Hit(mBox, mpPlayer->GetDirection()))
+			if (mpEnemyTroop[i]->Hit(mBox, mpPlayer->GetDirection(),XMINT2(mMapX,mMapZ)))
 			{
 				mEnemy--;
 
@@ -119,8 +119,8 @@ void CMap::Draw()
 		for (int x = 0; x < mMapX; x++)
 		{
 			XMFLOAT3 p;
-			p.x = CELLSIZE * x;
-			p.z = CELLSIZE * z;
+			p.x = CELLSIZE * x - mMapX * CELLSIZE / 2;
+			p.z = CELLSIZE * z - mMapZ * CELLSIZE / 2;
 
 			if (mType[z][x] == CObjectType::Floor) {
 				mpFloor->Draw(XMFLOAT3(p.x, -1.1f, -p.z));
@@ -154,16 +154,16 @@ void CMap::Draw()
 	}
 
 	XMFLOAT3 pp;
-	pp.x = CELLSIZE * mpPlayer->GetPosition().x + mMoveOffset.x;
-	pp.z = CELLSIZE * mpPlayer->GetPosition().z + mMoveOffset.y;
+	pp.x = CELLSIZE * mpPlayer->GetPosition().x + mMoveOffset.x- mMapX * CELLSIZE / 2;
+	pp.z = CELLSIZE * mpPlayer->GetPosition().z + mMoveOffset.y- mMapZ * CELLSIZE / 2;
 	mpPlayer->Draw(XMFLOAT3(pp.x, 0.0f, -pp.z));
 
 
 	if(mNumEnemy>0)
 		for (int i = 0; i < mNumEnemy; i++)
 		{
-			pp.x = CELLSIZE * mpEnemyTroop[i]->GetPosition().x + mpEnemyTroop[i]->GetMoveOffset().x;
-			pp.z = CELLSIZE * mpEnemyTroop[i]->GetPosition().z + mpEnemyTroop[i]->GetMoveOffset().y;
+			pp.x = CELLSIZE * mpEnemyTroop[i]->GetPosition().x + mpEnemyTroop[i]->GetMoveOffset().x - mMapX * CELLSIZE / 2;
+			pp.z = CELLSIZE * mpEnemyTroop[i]->GetPosition().z + mpEnemyTroop[i]->GetMoveOffset().y - mMapZ * CELLSIZE / 2;
 			mpEnemyTroop[i]->Draw(XMFLOAT3(pp.x, 0.0f, -pp.z));
 		}
 }
@@ -240,7 +240,7 @@ void CMap::PlayerMove(int x, int y)
 	mMoveCount = 0;
 	mMoveDirection = XMINT2(x, y);
 
-	mpPlayer->SetPosition(XMFLOAT3(front.x, 0, front.y));
+	mpPlayer->SetPosition(XMFLOAT3((float)front.x, 0, (float)front.y));
 	mpPlayer->CaculateStep(1);
 
 	//mPstep.push_back(PlayerbyStep(XMINT2(front.x, front.y), mpPlayer->GetDirection()));
@@ -319,7 +319,7 @@ void CMap::GameOver()
 		if (mpEnemyTroop[i]->GetCollisionEnable() && CMath::Float3Equal(mpEnemyTroop[i]->GetPosition(), mpPlayer->GetPosition()))
 		{
 			CGameStatus::SetGameOver(true);
-			CGameStatus::PlusScore(-100);
+			CGameStatus::PlusScore(-50);
 		}
 	}
 }

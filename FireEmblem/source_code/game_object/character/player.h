@@ -34,7 +34,7 @@ public:
 
 private:
 	const char* mAnimation[3] = {};
-	CModelAnimation* mpModelA = nullptr;
+	std::unique_ptr<CModelAnimation> mpModelA = nullptr;
 	CShader* mpShader = nullptr;
 
 	unsigned int mFrame = 0;

@@ -114,13 +114,13 @@ void CCamera::Update()
 
 	m_ViewMatrix *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
-	eye = XMVectorSet(m_Position.x + 5, m_Position.y + 25, m_Position.z - 25, 0);
+	eye = XMVectorSet(m_Position.x, m_Position.y + 30, m_Position.z - 20, 0);
 	//eye = XMVectorSet(m_Position.x + 1, m_Position.y + 10, m_Position.z - 10, 0);
 
 	XMFLOAT3 f;
-	f.x = (front.x * mLength) + m_Position.x;
-	f.y = (front.y * mLength) + m_Position.y;
-	f.z = (front.z * mLength) + m_Position.z;
+	f.x = (front.x * mLength) + mCenter.x;
+	f.y = (front.y * mLength) + mCenter.y;
+	f.z = (front.z * mLength) + mCenter.z;
 
 	focus = XMVectorSet(f.x, f.y, f.z, 0);
 }

@@ -37,6 +37,7 @@ using namespace DirectX;
 #define LAYER4  (0.4f)
 #define LAYER5  (0.5f)
 #define LAYER6  (0.6f)
+#define LAYER7  (0.7f)
 
 #define NUMBER_DIGIT (5)
 #define NUMBER_WIDTH (32)
@@ -46,17 +47,21 @@ using namespace DirectX;
 #define MapSizeZ (40)
 #define MapSizeX (40)
 
-#define MaXStage (2)
+#define MaXStage (3)
 
 #define STATUS_POSITIONX (950.0f)
 #define STATUS_POSITIONY (10.0f)
 #define HIDDEN_STATUS_POSITIONY (60.0f)
 
-#define STATUS_POLYGONX (100)
-#define STATUS_POLYGONY (50)
+#define STATUS_POLYGONX (100.0f)
+#define STATUS_POLYGONY (50.0f)
 
 #define NUMSPACEX (250.0f)
 #define NUMSPACEY (10.0f)
+
+#define VK_YEA ('Y')
+#define VK_NAY ('N')
+
 
 HWND GetWindow();
 
@@ -134,6 +139,15 @@ class CScreen
 public:
 	static int AdjustX() { return SCREEN_WIDTH / 1920; }
 	static int AdjustY() { return SCREEN_HEIGHT / 1080; }
+};
+
+class CExitTrigger
+{
+public:
+	static void SetExit(bool exit) { mExit = exit; }
+	static const bool& GetExit() { return mExit; }
+private:
+	static bool mExit;
 };
 
 //#include "lib/cereal/cereal.hpp"

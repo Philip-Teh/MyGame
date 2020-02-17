@@ -98,6 +98,8 @@ void CLoadMap::ReleaseMap(void)
 	delete[]mpType;
 	delete[]mpBox;
 
+	mEnemyPosition.clear();
+
 	//mFirstBoxPosition.clear();
 }
 

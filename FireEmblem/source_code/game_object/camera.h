@@ -19,6 +19,8 @@ public:
 
 	bool Getvisivility(XMFLOAT3 Position);
 
+	void SetCenter(XMFLOAT3 pos) { mCenter = pos; }
+
 private:
 	RECT m_Viewport;
 	XMMATRIX m_ViewMatrix = XMMatrixIdentity();
@@ -27,6 +29,7 @@ private:
 	XMFLOAT3 front, up, right;
 	XMVECTOR vectorF = XMVectorZero(), vectorR = XMVectorZero(), vectorU = XMVectorZero();
 	XMVECTOR eye = XMVectorZero(), focus = XMVectorZero();
+	XMFLOAT3 mCenter = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	float mLength = 0;
 };
 

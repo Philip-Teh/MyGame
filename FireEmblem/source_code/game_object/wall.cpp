@@ -20,6 +20,7 @@ CWall::~CWall()
 {
 	mpModel->Unload();
 	mpShader->Uninit();
+	delete mpShader;
 
 	OutputDebugString("delete CWall\n");
 }

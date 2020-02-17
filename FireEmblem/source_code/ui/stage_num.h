@@ -17,7 +17,7 @@ private:
 	std::unique_ptr<CPolygon> mpPolygon;
 	std::unique_ptr<CNumDraw> mpNumDraw;					//”š•`‰æ
 
-	const int mSize = 2;
+	const float mSize = 2.0f;
 };
 
 #endif // !STAGE_NUM_H_

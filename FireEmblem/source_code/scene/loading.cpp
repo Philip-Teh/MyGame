@@ -59,7 +59,7 @@ bool CLoading::Update()
 	if (mMove <= 1.0f && !mChanging)
 		mFrame++;
 
-	if (mMoveDirection && mFrame >= 30)
+	if (mMoveDirection && mFrame >= 5)
 	{
 		mMove += 100.0f;
 

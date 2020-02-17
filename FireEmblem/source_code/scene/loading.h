@@ -16,10 +16,10 @@
 		static bool Update();
 		static void Draw();
 
-		static bool GetChange() { return mChanging; }
+		static const bool& GetChange() { return mChanging; }
 		static void SetChange(bool change) { mChanging = change; }
 
-		static bool GetEnable() { return mEnable; }
+		static const bool& GetEnable() { return mEnable; }
 		static void SetEnable(bool enable) { mEnable = enable; mFrame = 0; }
 
 	private:

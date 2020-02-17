@@ -3,15 +3,14 @@ using namespace std;
 
 void CTutorial::Init()
 {
-	mTexture[0] = "asset/texture/ui/key_info.png";
-	mTexture[1] = "";
-	mTexture[2] = "";
+	mTexture = "asset/texture/ui/key_info1.png";
+
 
 	//for (int i = 0; i < 3; i++)
 	{
-		mpPolygon[0] = make_unique<CPolygon>();
+		mpPolygon = make_unique<CPolygon>();
 	}
-	mpPolygon[0]->Init(mTexture[0],XMFLOAT3(0.0f, 0.0f, LAYER5), SCREEN_WIDTH, SCREEN_HEIGHT);
+	mpPolygon->Init(mTexture,XMFLOAT3(0.0f, 0.0f, LAYER6), SCREEN_WIDTH, SCREEN_HEIGHT);
 	//mpPolygon[1]->Init(mTexture[1], XMFLOAT3(0.0f, 0.0f, 0.2f), SCREEN_WIDTH, SCREEN_HEIGHT);
 	//mpPolygon[2]->Init(mTexture[2], XMFLOAT3(400.0f, 450.0f, 0.0f), 400, 200);
 
@@ -21,7 +20,7 @@ void CTutorial::Init()
 void CTutorial::Uninit()
 {
 	//for (int i = 0; i < 3; i++)
-		mpPolygon[0]->Uninit();
+		mpPolygon->Uninit();
 }
 
 void CTutorial::Update()
@@ -34,14 +33,14 @@ void CTutorial::Update()
 		CLoading::SetEnable(true);
 
 	if (CLoading::GetChange())
-		CSceneManager::SetScene<CGame>();
+		CSceneManager::SetScene<CStageSelect>();
 }
 
 void CTutorial::Draw()
 {
 	//for (int i = 1; i >= 0; i--)
 	{
-		mpPolygon[0]->Draw();
+		mpPolygon->Draw();
 	}
 	//if (mFrame >= 30)
 		//mpPolygon[2]->Draw();

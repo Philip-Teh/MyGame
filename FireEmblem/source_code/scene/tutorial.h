@@ -12,8 +12,8 @@
 class CTutorial : public CScene
 {
 private:
-	std::string mTexture[3];
-	std::unique_ptr<CPolygon> mpPolygon[3];
+	std::string mTexture;
+	std::unique_ptr<CPolygon> mpPolygon;
 	int mFrame = 0;
 public:
 	void Init();

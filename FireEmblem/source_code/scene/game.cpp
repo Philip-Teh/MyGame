@@ -1,5 +1,6 @@
 using namespace std;
 
+
 void CGame::Init()
 {
 	//mpCamera = make_unique<CCamera>();
@@ -21,7 +22,13 @@ void CGame::Init()
 
 	m_BGM = new CAudioClip();
 	m_BGM->Load("asset/game.wav");
-	m_BGM->Play(false);
+	//m_BGM->Play(false);
+
+	mpGameOver = make_unique<CGameOver>();
+	mpGameOver->Init();
+
+	mpReplay = make_unique<CReplay>();
+	mGameOver = false;
 
 	CLoading::SetChange(false);
 }
@@ -37,11 +44,15 @@ void CGame::Uninit()
 	m_BGM->Unload();
 	delete m_BGM;
 
+	mpGameOver->Uninit();
+
 	CScene::Uninit();
 }
 
 void CGame::Update()
 {
+	CLoading::GetChange();
+
 	//mpCamera->Update();
 	mpSkydome->Update();
 	mpMeshField->Update();
@@ -49,11 +60,56 @@ void CGame::Update()
 
 	CScene::Update();
 
-	if (CGameStatus::GetGameClear() && !CGameStatus::GetGameOver())
-		CSceneManager::SetScene<CResult>();
+	CLoading::GetChange();
 
-	if (CGameStatus::GetGameOver() && !CGameStatus::GetGameClear())
-		CSceneManager::SetScene<CGameOver>();
+	if (mpStageManager->GetReturn())
+	{
+		if (CInput::GetKeyTrigger(VK_YEA))
+			CLoading::SetEnable(true);
+		else if (CInput::GetKeyTrigger(VK_NAY))
+			mpStageManager->ReturnNay();
+
+		if (CLoading::GetChange())
+			CSceneManager::SetScene<CStageSelect>();
+	}
+
+	if (CGameStatus::GetGameOver())
+	{
+		mpGameOver->Update();
+
+		if (mpGameOver->ShowEnd())
+		{
+			if (CInput::GetKeyTrigger(VK_YEA))
+			{
+				mpStageManager->ResetStage();
+				mpGameOver->SetKey(true);
+				mGameOver = false;
+			}
+			else if (CInput::GetKeyTrigger(VK_NAY))
+			{
+				mpGameOver->SetKey(true);
+				mGameOver = true;
+			}
+		}
+		if (mpGameOver->GetKey() && mpGameOver->ResetShow())
+		{
+			mpGameOver->SetKey(false);
+
+			if (!mGameOver)
+				CGameStatus::SetGameOver(false);
+		}
+	}
+
+	if (CGameStatus::GetGameOver() && mGameOver)
+	{
+		CLoading::SetEnable(true);
+
+		if (CLoading::GetChange())
+			CSceneManager::SetScene<CResult>();
+	}
+
+	if (CGameStatus::GetGameClear())
+		CSceneManager::SetScene<CGameClear>();		
 }
 
 void CGame::Draw()
@@ -62,4 +118,12 @@ void CGame::Draw()
 	mpSkydome->Draw();
 	mpMeshField->Draw();
 	mpStageManager->Draw();
+
+	if (CGameStatus::GetGameOver())
+	{
+		mpGameOver->Draw();
+
+		if (mpGameOver->ShowEnd())
+			mpReplay->Draw();
+	}
 }

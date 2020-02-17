@@ -21,7 +21,7 @@ public:
 	void Draw(XMFLOAT3 position);
 	void Action();
 	void ChangeState(CEnemyState* p);
-	bool Hit(CBoxType** box, CDirection playerdirection);
+	bool Hit(CBoxType** box, CDirection playerdirection, XMINT2 map);
 
 	const bool& GetCollisionEnable() { return mCollisionEnable; }
 	const XMFLOAT2& GetMoveOffset() { return mMoveOffset; }
@@ -31,11 +31,12 @@ public:
 
 private:
 	const char* mFile[3] = {};
-	std::unique_ptr<CModelAnimation> mpModel;
-	CShader* mpShader;
+	std::unique_ptr<CModelAnimation> mpModel = nullptr;
+	std::unique_ptr<CEffect> mpEffect = nullptr;
+	CShader* mpShader = nullptr;
 
 	const float mTurnSpeed = 0.1f;
-	const int mMoveSpeed = 30;
+	const unsigned int mMoveSpeed = 30;
 	const float mDownSpeed = 0.05f;
 	const float mDown = 1.5f;
 	const int mMap = 17;
@@ -47,7 +48,7 @@ private:
 		CDirection direction;
 		bool enable;
 	};
-	MovableDirection mMovaD[4];
+	MovableDirection mMovaD[4] = {};
 
 	bool mMoving = false;
 	bool mComplete = true;
@@ -94,6 +95,8 @@ private:
 
 		else if (rand >= 16384 && rand <= RAND_MAX)
 			return direction2;
+
+		else return CDirection::None;
 	}
 
 	CDirection RandomDirection3(CDirection direction1, CDirection direction2, CDirection direction3)
@@ -108,6 +111,8 @@ private:
 
 		else if (rand >= 21845 && rand <= RAND_MAX)
 			return direction3;
+
+		else return CDirection::None;
 	}
 
 	CDirection RandomDirection4()
@@ -125,6 +130,8 @@ private:
 
 		else if (rand >= 24576 && rand <= RAND_MAX)
 			return CDirection::Right;
+
+		else return CDirection::None;
 	}
 };
 

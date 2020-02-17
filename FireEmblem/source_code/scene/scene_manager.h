@@ -11,8 +11,6 @@
 
 class CSceneManager
 {
-private:
-	static CScene* m_Scene;
 
 public:
 	static void Init();
@@ -32,6 +30,9 @@ public:
 		m_Scene = new T();
 		m_Scene->Init();
 	}
+private:
+	static CScene* m_Scene;
+
 };
 
 #endif
