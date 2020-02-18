@@ -1,7 +1,7 @@
 
 
-const char* CLASS_NAME = "DX11AppClass";
-const char* WINDOW_NAME = "DX11";
+const char* CLASS_NAME = "DarkWarehouseClass";
+const char* WINDOW_NAME = "DarkWarehouse";
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

@@ -1,9 +1,9 @@
 //using namespace UI;
 
 
-CReturn::CReturn()
+CReturnTitle::CReturnTitle()
 {
-	mFile = "asset/texture/ui/return.png";
+	mFile = "asset/texture/ui/returntitle.png";
 
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, mWidth, mHeight);
@@ -12,14 +12,14 @@ CReturn::CReturn()
 	mkeyUpDown = mkeyUp = mkeyDown = false;
 }
 
-CReturn::~CReturn()
+CReturnTitle::~CReturnTitle()
 {
 	mpPolygon->Uninit();
 
-	OutputDebugString("delete CReturn\n");
+	OutputDebugString("delete CReturnTitle\n");
 }
 
-void CReturn::Update()
+void CReturnTitle::Update()
 {
 	if (!mkeyUpDown && CInput::GetKeyTrigger('4')) {
 		mkeyUp = true;
@@ -50,12 +50,12 @@ void CReturn::Update()
 		mMove = SCREEN_HEIGHT;
 }
 
-void CReturn::Draw()
+void CReturnTitle::Draw()
 {
 	mpPolygon->Draw(XMFLOAT3(mPosition.x, mPosition.y + mMove, LAYER2));
 }
 
-void CReturn::TabCancel(void)
+void CReturnTitle::TabCancel(void)
 {
 	mkeyDown = true;
 	mkeyUp = false;

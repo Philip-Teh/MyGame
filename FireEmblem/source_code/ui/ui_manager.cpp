@@ -12,12 +12,13 @@ CUIManager::CUIManager()
 	mpMenu = make_unique<CMenu>();
 	mpHelp = make_unique<CHelp>();
 	mpKeyInfo = make_unique<CKeyInfo>();
-	mpPause = make_unique<CPause>();
-	mpReturn = make_unique<CReturn>();
+	mpTitle = make_unique<CReturnTitle>();
+	mpReturn = make_unique<CReturnStageSelect>();
 
 	mpReset = make_unique<CReset>();
-	mpExit = std::make_unique<CExit>();
+	mpExit = make_unique<CExit>();
 
+	mpPause = make_unique<CPause>();
 }
 
 CUIManager::~CUIManager()
@@ -33,7 +34,7 @@ void CUIManager::Update()
 	{
 		mpHelp->Update();
 		mpKeyInfo->Update();
-		mpPause->Update();
+		mpTitle->Update();
 		mpReturn->Update();
 	}
 
@@ -41,7 +42,7 @@ void CUIManager::Update()
 	{
 		mpHelp->TabCancel();
 		mpKeyInfo->TabCancel();
-		mpPause->TabCancel();
+		mpTitle->TabCancel();
 		mpReturn->TabCancel();
 	}
 
@@ -71,8 +72,6 @@ void CUIManager::DrawStatus(int score,int step)
 {
 	mpScore->Draw(score);
 	mpStep->Draw(step);
-	
-	//Draw::Texture(x - 340,y+YSIZE, x - 210, y + YSIZE*2, mtStep, 1);
 }
 
 void CUIManager::DrawEnemyStatus(int num)
@@ -88,15 +87,17 @@ void CUIManager::DrawStageNum(int num)
 
 void CUIManager::DrawMenu()
 {
+	if (mpMenu->GetKeyUp())
+		mpPause->Draw();
+
 	mpMenu->Draw();
 	mpHelp->Draw();
 	mpKeyInfo->Draw();
-	mpPause->Draw();
+	mpTitle->Draw();
 	mpReturn->Draw();
 
 	mpReset->Draw();
 	mpExit->Draw();
-
 }
 
 void CUIManager::Appear()
@@ -107,5 +108,10 @@ void CUIManager::Appear()
 
 const bool& CUIManager::GetPress()
 {
-	return mpHelp->GetPress() || mpKeyInfo->GetPress() || mpPause->GetPress() || mpReturn->GetPress();
+	return mpMenu->GetKeyUp();
+}
+
+const bool& CUIManager::GetMenu()
+{
+	return mpHelp->GetPress() || mpKeyInfo->GetPress() || mpReturn->GetPress() || mpTitle->GetPress();
 }

@@ -136,7 +136,7 @@ int main()
 				writecount++;
 			}
 		}
-
+		std::cout << "File Load Seccuss" << std::endl;
 
 		char outputfile[256];
 		std::cout << "File Name Ouput : ";
@@ -167,5 +167,7 @@ int main()
 		fclose(file);
 
 		delete[] output;
+
+		std::cout << "File Output Complete" << std::endl;
 	}
 }

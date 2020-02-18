@@ -227,17 +227,11 @@
     <ClInclude Include="source_code\ui\key_info.h">
       <Filter>source_code\ui</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\ui\pause.h">
-      <Filter>source_code\ui</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\select_button.h">
       <Filter>source_code</Filter>
     </ClInclude>
     <ClInclude Include="source_code\scene\stage_select.h">
       <Filter>source_code\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="source_code\ui\return.h">
-      <Filter>source_code\ui</Filter>
     </ClInclude>
     <ClInclude Include="source_code\ui\reset.h">
       <Filter>source_code\ui</Filter>
@@ -255,6 +249,15 @@
       <Filter>source_code\scene</Filter>
     </ClInclude>
     <ClInclude Include="source_code\ui\replay.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\return_stage_select.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\return_title.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\pause.h">
       <Filter>source_code\ui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -403,17 +406,11 @@
     <ClCompile Include="source_code\ui\key_info.cpp">
       <Filter>source_code\ui</Filter>
     </ClCompile>
-    <ClCompile Include="source_code\ui\pause.cpp">
-      <Filter>source_code\ui</Filter>
-    </ClCompile>
     <ClCompile Include="source_code\select_button.cpp">
       <Filter>source_code</Filter>
     </ClCompile>
     <ClCompile Include="source_code\scene\stage_select.cpp">
       <Filter>source_code\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\ui\return.cpp">
-      <Filter>source_code\ui</Filter>
     </ClCompile>
     <ClCompile Include="source_code\ui\reset.cpp">
       <Filter>source_code\ui</Filter>
@@ -431,6 +428,15 @@
       <Filter>source_code\scene</Filter>
     </ClCompile>
     <ClCompile Include="source_code\ui\replay.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\return_stage_select.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\return_title.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\pause.cpp">
       <Filter>source_code\ui</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,17 +1,17 @@
 #pragma once
 
 
-#ifndef RETURN_H
-#define RETURN_H
+#ifndef RETURN_TITLE_H
+#define RETURN_TITLE_H
 
 //namespace UI
 //{
 
-	class CReturn
+	class CReturnTitle
 	{
 	public:
-		CReturn();
-		~CReturn();
+		CReturnTitle();
+		~CReturnTitle();
 
 		void Update();
 		void Draw();

@@ -24,6 +24,9 @@
 		const bool& GetReturn() { return mpReturn->GetPress(); }
 		void ReturnNay() { mpReturn->TabCancel(); }
 
+		const bool& GetReturnTitle() { return mpTitle->GetPress(); }
+		void ReturnTitleNay() { mpTitle->TabCancel(); }
+
 		const bool& GetReset() { return mpReset->GetPress(); }
 		void ResetNay() { mpReset->TabCancel(); }
 
@@ -37,11 +40,16 @@
 		std::unique_ptr<CMenu> mpMenu = nullptr;
 		std::unique_ptr<CHelp> mpHelp = nullptr;
 		std::unique_ptr<CKeyInfo> mpKeyInfo = nullptr;
-		std::unique_ptr<CPause> mpPause = nullptr;
-		std::unique_ptr<CReturn> mpReturn = nullptr;
+		std::unique_ptr<CReturnTitle> mpTitle = nullptr;
+		std::unique_ptr<CReturnStageSelect> mpReturn = nullptr;
 
 		std::unique_ptr<CReset> mpReset = nullptr;
 		std::unique_ptr<CExit> mpExit = nullptr;
+
+		std::unique_ptr<CPause> mpPause = nullptr;
+
+		const bool& GetMenu();
+
 
 	};
 

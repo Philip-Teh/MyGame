@@ -3,61 +3,31 @@
 
 CPause::CPause()
 {
-	mFile = "asset/texture/ui/pause.png";
+	mFile[0] = "asset/texture/ui/pause.png";
+	mFile[1] = "asset/texture/ui/pauseback.png";
 
-	mpPolygon = std::make_unique<CPolygon>();
-	mpPolygon->Init(mFile, SCREEN_WIDTH, SCREEN_HEIGHT);
+	for (int i = 0; i < 2; i++)
+		mpPolygon[i] = std::make_unique<CPolygon>();
 
-	mMove = (int)SCREEN_HEIGHT;
-	mkeyUpDown = mkeyUp = mkeyDown = false;
+	mpPolygon[0]->Init(mFile[0], 200, 100);
+	mpPolygon[1]->Init(mFile[1], SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 CPause::~CPause()
 {
-	mpPolygon->Uninit();
+	for (int i = 0; i < 2; i++)
+		mpPolygon[i]->Uninit();
 
 	OutputDebugString("delete CPause\n");
 }
 
 void CPause::Update()
 {
-	if (!mkeyUpDown && CInput::GetKeyTrigger('3')) {
-		mkeyUp = true;
-		mkeyDown = false;
-	}
 
-	if (mkeyUpDown && CInput::GetKeyTrigger('3')) {
-		mkeyDown = true;
-		mkeyUp = false;
-	}
-
-
-	if (!mkeyDown && mkeyUp && !mkeyUpDown) {
-		mMove -= 100;
-		if (mMove <= 0)
-			mkeyUpDown = true;
-	}
-
-	if (mkeyDown && !mkeyUp && mkeyUpDown) {
-		mMove += 100;
-		if (mMove >= SCREEN_HEIGHT)
-			mkeyUpDown = false;
-	}
-
-	if (mMove <= 0)
-		mMove = 0;
-	if (mMove >= SCREEN_HEIGHT)
-		mMove = SCREEN_HEIGHT;
 }
 
 void CPause::Draw()
 {
-	mpPolygon->Draw(XMFLOAT3(0.0f, 0.0f + mMove, LAYER1));
-}
-
-void CPause::TabCancel(void)
-{
-	mkeyDown = true;
-	mkeyUp = false;
-	mMove += 100;
+	mpPolygon[1]->Draw(XMFLOAT3(0.0f, 0.0f, LAYER5));
+	mpPolygon[0]->Draw(XMFLOAT3(10.0f, 300.0f, LAYER4));
 }

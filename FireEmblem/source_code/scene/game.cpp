@@ -61,17 +61,9 @@ void CGame::Update()
 	CScene::Update();
 
 	CLoading::GetChange();
-
-	if (mpStageManager->GetReturn())
-	{
-		if (CInput::GetKeyTrigger(VK_YEA))
-			CLoading::SetEnable(true);
-		else if (CInput::GetKeyTrigger(VK_NAY))
-			mpStageManager->ReturnNay();
-
-		if (CLoading::GetChange())
-			CSceneManager::SetScene<CStageSelect>();
-	}
+	
+	if (ReturnStageSelect())return;
+	if (ReturnTitle())return;
 
 	if (CGameStatus::GetGameOver())
 	{
@@ -126,4 +118,34 @@ void CGame::Draw()
 		if (mpGameOver->ShowEnd())
 			mpReplay->Draw();
 	}
+}
+
+bool CGame::ReturnStageSelect()
+{
+	if (mpStageManager->GetReturn())
+	{
+		if (CInput::GetKeyTrigger(VK_YEA))
+			CLoading::SetEnable(true);
+		else if (CInput::GetKeyTrigger(VK_NAY))
+			mpStageManager->ReturnNay();
+
+		if (CLoading::GetChange())
+			CSceneManager::SetScene<CStageSelect>(); return true;
+	}
+	return false;
+}
+
+bool CGame::ReturnTitle()
+{
+	if (mpStageManager->GetReturnTitle())
+	{
+		if (CInput::GetKeyTrigger(VK_YEA))
+			CLoading::SetEnable(true);
+		else if (CInput::GetKeyTrigger(VK_NAY))
+			mpStageManager->ReturnTitleNay();
+
+		if (CLoading::GetChange())
+			CSceneManager::SetScene<CTitle>(); return true;
+	}
+	return false;
 }

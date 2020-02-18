@@ -1,31 +1,32 @@
 //using namespace UI;
 
-std::string gTexture = "asset/texture/ui/help.png";
 
-CHelp::CHelp()
+CReturnStageSelect::CReturnStageSelect()
 {
+	mFile = "asset/texture/ui/return.png";
+
 	mpPolygon = std::make_unique<CPolygon>();
-	mpPolygon->Init(gTexture, mWidth, mHeight);
+	mpPolygon->Init(mFile, mWidth, mHeight);
 
 	mMove = (int)SCREEN_HEIGHT;
 	mkeyUpDown = mkeyUp = mkeyDown = false;
 }
 
-CHelp::~CHelp()
+CReturnStageSelect::~CReturnStageSelect()
 {
 	mpPolygon->Uninit();
 
-	OutputDebugString("delete CHelp\n");
+	OutputDebugString("delete CReturnStageSelect\n");
 }
 
-void CHelp::Update()
+void CReturnStageSelect::Update()
 {
-	if (!mkeyUpDown && CInput::GetKeyTrigger('1')) {
+	if (!mkeyUpDown && CInput::GetKeyTrigger('3')) {
 		mkeyUp = true;
 		mkeyDown = false;
 	}
 
-	if (mkeyUpDown && CInput::GetKeyTrigger('1')) {
+	if (mkeyUpDown && CInput::GetKeyTrigger('3')) {
 		mkeyDown = true;
 		mkeyUp = false;
 	}
@@ -49,12 +50,12 @@ void CHelp::Update()
 		mMove = SCREEN_HEIGHT;
 }
 
-void CHelp::Draw()
+void CReturnStageSelect::Draw()
 {
-	mpPolygon->Draw(XMFLOAT3(mPosition.x, mPosition.y + mMove, LAYER1));
+	mpPolygon->Draw(XMFLOAT3(mPosition.x, mPosition.y + mMove, LAYER2));
 }
 
-void CHelp::TabCancel(void)
+void CReturnStageSelect::TabCancel(void)
 {
 	mkeyDown = true;
 	mkeyUp = false;

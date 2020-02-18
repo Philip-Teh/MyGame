@@ -30,6 +30,9 @@ private:
 	std::unique_ptr<CReplay> mpReplay = nullptr;
 
 	bool mGameOver = false;
+
+	bool ReturnStageSelect();
+	bool ReturnTitle();
 };
 
 #endif // !GAME_H_

@@ -20,6 +20,9 @@ public:
 	const bool& GetReturn() { return mpUIManager->GetReturn(); }
 	void ReturnNay() { mpUIManager->ReturnNay(); }
 
+	const bool& GetReturnTitle() { return mpUIManager->GetReturnTitle(); }
+	void ReturnTitleNay() { mpUIManager->ReturnTitleNay(); }
+
 	void ResetStage();
 
 private:

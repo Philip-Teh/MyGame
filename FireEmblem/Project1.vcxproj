@@ -255,7 +255,8 @@
     <ClInclude Include="source_code\ui\pull.h" />
     <ClInclude Include="source_code\ui\replay.h" />
     <ClInclude Include="source_code\ui\reset.h" />
-    <ClInclude Include="source_code\ui\return.h" />
+    <ClInclude Include="source_code\ui\return_stage_select.h" />
+    <ClInclude Include="source_code\ui\return_title.h" />
     <ClInclude Include="source_code\ui\score.h" />
     <ClInclude Include="source_code\ui\stage_clear.h" />
     <ClInclude Include="source_code\ui\stage_num.h" />
@@ -322,7 +323,8 @@
     <ClCompile Include="source_code\ui\pull.cpp" />
     <ClCompile Include="source_code\ui\replay.cpp" />
     <ClCompile Include="source_code\ui\reset.cpp" />
-    <ClCompile Include="source_code\ui\return.cpp" />
+    <ClCompile Include="source_code\ui\return_stage_select.cpp" />
+    <ClCompile Include="source_code\ui\return_title.cpp" />
     <ClCompile Include="source_code\ui\score.cpp" />
     <ClCompile Include="source_code\ui\stage_clear.cpp" />
     <ClCompile Include="source_code\ui\stage_num.cpp" />

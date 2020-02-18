@@ -99,6 +99,7 @@ void CEnemyTroop::Update(CObjectType** type, CBoxType** box, XMFLOAT3 playerposi
 		case CAction::Move:
 			if (mDirection != CDirection::None)
 				mpModel->Update(1, mFrame);
+			mDirection = Chase(XMINT2((int)playerposition.x, (int)playerposition.z), type, box);
 			Move(type, box, XMINT2((int)playerposition.x, (int)playerposition.z));
 			break;
 		}
@@ -303,7 +304,8 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 	}
 
 	XMINT2 PlayerPos = playerposition;
-	CDirection direction = CDirection::None;
+	CDirection directionLR = CDirection::None;
+	CDirection directionUD = CDirection::None;
 	CDirection randomdirection = CDirection::None;
 
 	if (PlayerPos.x > m_Position.x)
@@ -320,12 +322,12 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 	else
 		mPlayerDirect2 = CDirection::None;
 
-	if (m_Position.x != PlayerPos.x && m_Position.z != PlayerPos.y)
-		direction = RandomDirection2(mPlayerDirect1, mPlayerDirect2);
-	else if (m_Position.z == PlayerPos.y)
-		direction = mPlayerDirect1;
-	else if (m_Position.x == PlayerPos.x)
-		direction = mPlayerDirect2;
+	//if (m_Position.x != PlayerPos.x && m_Position.z != PlayerPos.y)
+	//	direction = RandomDirection2(mPlayerDirect1, mPlayerDirect2);
+	//else if (m_Position.z == PlayerPos.y)
+	//	direction = mPlayerDirect1;
+	//else if (m_Position.x == PlayerPos.x)
+	//	direction = mPlayerDirect2;
 
 	switch (directionNum)
 	{
@@ -333,37 +335,46 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 		return CDirection::None;
 		break;
 	case 1:
-		if (direction == mMovaD[enable1].direction)
-			return direction;
-		else
-			return mMovaD[enable1].direction;
+		return mMovaD[enable1].direction;
 		break;
 	case 2:
 		randomdirection = RandomDirection2(mMovaD[enable1].direction, mMovaD[enable2].direction);
-		if (direction == mMovaD[enable1].direction)
-			return direction;
-		else if(direction == mMovaD[enable2].direction)
-			return direction;
-		else
-			return randomdirection;
+
+		if (mPlayerDirect1 == mMovaD[enable1].direction)directionLR = mPlayerDirect1;
+		else if (mPlayerDirect1 == mMovaD[enable2].direction)directionLR = mPlayerDirect1;
+		else directionLR = CDirection::None;
+
+		if (mPlayerDirect2 == mMovaD[enable1].direction)directionUD = mPlayerDirect2;
+		else if (mPlayerDirect2 == mMovaD[enable2].direction)directionUD = mPlayerDirect2;
+		else directionUD = CDirection::None;
+
+		if (directionLR != CDirection::None && directionUD != CDirection::None)return RandomDirection2(directionLR, directionUD);
+		else if (directionLR != CDirection::None)return directionLR;
+		else if (directionUD != CDirection::None)return directionUD;
+		else return randomdirection;
+
 		break;
 	case 3:
 		randomdirection = RandomDirection3(mMovaD[enable1].direction, mMovaD[enable2].direction, mMovaD[enable3].direction);
-		if (direction == mMovaD[enable1].direction)
-			return direction;
-		else if (direction == mMovaD[enable2].direction)
-			return direction;
-		else if (direction == mMovaD[enable3].direction)
-			return direction;
-		else
-			return randomdirection;
+
+		if (mPlayerDirect1 == mMovaD[enable1].direction)directionLR = mPlayerDirect1;
+		else if (mPlayerDirect1 == mMovaD[enable2].direction)directionLR = mPlayerDirect1;
+		else if (mPlayerDirect1 == mMovaD[enable3].direction)directionLR = mPlayerDirect1;
+		else directionLR = CDirection::None;
+
+		if (mPlayerDirect2 == mMovaD[enable1].direction)directionUD = mPlayerDirect2;
+		else if (mPlayerDirect2 == mMovaD[enable2].direction)directionUD = mPlayerDirect2;
+		else if (mPlayerDirect2 == mMovaD[enable3].direction)directionUD = mPlayerDirect2;
+		else directionUD = CDirection::None;
+
+		if (directionLR != CDirection::None && directionUD != CDirection::None)return RandomDirection2(directionLR, directionUD);
+		else if (directionLR != CDirection::None)return directionLR;
+		else if (directionUD != CDirection::None)return directionUD;
+		else return randomdirection;
+
 		break;
-	case 4:
-		randomdirection = RandomDirection4();
-		if (direction == randomdirection)
-			return direction;
-		else
-			return randomdirection;
+	case 4:		
+		return RandomDirection2(mPlayerDirect1, mPlayerDirect2);
 		break;
 	default:
 		return CDirection::None;
