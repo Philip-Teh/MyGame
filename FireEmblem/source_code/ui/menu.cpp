@@ -48,6 +48,6 @@ void CMenu::Update()
 
 void CMenu::Draw()
 {
-	mpPolygon[0]->Draw(XMFLOAT3(30.0f, 750.0f - mMove, LAYER4));
+	mpPolygon[0]->Draw(XMFLOAT3(30.0f, 750.0f - mMove, LAYER6));
 	mpPolygon[1]->Draw(XMFLOAT3(0.0f, 650.0f + mMove, LAYER4));
 }

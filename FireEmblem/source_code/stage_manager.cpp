@@ -99,6 +99,14 @@ void CStageManager::Draw()
 		if (mStageClear)
 			mpStageClear->Draw();
 	}
+
+	if (CGameStatus::GetStageClear() == 1)
+	{
+		mpUIManager->FirstDrawHelp();
+
+		if (CInput::GetKeyTrigger(VK_RETURN))
+			mpUIManager->SetKeyEnter(true);
+	}
 }
 
 void CStageManager::NextStage()
@@ -136,6 +144,8 @@ void CStageManager::ResetStage()
 	mpMap->Uninit();
 	mpMap->Load(mStage);
 	mpMap->Init();
+
+	mpUIManager->SetKeyEnter(false);
 
 	CLoading::SetChange(false);
 }

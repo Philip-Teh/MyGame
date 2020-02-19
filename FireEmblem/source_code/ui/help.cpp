@@ -7,6 +7,9 @@ CHelp::CHelp()
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(gTexture, mWidth, mHeight);
 
+	mMoveFirst = 0;
+	mKeyEnter = false;
+
 	mMove = (int)SCREEN_HEIGHT;
 	mkeyUpDown = mkeyUp = mkeyDown = false;
 }
@@ -47,6 +50,9 @@ void CHelp::Update()
 		mMove = 0;
 	if (mMove >= SCREEN_HEIGHT)
 		mMove = SCREEN_HEIGHT;
+
+	if (mMoveFirst >= SCREEN_HEIGHT)
+		mMoveFirst = SCREEN_HEIGHT;
 }
 
 void CHelp::Draw()
@@ -54,9 +60,22 @@ void CHelp::Draw()
 	mpPolygon->Draw(XMFLOAT3(mPosition.x, mPosition.y + mMove, LAYER1));
 }
 
+void CHelp::FirstDraw()
+{
+	mpPolygon->Draw(XMFLOAT3(mPosition.x, mPosition.y + mMoveFirst, LAYER2));
+}
+
 void CHelp::TabCancel(void)
 {
 	mkeyDown = true;
 	mkeyUp = false;
 	mMove += mSpeed;
+}
+
+void CHelp::FirstDrawCancel()
+{
+	if (mKeyEnter)
+		mMoveFirst += mSpeed;
+	else
+		mMoveFirst = 0;
 }

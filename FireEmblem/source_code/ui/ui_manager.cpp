@@ -29,6 +29,7 @@ CUIManager::~CUIManager()
 void CUIManager::Update()
 {
 	mpMenu->Update();
+	mpHelp->FirstDrawCancel();
 
 	if (mpMenu->GetKeyUp())
 	{

@@ -28,6 +28,6 @@ void CPause::Update()
 
 void CPause::Draw()
 {
-	mpPolygon[1]->Draw(XMFLOAT3(0.0f, 0.0f, LAYER5));
+	mpPolygon[1]->Draw(XMFLOAT3(0.0f, 0.0f, LAYER6));
 	mpPolygon[0]->Draw(XMFLOAT3(10.0f, 300.0f, LAYER4));
 }

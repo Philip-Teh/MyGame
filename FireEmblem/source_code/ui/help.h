@@ -16,6 +16,10 @@
 		void Update();
 		void Draw();
 
+		void FirstDraw();
+		void FirstDrawCancel();
+		void SetKeyEnter(bool key) { mKeyEnter = key; }
+
 		const bool& GetPress(void) { return mkeyUp; }
 		void TabCancel(void);
 
@@ -31,6 +35,9 @@
 		bool mkeyUp = false;
 		bool mkeyDown = false;
 		bool mkeyUpDown = false;
+
+		int mMoveFirst = 0;
+		bool mKeyEnter = false;
 	};
 //}
 #endif

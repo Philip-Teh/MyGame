@@ -38,6 +38,7 @@ using namespace DirectX;
 #define LAYER5  (0.5f)
 #define LAYER6  (0.6f)
 #define LAYER7  (0.7f)
+#define LAYER8  (0.8f)
 
 #define NUMBER_DIGIT (5)
 #define NUMBER_WIDTH (32)

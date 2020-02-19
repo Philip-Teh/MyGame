@@ -17,6 +17,8 @@
 		void DrawMenu();
 
 		void Appear();
+		void FirstDrawHelp() { mpHelp->FirstDraw(); }
+		void SetKeyEnter(bool key) { mpHelp->SetKeyEnter(key); }
 
 		const bool& GetPress();
 		void SetLock(bool lock) { mpPull->SetLock(lock); }
@@ -49,7 +51,6 @@
 		std::unique_ptr<CPause> mpPause = nullptr;
 
 		const bool& GetMenu();
-
 
 	};
 
