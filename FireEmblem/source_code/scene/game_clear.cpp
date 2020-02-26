@@ -16,12 +16,15 @@ void CGameClear::Init()
 	mMove = mMove1 = mMove2 = 0.0f;
 
 	CLoading::SetChange(false);
+
 }
 
 void CGameClear::Uninit()
 {
 	for (int i = 0; i < 3; i++)
 		mpPolygon[i]->Uninit();
+
+	CEnter::SetEnable(false);
 }
 
 void CGameClear::Update()
@@ -36,6 +39,9 @@ void CGameClear::Update()
 	mMove = MaxMove(mMove);
 	mMove1 = MaxMove(mMove1);
 	mMove2 = MaxMove(mMove2);
+
+	if (mMove2 >= SCREEN_WIDTH)
+		CEnter::SetEnable(true);
 
 	if (CInput::GetKeyTrigger(VK_RETURN))
 		CLoading::SetEnable(true);
@@ -54,7 +60,7 @@ void CGameClear::Draw()
 float CGameClear::MaxMove(float move)
 {
 	if (move >= SCREEN_WIDTH)
-		move = (float)SCREEN_WIDTH;
+		move = SCREEN_WIDTH;
 
 	return move;
 }

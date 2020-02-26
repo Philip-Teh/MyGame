@@ -37,7 +37,7 @@ void CStageManager::Update()
 	{
 		if (!mStageClear)
 		{
-			if (!mpUIManager->GetPress()&& !mpUIManager->GetReset())
+			if (!mpUIManager->GetPress()&& !mpUIManager->GetReset() && !mpUIManager->GetExit())
 				mpMap->Update();
 
 			mpUIManager->Update();
@@ -105,7 +105,9 @@ void CStageManager::Draw()
 		mpUIManager->FirstDrawHelp();
 
 		if (CInput::GetKeyTrigger(VK_RETURN))
+		{
 			mpUIManager->SetKeyEnter(true);
+		}
 	}
 }
 
@@ -114,13 +116,13 @@ void CStageManager::NextStage()
 	mStage++;
 	CGameStatus::SetStageClear(mStage);
 	mStageClear = false;
+	mpStageClear->SetMove();
 
 	if (mStage > MaXStage)
 		CGameStatus::SetGameClear(true);
 
 	if (!CGameStatus::GetGameClear())
 	{
-		mpStageClear->SetMove();
 		mpMap->Uninit();
 		mpMap->Load(mStage);
 		mpMap->Init();
@@ -144,8 +146,6 @@ void CStageManager::ResetStage()
 	mpMap->Uninit();
 	mpMap->Load(mStage);
 	mpMap->Init();
-
-	mpUIManager->SetKeyEnter(false);
 
 	CLoading::SetChange(false);
 }

@@ -9,7 +9,7 @@ CReturnStageSelect::CReturnStageSelect()
 	mpPolygon->Init(mFile, mWidth, mHeight);
 
 	mMove = (int)SCREEN_HEIGHT;
-	mkeyUpDown = mkeyUp = mkeyDown = false;
+	mKeyUpDown = mKeyUp = mKeyDown = false;
 }
 
 CReturnStageSelect::~CReturnStageSelect()
@@ -21,27 +21,27 @@ CReturnStageSelect::~CReturnStageSelect()
 
 void CReturnStageSelect::Update()
 {
-	if (!mkeyUpDown && CInput::GetKeyTrigger('3')) {
-		mkeyUp = true;
-		mkeyDown = false;
+	if (!mKeyUpDown && CInput::GetKeyTrigger('3')) {
+		mKeyUp = true;
+		mKeyDown = false;
 	}
 
-	if (mkeyUpDown && CInput::GetKeyTrigger('3')) {
-		mkeyDown = true;
-		mkeyUp = false;
+	if (mKeyUpDown && CInput::GetKeyTrigger('3')) {
+		mKeyDown = true;
+		mKeyUp = false;
 	}
 
 
-	if (!mkeyDown && mkeyUp && !mkeyUpDown) {
+	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
-			mkeyUpDown = true;
+			mKeyUpDown = true;
 	}
 
-	if (mkeyDown && !mkeyUp && mkeyUpDown) {
+	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)
-			mkeyUpDown = false;
+			mKeyUpDown = false;
 	}
 
 	if (mMove <= 0)
@@ -57,7 +57,7 @@ void CReturnStageSelect::Draw()
 
 void CReturnStageSelect::TabCancel(void)
 {
-	mkeyDown = true;
-	mkeyUp = false;
+	mKeyDown = true;
+	mKeyUp = false;
 	mMove += mSpeed;
 }

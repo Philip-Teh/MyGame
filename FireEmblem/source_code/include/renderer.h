@@ -1,5 +1,11 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=							描画関連　レンダラー　							 =
+//=																			 =
+//============================================================================
+
 #ifndef RENDERER_H_
 #define RENDERER_H_
 
@@ -51,8 +57,8 @@ struct MATERIAL
 	COLOR		Diffuse;
 	COLOR		Specular;
 	COLOR		Emission;
-	float		Shininess;
-	float		Dummy[3];//16bit境界用
+	float		Shininess = 0.0f;
+	float		Dummy[3] = {};//16bit境界用
 };
 
 
@@ -76,9 +82,9 @@ struct DX11_SUBSET
 
 struct LIGHT
 {
-	XMFLOAT4	Direction;
-	COLOR		Diffuse;
-	COLOR		Ambient;
+	XMFLOAT4	Direction = {};
+	COLOR		Diffuse = {};
+	COLOR		Ambient = {};
 };
 
 

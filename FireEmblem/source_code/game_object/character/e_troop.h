@@ -19,6 +19,7 @@ public:
 
 	void Update(CObjectType** type, CBoxType** box, XMFLOAT3 playerposition);
 	void Draw(XMFLOAT3 position);
+
 	void Action();
 	void ChangeState(CEnemyState* p);
 	bool Hit(CBoxType** box, CDirection playerdirection, XMINT2 map);

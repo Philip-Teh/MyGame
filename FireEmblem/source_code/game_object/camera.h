@@ -1,5 +1,11 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=						ゲームオブジェクト　カメラ							 =
+//=																			 =
+//============================================================================
+
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
@@ -22,11 +28,13 @@ public:
 	void SetCenter(XMFLOAT3 pos) { mCenter = pos; }
 
 private:
-	RECT m_Viewport;
+	RECT m_Viewport = {};
 	XMMATRIX m_ViewMatrix = XMMatrixIdentity();
 	XMMATRIX m_ProjectionMatrix = XMMatrixIdentity();
 	
-	XMFLOAT3 front, up, right;
+	XMFLOAT3 front = {};
+	XMFLOAT3 up = {};
+	XMFLOAT3 right = {};
 	XMVECTOR vectorF = XMVectorZero(), vectorR = XMVectorZero(), vectorU = XMVectorZero();
 	XMVECTOR eye = XMVectorZero(), focus = XMVectorZero();
 	XMFLOAT3 mCenter = XMFLOAT3(0.0f, 0.0f, 0.0f);

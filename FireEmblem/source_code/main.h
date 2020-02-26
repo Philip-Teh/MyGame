@@ -1,7 +1,16 @@
+#pragma once
+
+//============================================================================
+//=																			 =
+//=								メイン	ヘッダー							 =
+//=																			 =
+//============================================================================
+
 #ifndef MAIN_H_
 #define MAIN_H_
 
 #define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #define NOMINMAX
 #include <windows.h>
@@ -14,6 +23,9 @@
 #include <map>
 #include <string>
 #include <ctime>
+#include <memory>
+
+#include <xaudio2.h>
 
 #include <d3d11.h>
 #include <DirectXMath.h>
@@ -26,10 +38,11 @@ using namespace DirectX;
 #define SCREEN_WIDTH	(1280)			// ウインドウの幅
 #define SCREEN_HEIGHT	(720)			// ウインドウの高さ
 
-#define WORLD_X		(100)
-#define WORLD_Z		(100)
-#define WORLD_Y		(50)
+#define WORLD_X		(100)	//世界の横幅
+#define WORLD_Z		(100)	//世界の縦幅
+#define WORLD_Y		(50)	//世界の高さ
 
+//描画前後のレイアウト
 #define LAYER0	(0.0f)
 #define LAYER1	(0.1f)
 #define LAYER2	(0.2f)
@@ -40,32 +53,32 @@ using namespace DirectX;
 #define LAYER7  (0.7f)
 #define LAYER8  (0.8f)
 
-#define NUMBER_DIGIT (5)
-#define NUMBER_WIDTH (32)
-#define NUMBER_SIZEX (320)
-#define NUMBER_HEIGHT (32)
+#define NUMBER_DIGIT (5)	//数字の桁数
+#define NUMBER_WIDTH (32)	//数字の幅
+#define NUMBER_HEIGHT (32)	//数字の高さ
+#define NUMBER_SIZEX (320)	//連続数字の幅
 
-#define MapSizeZ (40)
-#define MapSizeX (40)
+#define MapSizeZ (40)	//マップの縦
+#define MapSizeX (40)	//マップの横
 
-#define MaXStage (3)
+#define MaXStage (3)	//総ステージ数
 
-#define STATUS_POSITIONX (950.0f)
-#define STATUS_POSITIONY (10.0f)
-#define HIDDEN_STATUS_POSITIONY (60.0f)
+#define STATUS_POSITIONX (950.0f)		//UIの横位置
+#define STATUS_POSITIONY (10.0f)		//UIの縦位置
+#define HIDDEN_STATUS_POSITIONY (60.0f)	//隠しUIの縦位置
 
-#define STATUS_POLYGONX (100.0f)
-#define STATUS_POLYGONY (50.0f)
+#define STATUS_POLYGONX (100.0f)	//UIの幅
+#define STATUS_POLYGONY (50.0f)		//UIの縦
 
-#define NUMSPACEX (250.0f)
-#define NUMSPACEY (10.0f)
+#define NUMSPACEX (250.0f)	//数字の空き横スペース
+#define NUMSPACEY (10.0f)	//数字の空き縦スペース
 
-#define VK_YEA ('Y')
-#define VK_NAY ('N')
-
+#define VK_YEA ('Y')	//キーボード入力Y
+#define VK_NAY ('N')	//キーボード入力N
 
 HWND GetWindow();
 
+//オブジェクトの種類
 enum class CObjectType
 {
 	None = 0x00,
@@ -78,6 +91,7 @@ enum class CObjectType
 	Enemy = 0x07,
 };
 
+//箱の状態
 enum class CBoxType
 {
 	Exists = 0x02,
@@ -85,6 +99,7 @@ enum class CBoxType
 	Moving
 };
 
+//キャラクターの向き
 enum class CDirection
 {
 	Up,
@@ -94,6 +109,7 @@ enum class CDirection
 	None,
 };
 
+//キャラクターの回転
 struct CRotation
 {
 	const float right1 = -1.6f;
@@ -104,12 +120,14 @@ struct CRotation
 	const float down1 = 6.4f;
 };
 
+//敵の行動
 enum class CAction
 {
 	Idle,
 	Move
 };
 
+//敵の難度
 enum class CEnemyAI
 {
 	Easy,
@@ -117,15 +135,10 @@ enum class CEnemyAI
 	Hard,
 };
 
+//計算のためのクラス
 class CMath
 {
 public:
-	template<class T>
-	static const T & Min(const T & a, const T & b)
-	{
-		return (b < a) ? b : a;
-	}
-
 	static bool Float3Equal(XMFLOAT3 a,XMFLOAT3 b)
 	{
 		if (a.x == b.x && a.y == b.y && a.z == b.z)
@@ -135,13 +148,7 @@ public:
 	}
 };
 
-class CScreen
-{
-public:
-	static int AdjustX() { return SCREEN_WIDTH / 1920; }
-	static int AdjustY() { return SCREEN_HEIGHT / 1080; }
-};
-
+//終了処理のトリガーを持っているクラス
 class CExitTrigger
 {
 public:

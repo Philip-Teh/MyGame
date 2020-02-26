@@ -23,14 +23,16 @@
 		const bool& GetPress();
 		void SetLock(bool lock) { mpPull->SetLock(lock); }
 
-		const bool& GetReturn() { return mpReturn->GetPress(); }
+		const bool& GetReturn() { return mpReturn->GetKeyUp(); }
 		void ReturnNay() { mpReturn->TabCancel(); }
 
-		const bool& GetReturnTitle() { return mpTitle->GetPress(); }
+		const bool& GetReturnTitle() { return mpTitle->GetKeyUp(); }
 		void ReturnTitleNay() { mpTitle->TabCancel(); }
 
-		const bool& GetReset() { return mpReset->GetPress(); }
+		const bool& GetReset() { return mpReset->GetKeyUp(); }
 		void ResetNay() { mpReset->TabCancel(); }
+
+		const bool& GetExit() { return mpExit->GetKeyUp(); }
 
 	private:
 		std::unique_ptr<CScore> mpScore = nullptr;
@@ -49,8 +51,6 @@
 		std::unique_ptr<CExit> mpExit = nullptr;
 
 		std::unique_ptr<CPause> mpPause = nullptr;
-
-		const bool& GetMenu();
 
 	};
 

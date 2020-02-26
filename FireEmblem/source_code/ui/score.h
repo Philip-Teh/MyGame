@@ -1,20 +1,22 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=					ユーザーインターフェース	スコア						 =
+//=																			 =
+//============================================================================
+
 #ifndef SCORE_H_
 #define SCORE_H_
 
-class CScore
+class CScore : public CUI
 {
 public:
 	CScore();
 	~CScore();
+
 	void Update();
 	void Draw(int score);
-
-private:
-	std::string mFile;
-	std::unique_ptr<CPolygon> mpPolygon;
-	std::unique_ptr<CNumDraw> mpNumDraw;					//数字描画
 };
 
 #endif // !SCORE_H_

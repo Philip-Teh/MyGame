@@ -2,7 +2,7 @@
 
 //============================================================================
 //=																			 =
-//=								シーン　クリア								 =
+//=							シーン　ゲームクリア							 =
 //=																			 =
 //============================================================================
 
@@ -20,7 +20,7 @@ public:
 private:
 	std::string mTexture[3];
 	std::unique_ptr<CPolygon> mpPolygon[3];
-	float mMove, mMove1, mMove2;
+	float mMove = 0.0f, mMove1 = 0.0f, mMove2 = 0.0f;
 	float MaxMove(float move);
 };
 

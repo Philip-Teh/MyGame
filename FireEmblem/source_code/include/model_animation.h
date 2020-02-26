@@ -1,6 +1,10 @@
 #pragma once
 
-
+//============================================================================
+//=																			 =
+//=							ï`âÊä÷òAÅ@ÉÇÉfÉãï`âÊ							 =
+//=																			 =
+//============================================================================
 
 #ifndef MODELANIMATION_H_
 #define MODELANIMATION_H_
@@ -26,11 +30,11 @@ private:
 	MESH* m_Mesh = nullptr;
 	unsigned int m_MeshNum = NULL;
 	const aiScene* m_Scene[3] = {};
-	std::map<std::string, aiQuaternion> m_NodeRotation;
-	std::map<std::string, aiVector3D> m_NodePosition;
-	CTexture* texture;
-	CShader* mpShader;
-	std::string directory;
+	std::map<std::string, aiQuaternion> m_NodeRotation = {};
+	std::map<std::string, aiVector3D> m_NodePosition = {};
+	CTexture* texture = nullptr;
+	CShader* mpShader = nullptr;
+	std::string directory = "";
 	bool hastexture = false;
 };
 

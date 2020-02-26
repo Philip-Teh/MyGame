@@ -1,5 +1,10 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=					ユーザーインターフェース	操作説明					 =
+//=																			 =
+//============================================================================
 
 #ifndef KEY_INFO_H
 #define KEY_INFO_H
@@ -7,7 +12,7 @@
 //namespace UI
 //{
 
-	class CKeyInfo
+	class CKeyInfo : public CUI
 	{
 	public:
 		CKeyInfo();
@@ -16,17 +21,7 @@
 		void Update();
 		void Draw();
 
-		const bool& GetPress(void) { return mkeyUp; }
-		void TabCancel(void);
-
-	private:
-		std::string mFile = "";
-		std::unique_ptr<CPolygon> mpPolygon = nullptr;
-
-		int mMove = 0;
-		bool mkeyUp = false;
-		bool mkeyDown = false;
-		bool mkeyUpDown = false;
+		void TabCancel();
 	};
 //}
 #endif

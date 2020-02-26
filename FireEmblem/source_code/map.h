@@ -28,17 +28,17 @@ public:
 	const int& GetMaxEnemy() { return mNumEnemy; }
 
 private:
-	std::unique_ptr<CLoadMap> mpLoadMap;
+	std::unique_ptr<CLoadMap> mpLoadMap = nullptr;
 
-	std::unique_ptr<CPlayer> mpPlayer;
-	std::unique_ptr<CGoal> mpGoal;
-	std::vector<std::unique_ptr<CEnemyTroop>> mpEnemyTroop;
-	std::unique_ptr<CFloor> mpFloor;
-	std::unique_ptr<CWall> mpWall;
-	std::unique_ptr<CBox> mpBox;
+	std::unique_ptr<CPlayer> mpPlayer = nullptr;
+	std::unique_ptr<CGoal> mpGoal = nullptr;
+	std::vector<std::unique_ptr<CEnemyTroop>> mpEnemyTroop = {};
+	std::unique_ptr<CFloor> mpFloor = nullptr;
+	std::unique_ptr<CWall> mpWall = nullptr;
+	std::unique_ptr<CBox> mpBox = nullptr;
 
-	CObjectType** mType;
-	CBoxType** mBox;
+	CObjectType** mType = {};
+	CBoxType** mBox = {};
 
 	const int mMoveDuration = 15;
 

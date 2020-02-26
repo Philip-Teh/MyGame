@@ -21,6 +21,7 @@ void CTitle::Init()
 	mpPolygon[2]->Init(mTexture[2], XMFLOAT3(400.0f, 450.0f, LAYER4), 400, 200);
 
 	CLoading::SetChange(false);
+
 }
 
 void CTitle::Uninit()
@@ -53,4 +54,5 @@ void CTitle::Draw()
 	}
 	if (mFrame >= 30)
 		mpPolygon[2]->Draw();
+
 }

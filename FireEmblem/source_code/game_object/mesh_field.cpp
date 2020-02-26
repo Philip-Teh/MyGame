@@ -20,7 +20,7 @@ void CMeshfield::Init()
 
 	//テクスチャ読み込み
 	m_Texture = new CTexture();
-	m_Texture->LoadTexture("asset/texture/game_object/floor.png");
+	m_Texture->LoadTexture("asset/texture/game_object/floor2.png");
 	
 	mpShader = make_unique<CShader>();
 	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");

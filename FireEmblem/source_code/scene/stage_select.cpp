@@ -16,12 +16,15 @@ void CStageSelect::Init()
 	mpSelectButton = make_unique<CSelectButton>();
 
 	CLoading::SetChange(false);
+	CEnter::SetEnable(true);
 }
 
 void CStageSelect::Uninit()
 {
 	for (int i = 0; i < 2; i++)
 		mpPolygon[i]->Uninit();
+
+	CEnter::SetEnable(false);
 }
 
 void CStageSelect::Update()

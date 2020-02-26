@@ -1,17 +1,19 @@
+using namespace std;
 
 CPull::CPull()
 {
-	mFile[0] = "asset/texture/ui/pull.png";
-	mFile[1] = "asset/texture/ui/lock.png";
-	mFile[2] = "asset/texture/ui/unlock.png";
+	mFile = "asset/texture/ui/pull.png";
+	mFile1 = "asset/texture/ui/lock.png";
+	mFile2 = "asset/texture/ui/unlock.png";
 
-	for (int i = 0; i < 3; i++)
-		mpPolygon[i] = std::make_unique<CPolygon>();
+	mpPolygon = make_unique<CPolygon>();
+	mpPolygon1 = make_unique<CPolygon>();
+	mpPolygon2 = make_unique<CPolygon>();
 
-	mpPolygon[0]->Init(mFile[0], STATUS_POLYGONX, STATUS_POLYGONY);
+	mpPolygon->Init(mFile, STATUS_POLYGONX, STATUS_POLYGONY);
 
-	mpPolygon[1]->Init(mFile[1], NUMBER_WIDTH, NUMBER_HEIGHT);
-	mpPolygon[2]->Init(mFile[2], NUMBER_WIDTH, NUMBER_HEIGHT);
+	mpPolygon1->Init(mFile1, NUMBER_WIDTH, NUMBER_HEIGHT);
+	mpPolygon2->Init(mFile2, NUMBER_WIDTH, NUMBER_HEIGHT);
 
 	mMove = 0;
 	mKeyUp = mKeyDown = false;
@@ -20,8 +22,9 @@ CPull::CPull()
 
 CPull::~CPull()
 {
-	for (int i = 0; i < 3; i++)
-		mpPolygon[i]->Uninit();
+	mpPolygon->Uninit();
+	mpPolygon1->Uninit();
+	mpPolygon2->Uninit();
 
 	OutputDebugString("delete CPull\n");
 }
@@ -57,9 +60,9 @@ void CPull::Update()
 void CPull::Draw()
 {
 	if (mLock)
-		mpPolygon[1]->Draw(XMFLOAT3(STATUS_POSITIONX + NUMSPACEX, HIDDEN_STATUS_POSITIONY + mMove, LAYER8));
+		mpPolygon1->Draw(XMFLOAT3(STATUS_POSITIONX + NUMSPACEX, HIDDEN_STATUS_POSITIONY + mMove, LAYER8));
 	else
-		mpPolygon[2]->Draw(XMFLOAT3(STATUS_POSITIONX + NUMSPACEX, HIDDEN_STATUS_POSITIONY + mMove, LAYER8));
+		mpPolygon2->Draw(XMFLOAT3(STATUS_POSITIONX + NUMSPACEX, HIDDEN_STATUS_POSITIONY + mMove, LAYER8));
 
-	mpPolygon[0]->Draw(XMFLOAT3(STATUS_POSITIONX, HIDDEN_STATUS_POSITIONY - STATUS_POSITIONY + mMove, LAYER8));
+	mpPolygon->Draw(XMFLOAT3(STATUS_POSITIONX, HIDDEN_STATUS_POSITIONY - STATUS_POSITIONY + mMove, LAYER8));
 }

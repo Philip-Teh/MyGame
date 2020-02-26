@@ -1,6 +1,12 @@
 #pragma once
 
 
+//============================================================================
+//=																			 =
+//=								描画関連　シェーダ							 =
+//=																			 =
+//============================================================================
+
 struct CONSTANT
 {
 	XMFLOAT4X4 WorldMatrix;
@@ -52,16 +58,16 @@ public:
 	}
 
 private:
-	ID3D11VertexShader*     m_VertexShader;
-	ID3D11PixelShader*      m_PixelShader;
-	ID3D11InputLayout*      m_VertexLayout;
+	ID3D11VertexShader*     m_VertexShader = nullptr;
+	ID3D11PixelShader*      m_PixelShader = nullptr;
+	ID3D11InputLayout*      m_VertexLayout = nullptr;
 
-	ID3D11Buffer*			m_ConstantBuffer;
-	ID3D11Buffer*			m_LightBuffer;
-	CONSTANT				m_Constant;
-	LIGHT					m_Light;
+	ID3D11Buffer*			m_ConstantBuffer = nullptr;
+	ID3D11Buffer*			m_LightBuffer = nullptr;
+	CONSTANT				m_Constant = {};
+	LIGHT					m_Light = {};
 
-	std::vector<unsigned char> mpBuffer;
+	std::vector<unsigned char> mpBuffer = {};
 	unsigned long mFsize = 0;
 
 	//unsigned char* mpInstruct = nullptr;	//入力構造体の情報がある位置へのポインタ

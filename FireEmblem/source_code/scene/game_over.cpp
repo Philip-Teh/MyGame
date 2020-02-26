@@ -59,7 +59,7 @@ void CGameOver::Draw()
 	mpPolygon[2]->Draw(XMFLOAT3(100.0f, (float)mMove2 - 300.0f, LAYER3));
 }
 
-int CGameOver::MaxMove(int move)
+float CGameOver::MaxMove(float move)
 {
 	if (move >= SCREEN_HEIGHT)
 		move = SCREEN_HEIGHT;

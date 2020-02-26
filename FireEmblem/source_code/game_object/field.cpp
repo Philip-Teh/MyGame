@@ -10,15 +10,15 @@ void CField::Init(std::string texture)
 
 	VERTEX_3D vertex[4];
 
-	for (int i = 0; i < mNum.x+1; i++)
+	for (int i = 0; i < mNum.x + 1; i++)
 	{
-		for (int j = 0; j < mNum.y+1; j++)
+		for (int j = 0; j < mNum.y + 1; j++)
 		{
 			//DirectX Math ライブラリ
 			vertex[j + (mNum.x + 1) * i].Position = XMFLOAT3(-(mSize.x * mNum.x * 0.5f) + mSize.x * j, 0.0f, (mSize.y * mNum.y * 0.5f) - mSize.y * i);		//位置
-			vertex[j + (mNum.x + 1) * i].Normal = XMFLOAT3(0, 1, 0);																				//法線
-			vertex[j + (mNum.x + 1) * i].Diffuse = XMFLOAT4(1, 1, 1, 1);																			//色
-			vertex[j + (mNum.x + 1) * i].TexCoord = XMFLOAT2((float)j, (float)i);																	//テクスチャ座標
+			vertex[j + (mNum.x + 1) * i].Normal = XMFLOAT3(0, 1, 0);																						//法線
+			vertex[j + (mNum.x + 1) * i].Diffuse = XMFLOAT4(1, 1, 1, 1);																					//色
+			vertex[j + (mNum.x + 1) * i].TexCoord = XMFLOAT2((float)j, (float)i);																			//テクスチャ座標
 		}
 	}
 

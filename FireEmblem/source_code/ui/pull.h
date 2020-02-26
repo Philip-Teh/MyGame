@@ -1,13 +1,20 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=					ユーザーインターフェース	引く						 =
+//=																			 =
+//============================================================================
+
 #ifndef PULL_H_
 #define PULL_H_
 
-class CPull
+class CPull : public CUI
 {
 public:
 	CPull();
 	~CPull();
+
 	void Update();
 	void Draw();
 
@@ -15,15 +22,12 @@ public:
 	void Appear() { mKeyDown = true; }
 
 private:
-	std::string mFile[3];
-	std::unique_ptr<CPolygon> mpPolygon[3];
+	std::string mFile2;
+	std::unique_ptr<CPolygon> mpPolygon2;
 
 	const int mMaxMove = 80;
 	const int mSpeed = 5;
 
-	int mMove = 0;
-	bool mKeyUp = false;
-	bool mKeyDown = false;
 	bool mLock = false;
 };
 

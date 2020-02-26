@@ -1,5 +1,11 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=							シーン　ゲームオーバー							=
+//=																			 =
+//============================================================================
+
 #ifndef GAMEOVER_H
 #define GAMEOVER_H
 
@@ -22,10 +28,10 @@ public:
 private:
 	std::string mFile[3];
 	std::unique_ptr<CPolygon> mpPolygon[3];
-	int mMove, mMove1, mMove2;
-	bool mKeypress;
+	float mMove = 0.0f, mMove1 = 0.0f, mMove2 = 0.0f;
+	bool mKeypress = false;
 
-	int MaxMove(int move);
+	float MaxMove(float move);
 };
 
 #endif

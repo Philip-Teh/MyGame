@@ -15,12 +15,16 @@ void CTutorial::Init()
 	//mpPolygon[2]->Init(mTexture[2], XMFLOAT3(400.0f, 450.0f, 0.0f), 400, 200);
 
 	CLoading::SetChange(false);
+
+	CEnter::SetEnable(true);
 }
 
 void CTutorial::Uninit()
 {
 	//for (int i = 0; i < 3; i++)
-		mpPolygon->Uninit();
+	mpPolygon->Uninit();
+
+	CEnter::SetEnable(false);
 }
 
 void CTutorial::Update()

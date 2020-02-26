@@ -1,5 +1,11 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=							ï`âÊä÷òAÅ@É|ÉäÉSÉì								 =
+//=																			 =
+//============================================================================
+
 #ifndef POLYGON_H_
 #define POLYGON_H_
 
@@ -16,15 +22,15 @@ public:
 	void DrawBillBoard(XMFLOAT3 position, int tx, int ty, int tw, int th);
 
 private:
-	VERTEX_3D mVertex[4];
-	XMFLOAT3 mPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	VERTEX_3D mVertex[4] = {};
+	XMFLOAT3 mPosition = {};
 
 	ID3D11Buffer* mpVertexBuffer = nullptr;
 	ID3D11Buffer* mpIndexBuffer = nullptr;
 
 	std::unique_ptr<CShader> mpShader = nullptr;
 	CTexture* mpTexture = nullptr;
-	XMFLOAT2 mSize = XMFLOAT2(0.0f, 0.0f);
+	XMFLOAT2 mSize = {};
 };
 
 #endif

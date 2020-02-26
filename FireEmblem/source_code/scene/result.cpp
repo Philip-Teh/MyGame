@@ -42,6 +42,7 @@ void CResult::Init()
 	mScore = 0;
 
 	CLoading::SetChange(false);
+	CEnter::SetEnable(true);
 }
 
 void CResult::Uninit()
@@ -62,6 +63,8 @@ void CResult::Uninit()
 		mpNumDraw[i]->Uninit();
 
 	fclose(mFile);
+
+	CEnter::SetEnable(false);
 
 	OutputDebugString("delete CResult\n");
 }

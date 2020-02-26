@@ -199,10 +199,9 @@
     <ClInclude Include="source_code\game_object\bill_board.h" />
     <ClInclude Include="source_code\game_object\box.h" />
     <ClInclude Include="source_code\game_object\camera.h" />
-    <ClInclude Include="source_code\game_object\character\allies.h" />
-    <ClInclude Include="source_code\game_object\character\benemy.h" />
     <ClInclude Include="source_code\game_object\character\enemy.h" />
     <ClInclude Include="source_code\game_object\character\enemy_state.h" />
+    <ClInclude Include="source_code\game_object\character\enemy_state_chase.h" />
     <ClInclude Include="source_code\game_object\character\enemy_state_idle.h" />
     <ClInclude Include="source_code\game_object\character\enemy_state_move.h" />
     <ClInclude Include="source_code\game_object\character\e_troop.h" />
@@ -219,9 +218,6 @@
     <ClInclude Include="source_code\game_status.h" />
     <ClInclude Include="source_code\include\audio_clip.h" />
     <ClInclude Include="source_code\include\input.h" />
-    <ClInclude Include="source_code\include\mesh.h" />
-    <ClInclude Include="source_code\include\model.h" />
-    <ClInclude Include="source_code\include\modela.h" />
     <ClInclude Include="source_code\include\model_animation.h" />
     <ClInclude Include="source_code\include\renderer.h" />
     <ClInclude Include="source_code\include\shader.h" />
@@ -244,6 +240,7 @@
     <ClInclude Include="source_code\scene\tutorial.h" />
     <ClInclude Include="source_code\select_button.h" />
     <ClInclude Include="source_code\stage_manager.h" />
+    <ClInclude Include="source_code\ui\enter.h" />
     <ClInclude Include="source_code\ui\exit.h" />
     <ClInclude Include="source_code\ui\help.h" />
     <ClInclude Include="source_code\ui\key_info.h" />
@@ -261,13 +258,14 @@
     <ClInclude Include="source_code\ui\stage_clear.h" />
     <ClInclude Include="source_code\ui\stage_num.h" />
     <ClInclude Include="source_code\ui\step.h" />
+    <ClInclude Include="source_code\ui\ui.h" />
     <ClInclude Include="source_code\ui\ui_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source_code\game_object\bill_board.cpp" />
     <ClCompile Include="source_code\game_object\box.cpp" />
     <ClCompile Include="source_code\game_object\camera.cpp" />
-    <ClCompile Include="source_code\game_object\character\benemy.cpp" />
+    <ClCompile Include="source_code\game_object\character\enemy_state_chase.cpp" />
     <ClCompile Include="source_code\game_object\character\enemy_state_idle.cpp" />
     <ClCompile Include="source_code\game_object\character\enemy_state_move.cpp" />
     <ClCompile Include="source_code\game_object\character\e_troop.cpp" />
@@ -283,8 +281,6 @@
     <ClCompile Include="source_code\game_status.cpp" />
     <ClCompile Include="source_code\include\audio_clip.cpp" />
     <ClCompile Include="source_code\include\input.cpp" />
-    <ClCompile Include="source_code\include\model.cpp" />
-    <ClCompile Include="source_code\include\modela.cpp" />
     <ClCompile Include="source_code\include\model_animation.cpp" />
     <ClCompile Include="source_code\include\renderer.cpp" />
     <ClCompile Include="source_code\include\shader.cpp" />
@@ -312,6 +308,7 @@
     <ClCompile Include="source_code\scene\tutorial.cpp" />
     <ClCompile Include="source_code\select_button.cpp" />
     <ClCompile Include="source_code\stage_manager.cpp" />
+    <ClCompile Include="source_code\ui\enter.cpp" />
     <ClCompile Include="source_code\ui\exit.cpp" />
     <ClCompile Include="source_code\ui\help.cpp" />
     <ClCompile Include="source_code\ui\key_info.cpp" />

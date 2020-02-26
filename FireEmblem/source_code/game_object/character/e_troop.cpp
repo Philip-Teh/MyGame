@@ -177,7 +177,7 @@ bool CEnemyTroop::Hit(CBoxType** box,CDirection playerdirection,XMINT2 map)
 		{
 			mHitting = true;
 			mCollisionEnable = false;
-			mpEffect->Create(effect);
+			//mpEffect->Create(effect);
 		}
 
 		if (mHitting)return DownDirection(playerdirection);

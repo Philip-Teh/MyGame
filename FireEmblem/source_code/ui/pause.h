@@ -1,5 +1,10 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=					ユーザーインターフェース	ポース						 =
+//=																			 =
+//============================================================================
 
 #ifndef PAUSE_H
 #define PAUSE_H
@@ -7,7 +12,7 @@
 //namespace UI
 //{
 
-	class CPause
+	class CPause : public CUI
 	{
 	public:
 		CPause();
@@ -15,10 +20,6 @@
 
 		void Update();
 		void Draw();
-
-	private:
-		std::string mFile[2] = {};
-		std::unique_ptr<CPolygon> mpPolygon[2] = {};
 	};
 //}
 #endif

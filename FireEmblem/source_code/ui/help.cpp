@@ -1,17 +1,17 @@
 //using namespace UI;
 
-std::string gTexture = "asset/texture/ui/help.png";
-
 CHelp::CHelp()
 {
+	mFile = "asset/texture/ui/help.png";
+
 	mpPolygon = std::make_unique<CPolygon>();
-	mpPolygon->Init(gTexture, mWidth, mHeight);
+	mpPolygon->Init(mFile, mWidth, mHeight);
 
 	mMoveFirst = 0;
 	mKeyEnter = false;
 
 	mMove = (int)SCREEN_HEIGHT;
-	mkeyUpDown = mkeyUp = mkeyDown = false;
+	mKeyUpDown = mKeyUp = mKeyDown = false;
 }
 
 CHelp::~CHelp()
@@ -23,27 +23,27 @@ CHelp::~CHelp()
 
 void CHelp::Update()
 {
-	if (!mkeyUpDown && CInput::GetKeyTrigger('1')) {
-		mkeyUp = true;
-		mkeyDown = false;
+	if (!mKeyUpDown && CInput::GetKeyTrigger('1')) {
+		mKeyUp = true;
+		mKeyDown = false;
 	}
 
-	if (mkeyUpDown && CInput::GetKeyTrigger('1')) {
-		mkeyDown = true;
-		mkeyUp = false;
+	if (mKeyUpDown && CInput::GetKeyTrigger('1')) {
+		mKeyDown = true;
+		mKeyUp = false;
 	}
 
 
-	if (!mkeyDown && mkeyUp && !mkeyUpDown) {
+	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
-			mkeyUpDown = true;
+			mKeyUpDown = true;
 	}
 
-	if (mkeyDown && !mkeyUp && mkeyUpDown) {
+	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)
-			mkeyUpDown = false;
+			mKeyUpDown = false;
 	}
 
 	if (mMove <= 0)
@@ -67,15 +67,21 @@ void CHelp::FirstDraw()
 
 void CHelp::TabCancel(void)
 {
-	mkeyDown = true;
-	mkeyUp = false;
+	mKeyDown = true;
+	mKeyUp = false;
 	mMove += mSpeed;
 }
 
 void CHelp::FirstDrawCancel()
 {
 	if (mKeyEnter)
+	{
 		mMoveFirst += mSpeed;
+		CEnter::SetEnable(false);
+	}
 	else
+	{
 		mMoveFirst = 0;
+		CEnter::SetEnable(true);
+	}
 }

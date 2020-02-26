@@ -1,5 +1,11 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=								シーン　リザルト							 =
+//=																			 =
+//============================================================================
+
 #ifndef RESULT_H
 #define RESULT_H
 
@@ -19,7 +25,7 @@
 		std::unique_ptr<CPolygon> mpPolygon[4] = {};
 		std::unique_ptr<CNumDraw> mpNumDraw[2] = {};
 		
-		FILE* mFile;
+		FILE* mFile = nullptr;
 		std::string mFilename = "";
 
 		std::list<int> mGet = {};

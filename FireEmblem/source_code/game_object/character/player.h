@@ -16,6 +16,8 @@ public:
 	void Uninit();
 	void Update();
 	void Draw(XMFLOAT3 position);
+
+	//移動中のアニメーション
 	void MoveAnimation(bool move);
 
 	const CDirection& GetDirection() { return mDirection; }
@@ -30,9 +32,11 @@ public:
 
 	const int& GetStep() { return mStep; }
 	void SetStep(int step) { mStep = step; }
+	//ステップの計算
 	void CaculateStep(int step) { mStep += step; }
 
 private:
+	//
 	const char* mAnimation[3] = {};
 	std::unique_ptr<CModelAnimation> mpModelA = nullptr;
 	CShader* mpShader = nullptr;
@@ -48,7 +52,9 @@ private:
 	CDirection mCurrentDirection = CDirection::Down;
 	CRotation mCurrentRotation;
 
+	//キー入力で移動処理
 	void Move();
+	//方向回転のアニメーション
 	void Direction();
 };
 

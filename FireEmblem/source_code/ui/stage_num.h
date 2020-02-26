@@ -1,9 +1,15 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=				ユーザーインターフェース	ステージナンバー				 =
+//=																			 =
+//============================================================================
+
 #ifndef STAGE_NUM_H_
 #define STAGE_NUM_H_
 
-class CStageNum
+class CStageNum : public CUI
 {
 public:
 	CStageNum();
@@ -13,10 +19,6 @@ public:
 	void Draw(int num);
 
 private:
-	std::string mFile;
-	std::unique_ptr<CPolygon> mpPolygon;
-	std::unique_ptr<CNumDraw> mpNumDraw;					//数字描画
-
 	const float mSize = 2.0f;
 };
 

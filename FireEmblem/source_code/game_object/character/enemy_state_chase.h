@@ -2,15 +2,14 @@
 
 //============================================================================
 //=																			 =
-//=								ìGÇÃèÛë‘Å@à⁄ìÆ								 =
+//=								ìGÇÃèÛë‘Å@í«ê’								 =
 //=																			 =
 //============================================================================
 
-#ifndef ENEMY_STATE_MOVE_H_
-#define ENEMY_STATE_MOVE_H_
+#ifndef ENEMY_STATE_CHASE_H_
+#define ENEMY_STATE_CHASE_H_
 
-
-class CEnemyStateMove : public CEnemyState
+class CEnemyStateChase : public CEnemyState
 {
 public:
 	void ActionTime();
@@ -21,4 +20,8 @@ private:
 	int mFrame = 0;
 };
 
-#endif // !ENEMY_STATE_MOVE_H_
+#endif // !ENEMY_STATE_CHASE_H_
+
+
+
+

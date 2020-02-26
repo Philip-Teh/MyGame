@@ -9,7 +9,7 @@ CReset::CReset()
 	mpPolygon->Init(mFile, mWidth, mHeight);
 
 	mMove = (int)SCREEN_HEIGHT;
-	mkeyUpDown = mkeyUp = mkeyDown = false;
+	mKeyUpDown = mKeyUp = mKeyDown = false;
 }
 
 CReset::~CReset()
@@ -21,27 +21,27 @@ CReset::~CReset()
 
 void CReset::Update()
 {
-	if (!mkeyUpDown && CInput::GetKeyTrigger('R')) {
-		mkeyUp = true;
-		mkeyDown = false;
+	if (!mKeyUpDown && CInput::GetKeyTrigger('R')) {
+		mKeyUp = true;
+		mKeyDown = false;
 	}
 
-	if (mkeyUpDown && CInput::GetKeyTrigger('R')) {
-		mkeyDown = true;
-		mkeyUp = false;
+	if (mKeyUpDown && CInput::GetKeyTrigger('R')) {
+		mKeyDown = true;
+		mKeyUp = false;
 	}
 
 
-	if (!mkeyDown && mkeyUp && !mkeyUpDown) {
+	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
-			mkeyUpDown = true;
+			mKeyUpDown = true;
 	}
 
-	if (mkeyDown && !mkeyUp && mkeyUpDown) {
+	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)
-			mkeyUpDown = false;
+			mKeyUpDown = false;
 	}
 
 	if (mMove <= 0)
@@ -57,7 +57,7 @@ void CReset::Draw()
 
 void CReset::TabCancel(void)
 {
-	mkeyDown = true;
-	mkeyUp = false;
+	mKeyDown = true;
+	mKeyUp = false;
 	mMove += mSpeed;
 }

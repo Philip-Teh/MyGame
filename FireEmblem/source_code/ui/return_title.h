@@ -1,5 +1,10 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=				ユーザーインターフェース	リターンタイトル				 =
+//=																			 =
+//============================================================================
 
 #ifndef RETURN_TITLE_H
 #define RETURN_TITLE_H
@@ -7,32 +12,18 @@
 //namespace UI
 //{
 
-	class CReturnTitle
-	{
-	public:
-		CReturnTitle();
-		~CReturnTitle();
+class CReturnTitle : public CUI
+{
+public:
+	CReturnTitle();
+	~CReturnTitle();
 
-		void Update();
-		void Draw();
+	void Update();
+	void Draw();
 
-		const bool& GetPress(void) { return mkeyUp; }
-		void TabCancel(void);
+	void TabCancel();
+};
 
-	private:
-		std::string mFile = "";
-		std::unique_ptr<CPolygon> mpPolygon = nullptr;
-
-		const float mWidth = 640.0f;
-		const float mHeight = 480.0f;
-		const int mSpeed = 100;
-		const XMFLOAT2 mPosition = XMFLOAT2(350.0f, 100.0f);
-
-		int mMove = 0;
-		bool mkeyUp = false;
-		bool mkeyDown = false;
-		bool mkeyUpDown = false;
-	};
 //}
 #endif
 

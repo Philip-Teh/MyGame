@@ -3,6 +3,7 @@ using namespace std;
 CNumEnemy::CNumEnemy()
 {
 	mFile = "asset/texture/ui/enemy.png";
+
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon->Init(mFile,STATUS_POLYGONX, STATUS_POLYGONY);
 

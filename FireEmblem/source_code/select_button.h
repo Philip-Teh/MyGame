@@ -31,7 +31,7 @@
 		char mFilename[50] = "";
 
 		int mChoose = 0;
-		bool mClear[BUTTON] = {};
+		bool mClear[BUTTON + 1] = {};
 
 		void KeyInput();
 	};

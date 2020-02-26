@@ -6,6 +6,7 @@ CStageClear::CStageClear()
 	mpPolygon->Init("asset/texture/ui/stageclear.png", SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	SetMove();
+
 }
 
 CStageClear::~CStageClear()
@@ -17,33 +18,32 @@ CStageClear::~CStageClear()
 
 void CStageClear::Update()
 {
-	mMoveX += 30;
-	mMoveY-=5;
+	mMove += 30;
 
-	if (mMoveX >= SCREEN_WIDTH)
-		mMoveX = SCREEN_WIDTH;
-
-	if (mMoveY <= 0)
-		mMoveY = 0;
+	if (mMove >= SCREEN_WIDTH)
+		mMove = SCREEN_WIDTH;
 }
 
 void CStageClear::Draw()
 {
-	mpPolygon->Draw(XMFLOAT3(0.0f, 0.0f, LAYER2), 0, 0, mMoveX, SCREEN_HEIGHT);
+	mpPolygon->Draw(XMFLOAT3(0.0f, 0.0f, LAYER3), 0, 0, mMove, SCREEN_HEIGHT);
 	//mpPolygon->Draw(XMFLOAT3(SCREEN_WIDTH / 2.0f, 0.0f, 0.0f), SCREEN_WIDTH / 2, 0, mMoveX, SCREEN_HEIGHT);
 	//mpPolygon->Draw(XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 0, mMoveY, SCREEN_HEIGHT);
 }
 
 void CStageClear::SetMove()
 {
-	mMoveX = 0;
-	mMoveY = SCREEN_WIDTH / 2;
+	mMove = 0;
+	CEnter::SetEnable(false);
 }
 
 bool CStageClear:: DrawCompleted(void)
 {
-	if (mMoveX == SCREEN_WIDTH && mMoveY == 0)
+	if (mMove == SCREEN_WIDTH)
+	{
+		CEnter::SetEnable(true);
 		return true;
+	}
 	else
 		return false;
 }

@@ -1,20 +1,23 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=				ユーザーインターフェース	ステプップ						 =
+//=																			 =
+//============================================================================
+
 #ifndef STEP_H_
 #define STEP_H_
 
-class CStep
+class CStep : public CUI
 {
 public:
 	CStep();
 	~CStep();
+
 	void Update();
 	void Draw(int step);
 
-private:
-	std::string mFile;
-	std::unique_ptr<CPolygon> mpPolygon;
-	std::unique_ptr<CNumDraw> mpNumDraw;					//数字描画
 };
 
 #endif // !STEP_H_

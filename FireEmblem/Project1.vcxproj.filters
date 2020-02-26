@@ -86,16 +86,7 @@
     <ClInclude Include="source_code\include\input.h">
       <Filter>source_code\include</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\include\mesh.h">
-      <Filter>source_code\include</Filter>
-    </ClInclude>
-    <ClInclude Include="source_code\include\model.h">
-      <Filter>source_code\include</Filter>
-    </ClInclude>
     <ClInclude Include="source_code\include\model_animation.h">
-      <Filter>source_code\include</Filter>
-    </ClInclude>
-    <ClInclude Include="source_code\include\modela.h">
       <Filter>source_code\include</Filter>
     </ClInclude>
     <ClInclude Include="source_code\include\renderer.h">
@@ -130,12 +121,6 @@
     </ClInclude>
     <ClInclude Include="source_code\load_map.h">
       <Filter>source_code</Filter>
-    </ClInclude>
-    <ClInclude Include="source_code\game_object\character\allies.h">
-      <Filter>source_code\game_object\character</Filter>
-    </ClInclude>
-    <ClInclude Include="source_code\game_object\character\benemy.h">
-      <Filter>source_code\game_object\character</Filter>
     </ClInclude>
     <ClInclude Include="source_code\game_object\character\enemy.h">
       <Filter>source_code\game_object\character</Filter>
@@ -260,6 +245,15 @@
     <ClInclude Include="source_code\ui\pause.h">
       <Filter>source_code\ui</Filter>
     </ClInclude>
+    <ClInclude Include="source_code\game_object\character\enemy_state_chase.h">
+      <Filter>source_code\game_object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\ui.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source_code\ui\enter.h">
+      <Filter>source_code\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source_code\main.cpp">
@@ -280,13 +274,7 @@
     <ClCompile Include="source_code\include\input.cpp">
       <Filter>source_code\include</Filter>
     </ClCompile>
-    <ClCompile Include="source_code\include\model.cpp">
-      <Filter>source_code\include</Filter>
-    </ClCompile>
     <ClCompile Include="source_code\include\model_animation.cpp">
-      <Filter>source_code\include</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\include\modela.cpp">
       <Filter>source_code\include</Filter>
     </ClCompile>
     <ClCompile Include="source_code\include\renderer.cpp">
@@ -321,9 +309,6 @@
     </ClCompile>
     <ClCompile Include="source_code\map.cpp">
       <Filter>source_code</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\game_object\character\benemy.cpp">
-      <Filter>source_code\game_object\character</Filter>
     </ClCompile>
     <ClCompile Include="source_code\lib\WICTextureLoader.cpp">
       <Filter>source_code\lib</Filter>
@@ -437,6 +422,12 @@
       <Filter>source_code\ui</Filter>
     </ClCompile>
     <ClCompile Include="source_code\ui\pause.cpp">
+      <Filter>source_code\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\game_object\character\enemy_state_chase.cpp">
+      <Filter>source_code\game_object\character</Filter>
+    </ClCompile>
+    <ClCompile Include="source_code\ui\enter.cpp">
       <Filter>source_code\ui</Filter>
     </ClCompile>
   </ItemGroup>

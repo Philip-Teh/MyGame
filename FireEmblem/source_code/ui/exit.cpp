@@ -9,7 +9,7 @@ CExit::CExit()
 	mpPolygon->Init(mFile, mWidth, mHeight);
 
 	mMove = (int)SCREEN_HEIGHT;
-	mkeyUpDown = mkeyUp = mkeyDown = false;
+	mKeyUpDown = mKeyUp = mKeyDown = false;
 }
 
 CExit::~CExit()
@@ -21,27 +21,27 @@ CExit::~CExit()
 
 void CExit::Update()
 {
-	if (!mkeyUpDown && CInput::GetKeyTrigger(VK_ESCAPE)) {
-		mkeyUp = true;
-		mkeyDown = false;
+	if (!mKeyUpDown && CInput::GetKeyTrigger(VK_ESCAPE)) {
+		mKeyUp = true;
+		mKeyDown = false;
 	}
 
-	if (mkeyUpDown && CInput::GetKeyTrigger(VK_ESCAPE)) {
-		mkeyDown = true;
-		mkeyUp = false;
+	if (mKeyUpDown && CInput::GetKeyTrigger(VK_ESCAPE)) {
+		mKeyDown = true;
+		mKeyUp = false;
 	}
 
 
-	if (!mkeyDown && mkeyUp && !mkeyUpDown) {
+	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
-			mkeyUpDown = true;
+			mKeyUpDown = true;
 	}
 
-	if (mkeyDown && !mkeyUp && mkeyUpDown) {
+	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)
-			mkeyUpDown = false;
+			mKeyUpDown = false;
 	}
 
 	if (mMove <= 0)
@@ -55,9 +55,9 @@ void CExit::Draw()
 	mpPolygon->Draw(XMFLOAT3(mPosition.x, mPosition.y + mMove, LAYER2));
 }
 
-void CExit::TabCancel(void)
+void CExit::TabCancel()
 {
-	mkeyDown = true;
-	mkeyUp = false;
+	mKeyDown = true;
+	mKeyUp = false;
 	mMove += mSpeed;
 }

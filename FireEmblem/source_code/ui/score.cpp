@@ -3,6 +3,7 @@ using namespace std;
 CScore::CScore()
 {
 	mFile = "asset/texture/ui/score.png";
+
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon->Init(mFile, XMFLOAT3(STATUS_POSITIONX, STATUS_POSITIONY, LAYER7), STATUS_POLYGONX, STATUS_POLYGONY);
 

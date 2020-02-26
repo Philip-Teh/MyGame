@@ -20,17 +20,18 @@
 
 #include "include/texture.h"
 #include "include/input.h"
-#include "include/mesh.h"
-#include "include/model.h"
-#include "include/modela.h"
 #include "include/model_animation.h"
+
 #include "game_object/polygon.h"
 #include "ui/number.h"
 #include "ui/num_draw.h"
 
-#include "game_status.h"
-
 #include "game_object/game_object.h"
+#include "ui/ui.h"
+
+#include "game_status.h"
+#include "ui/enter.h"
+
 #include "game_object/camera.h"
 #include "game_object/bill_board.h"
 #include "game_object/field.h"
@@ -41,9 +42,8 @@
 #include "game_object//character/enemy_state.h"
 #include "game_object/character/enemy_state_move.h"
 #include "game_object/character/enemy_state_idle.h"
+#include "game_object/character/enemy_state_chase.h"
 #include "game_object/character/player.h"
-#include "game_object/character/benemy.h"
-#include "game_object/character/allies.h"
 
 #include "game_object/mesh_field.h"
 #include "game_object/skydome.h"

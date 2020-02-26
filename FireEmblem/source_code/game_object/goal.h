@@ -26,6 +26,8 @@ private:
 	std::unique_ptr<CModelAnimation> mpAnimation = nullptr;
 	CShader* mpShader = nullptr;
 
+	const float mRotateSpeed = 0.03f;
+
 	const char* mFile[3] = {};
 	const char* mAnimation[3] = {};
 

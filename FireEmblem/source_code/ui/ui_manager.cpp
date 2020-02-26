@@ -51,7 +51,7 @@ void CUIManager::Update()
 
 	mpExit->Update();
 
-	if (mpExit->GetPress())
+	if (mpExit->GetKeyUp())
 	{
 		if (CInput::GetKeyTrigger(VK_YEA))
 			CExitTrigger::SetExit(true);
@@ -110,9 +110,4 @@ void CUIManager::Appear()
 const bool& CUIManager::GetPress()
 {
 	return mpMenu->GetKeyUp();
-}
-
-const bool& CUIManager::GetMenu()
-{
-	return mpHelp->GetPress() || mpKeyInfo->GetPress() || mpReturn->GetPress() || mpTitle->GetPress();
 }

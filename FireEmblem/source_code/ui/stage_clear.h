@@ -1,11 +1,17 @@
 #pragma once
 
+//============================================================================
+//=																			 =
+//=				ユーザーインターフェース	ステージクリア					 =
+//=																			 =
+//============================================================================
+
 #ifndef STAGECLEAR_H
 #define STAGECLEAR_H
 
 //namespace StageSystem
 //{
-	class CStageClear
+	class CStageClear : public CUI
 	{
 	public:
 		CStageClear();
@@ -14,12 +20,8 @@
 		void Update();
 		void Draw();
 		
-		void SetMove(void);
-		bool DrawCompleted(void);
-
-	private:
-		std::unique_ptr<CPolygon> mpPolygon = nullptr;
-		int mMoveX = 0, mMoveY = 0;
+		void SetMove();
+		bool DrawCompleted();
 
 	};
 //}
