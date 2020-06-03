@@ -6,10 +6,6 @@ void CGame::Init()
 	CAudioClip::Stop(CBGM::Start);
 	CAudioClip::Play(true, CBGM::Game);
 
-	//mpCamera = make_unique<CCamera>();
-	//mpCamera->Init();
-	//mpCamera->Set(XMFLOAT3(3.0f, 5.0f, -7.0f));
-
 	AddGameObject<CCamera>()->Set(XMFLOAT3(3.0f, 5.0f, -7.0f));
 
 	mpSkydome = make_unique<CSkydome>();
@@ -18,11 +14,8 @@ void CGame::Init()
 	mpMeshField = make_unique<CMeshfield>();
 	mpMeshField->Init();
 
-	//AddGameObject<CPolygon>(UI)->Create(mTexture, XMFLOAT3(SCREEN_WIDTH*0.45f, SCREEN_HEIGHT*0.4f, 0.0f), 100, 100);
-
 	mpStageManager = make_unique<CStageManager>();
 	mpStageManager->Init();
-
 
 	mpGameOver = make_unique<CGameOver>();
 	mpGameOver->Init();
