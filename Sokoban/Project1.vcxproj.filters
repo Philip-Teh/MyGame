@@ -257,9 +257,6 @@
     <ClInclude Include="source_code\ui\stage_over.h">
       <Filter>source_code\ui</Filter>
     </ClInclude>
-    <ClInclude Include="source_code\bgm_manager.h">
-      <Filter>source_code</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source_code\main.cpp">
@@ -438,9 +435,6 @@
     </ClCompile>
     <ClCompile Include="source_code\ui\stage_over.cpp">
       <Filter>source_code\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="source_code\bgm_manager.cpp">
-      <Filter>source_code</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

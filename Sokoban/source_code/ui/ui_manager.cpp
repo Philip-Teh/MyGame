@@ -3,6 +3,7 @@ using namespace std;
 
 CUIManager::CUIManager()
 {
+	//ポインタ作成
 	mpScore = make_unique<CScore>();
 	mpStep = make_unique<CStep>();
 	mpNumEnemy = make_unique<CNumEnemy>();
@@ -30,6 +31,7 @@ void CUIManager::Update()
 {
 	mpMenu->Update();
 
+	//メニュー操作中
 	if (mpMenu->GetKeyUp())
 	{
 		mpHelp->Update();
@@ -38,6 +40,7 @@ void CUIManager::Update()
 		mpReturn->Update();
 	}
 
+	//メニュー退出時に全てのインターフェースを終了
 	if (mpMenu->GetKeyDown())
 	{
 		mpHelp->TabCancel();
@@ -50,10 +53,12 @@ void CUIManager::Update()
 
 	mpExit->Update();
 
+	//ゲーム退出時に確認インターフェースを表示
 	if (mpExit->GetKeyUp())
 	{
 		if (CInput::GetKeyTrigger(VK_YEA))
 			CExitTrigger::SetExit(true);
+
 		else if (CInput::GetKeyTrigger(VK_NAY))
 			mpExit->TabCancel();
 	}
@@ -68,25 +73,30 @@ void CUIManager::Update(bool enable)
 	}
 }
 
+//スコアとステップの描画
 void CUIManager::DrawStatus(int score,int step)
 {
 	mpScore->Draw(score);
 	mpStep->Draw(step);
 }
 
+//敵と引く鍵の描画
 void CUIManager::DrawEnemyStatus(int num)
 {
 	mpNumEnemy->Draw(num);
 	mpPull->Draw();
 }
 
+//ステージナンバー描画
 void CUIManager::DrawStageNum(int num)
 {
 	mpStageNum->Draw(num);
 }
 
+//メニュー描画
 void CUIManager::DrawMenu()
 {
+	//メニュー操作時にゲーム一時停止画面を描画
 	if (mpMenu->GetKeyUp())
 		mpPause->Draw();
 
@@ -100,6 +110,7 @@ void CUIManager::DrawMenu()
 	mpExit->Draw();
 }
 
+//隠しインターフェースを描画
 void CUIManager::Appear()
 {
 	mpNumEnemy->Appear();

@@ -7,6 +7,7 @@ void CGameOver::Init()
 	mFile[1] = "asset/texture/scene/gameover.png";
 	mFile[2] = "asset/texture/scene/troop.png";
 
+	//ポインタ作成
 	for (int i = 0; i < 3; i++)
 		mpPolygon[i] = make_unique<CPolygon>();
 
@@ -28,6 +29,7 @@ void CGameOver::Uninit()
 
 void CGameOver::Update()
 {
+	//画像ごとに移動開始時刻を設定
 	if (!mKeypress) {
 		mMove += 10;
 		if (mMove >= 500)
@@ -37,10 +39,12 @@ void CGameOver::Update()
 			mMove2 += 10;
 	}
 
+	//限界まで移動
 	mMove = MaxMove(mMove);
 	mMove1 = MaxMove(mMove1);
 	mMove2 = MaxMove(mMove2);
 
+	//元に戻す時、スピ＾ドは一緒
 	if (mKeypress) {
 		mMove -= 10;
 		mMove1 -= 10;

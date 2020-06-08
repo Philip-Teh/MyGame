@@ -31,7 +31,7 @@ private:
 	const char* mFile = "";
 	const char* mAnimation = "";
 
-	unsigned int mFrame = 0;
+	unsigned int mFrame = 0;	//アニメーションのフレーム
 	float mRotate = 0.0f;
 };
 

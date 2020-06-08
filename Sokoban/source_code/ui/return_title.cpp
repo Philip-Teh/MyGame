@@ -5,6 +5,7 @@ CReturnTitle::CReturnTitle()
 {
 	mFile = "asset/texture/ui/returntitle.png";
 
+	//ポインタ作成
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, mWidth, mHeight);
 
@@ -21,23 +22,27 @@ CReturnTitle::~CReturnTitle()
 
 void CReturnTitle::Update()
 {
-	if (!mKeyUpDown && CInput::GetKeyTrigger('4')) {
+	//同じキーで開くことと閉じることを実行する
+	//開く
+	if (!mKeyUpDown && CInput::GetKeyTrigger(VK_NUM4)) {
 		mKeyUp = true;
 		mKeyDown = false;
 	}
 
-	if (mKeyUpDown && CInput::GetKeyTrigger('4')) {
+	//閉じる
+	if (mKeyUpDown && CInput::GetKeyTrigger(VK_NUM4)) {
 		mKeyDown = true;
 		mKeyUp = false;
 	}
 
-
+	//開く移動処理
 	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
 			mKeyUpDown = true;
 	}
 
+	//閉じる移動処理
 	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)
@@ -46,6 +51,7 @@ void CReturnTitle::Update()
 
 	if (mMove <= 0)
 		mMove = 0;
+
 	if (mMove >= SCREEN_HEIGHT)
 		mMove = SCREEN_HEIGHT;
 }

@@ -6,6 +6,7 @@ CPull::CPull()
 	mFile1 = "asset/texture/ui/lock.png";
 	mFile2 = "asset/texture/ui/unlock.png";
 
+	//ポインタ作成
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon1 = make_unique<CPolygon>();
 	mpPolygon2 = make_unique<CPolygon>();
@@ -31,12 +32,15 @@ CPull::~CPull()
 
 void CPull::Update()
 {
+	//閉じる
 	if (!mKeyDown && !mKeyUp && CInput::GetKeyTrigger(VK_UP))
 		mKeyUp = true;
 
+	//開く
 	if (!mKeyUp && !mKeyDown && CInput::GetKeyTrigger(VK_DOWN))
 		mKeyDown = true;
 
+	//閉じる移動処理
 	if (mKeyUp && mMove >= 0)
 	{
 		mMove -= mSpeed;
@@ -46,6 +50,8 @@ void CPull::Update()
 			mMove = 0;
 		}
 	}
+
+	//開く移動処理
 	if (mKeyDown && mMove <= mMaxMove)
 	{
 		mMove += mSpeed;

@@ -3,6 +3,7 @@
 
 void CModelAnimation::Load(const char** Filename, std::shared_ptr<CShader> shader)
 {
+	//ファイル読み込み
 	this->mDirectory = Filename[0];
 	mHastexture = false;
 
@@ -33,7 +34,7 @@ void CModelAnimation::Load(const char** Filename, std::shared_ptr<CShader> shade
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &specular);
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &ambient);
 		
-		//テクスチャ
+		//テクスチャロード
 		size_t pos = mDirectory.find_last_of("\\/");
 		std::string basePath = mDirectory.substr(0, pos + 1);
 		aiString path;
@@ -57,7 +58,7 @@ void CModelAnimation::Load(const char** Filename, std::shared_ptr<CShader> shade
 				vertex[i].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 		}
 
-		//VertexBuffer
+		//頂点バッファ
 		{
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
@@ -83,7 +84,7 @@ void CModelAnimation::Load(const char** Filename, std::shared_ptr<CShader> shade
 		}
 		m_Mesh[m].IndexNum = mesh->mNumFaces * 3;
 
-		//IndexBuffer
+		//インデックスバッファ
 		{
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
@@ -219,6 +220,7 @@ void CModelAnimation::Unload()
 
 void CModelAnimation::Update(int Animation,unsigned int Frame)
 {
+	//アニメーションを動作
 	aiAnimation* animation = m_Scene[Animation]->mAnimations[0];
 
 	for (unsigned int c = 0; c < animation->mNumChannels; c++)
@@ -267,16 +269,11 @@ void CModelAnimation::DrawMesh(aiNode* Node, XMMATRIX Matrix)
 	XMVECTOR vector = XMLoadFloat3(&XMFLOAT3(aiVec.x, aiVec.y, aiVec.z));
 	world *= XMMatrixTranslationFromVector(vector);
 
-	//XMFLOAT3 vector = XMFLOAT3(aiVec.x, aiVec.y, aiVec.z);
-	//world *= XMMatrixTranslation(vector.x, vector.y, vector.z);
-
 	world *= Matrix;											//自分のmatrix * 親のmatrix
 
 	XMFLOAT4X4 w;
 	XMStoreFloat4x4(&w, world);
 
-	//CRenderer::SetWorldMatrix(&world);
-	//CShader::SetWorldMatrix(&w);
 	mpShader->SetWorldMatrix(&w);
 	mpShader->Set();
 

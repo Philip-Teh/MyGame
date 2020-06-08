@@ -22,6 +22,7 @@ void CMeshfield::Init()
 	m_Texture = new CTexture();
 	m_Texture->LoadTexture("asset/texture/game_object/floor2.png");
 	
+	//ポインタ作成
 	mpShader = make_unique<CShader>();
 	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
@@ -174,12 +175,13 @@ void CMeshfield::Draw()
 	XMStoreFloat4x4(&view, camera->GetViewMatrix());
 	XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
 
+	//シェーダ設定
 	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 	mpShader->SetViewMatrix(&view);
 	mpShader->SetProjectionMatrix(&projection);
 	mpShader->Set();
 
-	//トポロジ設定&Draw
+	//描画
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	CRenderer::GetDeviceContext()->DrawIndexed(NumIndex, 0, 0);
 }
@@ -232,31 +234,4 @@ float CMeshfield::GetHeight(XMFLOAT3 position)
 	hp.y = position.y+0.7f + v.y * t;
 
 	return hp.y;
-}
-
-
-//村瀬先生
-void MURASE_Field(void)
-{
-	VERTEX_3D m_Vertex[25];
-	for (int z = 0; z < 5; z++)
-	{
-		for (int x = 0; x < 5; x++)
-		{
-			m_Vertex[z * 5 + x].Position.x = x * 2.0f;
-			m_Vertex[z * 5 + x].Position.z = -z * 2.0f;
-			m_Vertex[z * 5 + x].Position.y = FieldY[z][x];
-			//.......
-		}
-	}
-	//頂点バッファ生成....
-	unsigned short index[25];
-	index[0] = 6;
-	index[1] = 0;
-	index[2] = 7;
-	index[3] = 1;
-	index[4] = 8;
-	index[5] = 2;	//for文
-	//......
-	//インデックスバッファ生成....
 }

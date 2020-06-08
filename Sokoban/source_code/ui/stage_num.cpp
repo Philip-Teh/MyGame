@@ -4,6 +4,7 @@ CStageNum::CStageNum()
 {
 	mFile = "asset/texture/ui/stage.png";
 
+	//É|ÉCÉìÉ^çÏê¨
 	mpPolygon =  make_unique<CPolygon>();
 	mpPolygon->Init(mFile, XMFLOAT3(10.0f, 0.0f, LAYER7), STATUS_POLYGONX * mSize, STATUS_POLYGONY * mSize);
 

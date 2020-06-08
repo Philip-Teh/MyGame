@@ -15,6 +15,7 @@ CGoal::CGoal()
 	mFile = "asset/model/goal.fbx";
 	mAnimation = "asset/model/goal1.fbx";
 
+	//ポインタ作成
 	mpShader = make_shared<CShader>();
 	mpShader->Init("shader_goal_vs.cso", "shader_goal_ps.cso");
 
@@ -39,7 +40,10 @@ CGoal::~CGoal()
 
 void CGoal::Update()
 {
+	//回転
 	m_Rotation.y += mRotateSpeed;
+
+	//アニメーション
 	mpAnimation->Update(0, mFrame);
 	mFrame++;
 }
@@ -50,6 +54,7 @@ void CGoal::Draw(XMFLOAT3 position, bool trigger)
 	{
 		m_Position = position;
 
+		//マトリクス設定
 		XMMATRIX world,world1;
 		world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 		world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
@@ -65,10 +70,12 @@ void CGoal::Draw(XMFLOAT3 position, bool trigger)
 		XMStoreFloat4x4(&view, camera->GetViewMatrix());
 		XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
 
+		//シェーダ設定
 		mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 		mpShader->SetViewMatrix(&view);
 		mpShader->SetProjectionMatrix(&projection);
 
+		//描画
 		mpModel->Draw(world);
 		mpAnimation->Draw(world1);
 	}

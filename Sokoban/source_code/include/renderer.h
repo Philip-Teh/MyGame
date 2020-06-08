@@ -101,10 +101,19 @@ public:
 	static void Begin();
 	static void End();
 
+	//深度ステンシルステート
 	static void SetDepthEnable(bool Enable);
+
+	//頂点バッファ
 	static void SetVertexBuffers(ID3D11Buffer* VertexBuffer);
+
+	//インデックスバッファ
 	static void SetIndexBuffer(ID3D11Buffer* IndexBuffer);
+
+	//テクスチャセット
 	static void SetTexture(CTexture* Texture, int num);
+
+	//インデックス描画
 	static void DrawIndexed(unsigned int IndexCount, unsigned int StartIndexLocation, int BaseVertexLocation);
 
 	static ID3D11Device* GetDevice(void) { return m_D3DDevice; }

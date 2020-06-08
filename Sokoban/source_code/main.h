@@ -73,8 +73,13 @@ using namespace DirectX;
 #define NUMSPACEX (250.0f)	//数字の空き横スペース
 #define NUMSPACEY (10.0f)	//数字の空き縦スペース
 
-#define VK_YEA ('Y')	//キーボード入力Y
-#define VK_NAY ('N')	//キーボード入力N
+#define VK_NUM1 ('1')	//キーボード入力1番
+#define VK_NUM2 ('2')	//キーボード入力2番
+#define VK_NUM3 ('3')	//キーボード入力3番
+#define VK_NUM4 ('4')	//キーボード入力4番
+#define VK_R    ('R')	//キーボード入力R
+#define VK_YEA  ('Y')	//キーボード入力Y
+#define VK_NAY  ('N')	//キーボード入力N
 
 HWND GetWindow();
 

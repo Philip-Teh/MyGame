@@ -18,6 +18,7 @@ public:
 	void Update();
 	void Draw(int num);
 
+	//隠しインターフェースを表示
 	void Appear() { mKeyDown = true; }
 
 private:

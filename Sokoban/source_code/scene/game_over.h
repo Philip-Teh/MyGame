@@ -34,6 +34,7 @@ private:
 	float mMove = 0.0f, mMove1 = 0.0f, mMove2 = 0.0f;
 	bool mKeypress = false;
 
+	//ŒÀŠE‚Ü‚Å‚ÌˆÚ“®
 	float MaxMove(float move);
 };
 

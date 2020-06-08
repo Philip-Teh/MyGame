@@ -20,17 +20,20 @@ public:
 private:
 	std::string mTexture = "";
 
-	std::unique_ptr<CCamera> mpCamera = nullptr;
-	std::unique_ptr<CStageManager> mpStageManager = nullptr;
-	std::unique_ptr<CSkydome> mpSkydome = nullptr;
-	std::unique_ptr<CMeshfield> mpMeshField = nullptr;
+	std::unique_ptr<CCamera> mpCamera = nullptr;				//カメラ
+	std::unique_ptr<CStageManager> mpStageManager = nullptr;	//ステージマネージャー
+	std::unique_ptr<CSkydome> mpSkydome = nullptr;				//スカイドーム
+	std::unique_ptr<CMeshfield> mpMeshField = nullptr;			//メッシュフィール
 
-	std::unique_ptr<CGameOver> mpGameOver = nullptr;
-	std::unique_ptr<CReplay> mpReplay = nullptr;
+	std::unique_ptr<CGameOver> mpGameOver = nullptr;			//ゲームオーバー
+	std::unique_ptr<CReplay> mpReplay = nullptr;				//リプレイ
 
 	bool mGameOver = false;
 
+	//ステージセレクトへ戻す処理
 	bool ReturnStageSelect();
+
+	//タイトルへ戻す処理
 	bool ReturnTitle();
 };
 

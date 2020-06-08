@@ -23,11 +23,11 @@ private:
 	std::unique_ptr<CBillBoard> mpBillBoard = nullptr;
 
 	bool mEnable = false;
-	int mFrameCount = 0;
-	int mCreateFrame = 0;
-	int mPatternCount = 0;
+	int mFrameCount = 0;	//カウントフレーム
+	int mCreateFrame = 0;	//クリエイトフレーム
+	int mPatternCount = 0;	//カウントパターン
 
-	int mPatternMax = 0;
+	int mPatternMax = 0;	//パターン最大数
 	XMINT2 mSize = XMINT2(0, 0);
 };
 

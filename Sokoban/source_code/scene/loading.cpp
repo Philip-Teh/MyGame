@@ -16,14 +16,16 @@ const int gLiveX1 = 0, gLiveX2 = 81, gLiveX3 = 162;
 const int gLiveY1 = 0, gLiveY2 = 75;
 
 std::string mTexture1 = "asset/texture/scene/loading.png";
+std::string mTextureWalk = "asset/texture/scene/walk.png";
 
 void CLoading::Init()
 {
+	//ポインタ作成
 	for (int i = 0; i < 2; i++)
 		mpPolygon[i] = std::make_unique<CPolygon>();
 
 	mpPolygon[0]->Init(mTexture1, SCREEN_WIDTH, SCREEN_HEIGHT);
-	mpPolygon[1]->Init("asset/texture/scene/walk.png", gTexWidth, gTexHeight);
+	mpPolygon[1]->Init(mTextureWalk, gTexWidth, gTexHeight);
 
 	mMove = SCREEN_WIDTH;
 	mFrame = 0;
@@ -42,6 +44,7 @@ void CLoading::Uninit()
 
 bool CLoading::Update()
 {
+	//ローディング開始
 	if (!mMoveDirection && mEnable)
 	{
 		mMove /= 1.5f;
@@ -56,9 +59,11 @@ bool CLoading::Update()
 		}
 	}
 
+	//待機
 	if (mMove <= 1.0f && !mChanging)
 		mFrame++;
 
+	//ローディング終了
 	if (mMoveDirection && mFrame >= 5)
 	{
 		mMove += 100.0f;
@@ -73,6 +78,7 @@ bool CLoading::Update()
 		}
 	}
 
+	//画像パターンをチェンジ
 	mPatternX += gLiveX2;
 	if (mPatternX >= gLiveX3 + 1)
 		mPatternX = gLiveX1;

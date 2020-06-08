@@ -3,9 +3,8 @@ using namespace std;
 void CEffect::Init(std::string texture,XMFLOAT2 size,int patternmax)
 {
 	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	/*m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);*/
 
+	//ポインタ作成
 	mpBillBoard = make_unique<CBillBoard>();
 	mpBillBoard->Init(texture, size);
 
@@ -31,9 +30,11 @@ void CEffect::Update()
 {
 	if (mEnable)
 	{
+		//エフェクトの存在時間を計算
 		int age = mFrameCount - mCreateFrame;
 		mPatternCount = age / mPatternMax;
 
+		//時間を超えたら、無効にする
 		if (mPatternCount >= mPatternMax)
 			mEnable = false;
 
@@ -45,6 +46,7 @@ void CEffect::Draw()
 {
 	if (mEnable)
 	{
+		//画像パターン分割
 		int tx = mSize.x / mPatternMax * (mPatternCount % mPatternMax);
 		int ty = mSize.y * (mPatternCount / mPatternMax);
 

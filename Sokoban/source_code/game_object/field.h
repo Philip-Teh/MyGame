@@ -20,8 +20,8 @@ private:
 	std::unique_ptr<CShader> mpShader = nullptr;
 	CTexture* mpTexture = nullptr;
 
-	ID3D11Buffer* mpVertexBuffer = nullptr;
-	ID3D11Buffer* mpIndexBuffer = nullptr;
+	ID3D11Buffer* mpVertexBuffer = nullptr;	//頂点バッファ
+	ID3D11Buffer* mpIndexBuffer = nullptr;	//インデックスバッファ
 
 	const XMFLOAT2 mSize = XMFLOAT2(1.0f, 1.0f);
 	const XMINT2 mNum = XMINT2(1, 1);

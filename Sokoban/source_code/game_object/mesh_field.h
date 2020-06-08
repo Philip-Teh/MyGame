@@ -19,8 +19,8 @@ public:
 	float GetHeight(XMFLOAT3 position);
 
 private:
-	ID3D11Buffer* m_VertexBuffer = nullptr;
-	ID3D11Buffer* m_IndexBuffer = nullptr;
+	ID3D11Buffer* m_VertexBuffer = nullptr;	//頂点バッファ
+	ID3D11Buffer* m_IndexBuffer = nullptr;	//インデックスバッファ
 
 	VERTEX_3D* Vertex = nullptr;
 	unsigned short* Index = nullptr;

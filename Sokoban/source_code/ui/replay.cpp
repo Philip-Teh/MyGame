@@ -5,6 +5,7 @@ CReplay::CReplay()
 {
 	mFile = "asset/texture/scene/replay.png";
 
+	//ポインター作成
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, mWidth, mHeight);
 }

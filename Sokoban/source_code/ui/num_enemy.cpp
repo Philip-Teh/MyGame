@@ -4,6 +4,7 @@ CNumEnemy::CNumEnemy()
 {
 	mFile = "asset/texture/ui/enemy.png";
 
+	//ポインタ作成
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon->Init(mFile,STATUS_POLYGONX, STATUS_POLYGONY);
 
@@ -24,12 +25,15 @@ CNumEnemy::~CNumEnemy()
 
 void CNumEnemy::Update()
 {
+	//閉じる
 	if (!mKeyDown && !mKeyUp && CInput::GetKeyTrigger(VK_UP))
 		mKeyUp = true;
 
+	//開く
 	if (!mKeyDown && !mKeyUp && CInput::GetKeyTrigger(VK_DOWN))
 		mKeyDown = true;
 
+	//閉じる移動処理
 	if (mKeyUp && mMove >= 0)
 	{
 		mMove -= mSpeed;
@@ -39,6 +43,8 @@ void CNumEnemy::Update()
 			mMove = 0;
 		}
 	}
+
+	//開く移動処理
 	if (mKeyDown && mMove <= mMaxMove)
 	{
 		mMove += mSpeed;

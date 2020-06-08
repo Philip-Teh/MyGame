@@ -39,6 +39,7 @@ void CPolygon::Init(std::string file,XMFLOAT3 position, float sizeX, float sizeY
 
 	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpVertexBuffer);*/
 
+	//ポインタ作成
 	mpShader = make_unique<CShader>();
 	mpShader->Init("shader_2d_vs.cso", "shader_2d_ps.cso");
 
@@ -50,6 +51,7 @@ void CPolygon::Init(std::string file,float sizeX, float sizeY)
 {
 	mSize = XMFLOAT2(sizeX, sizeY);
 
+	//ポインタ作成
 	mpShader = make_unique<CShader>();
 	mpShader->Init("shader_2d_vs.cso", "shader_2d_ps.cso");
 
@@ -161,12 +163,15 @@ void CPolygon::Draw(XMFLOAT3 position)
 	UINT offset = 0;
 	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &mpVertexBuffer, &stride, &offset);
 
+	//シェーダ設定
 	XMFLOAT4X4 projection;
 	XMStoreFloat4x4(&projection, XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f));
 	mpShader->SetProjectionMatrix(&projection);
 	mpShader->Set();
 
 	CRenderer::SetTexture(mpTexture, 0);
+
+	//描画
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	CRenderer::GetDeviceContext()->Draw(4, 0);
 
@@ -220,12 +225,15 @@ void CPolygon::Draw(XMFLOAT3 position, int tx, int ty, int tw, int th)
 	UINT offset = 0;
 	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &mpVertexBuffer, &stride, &offset);
 
+	//シェーダ設定
 	XMFLOAT4X4 projection;
 	XMStoreFloat4x4(&projection, XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f));
 	mpShader->SetProjectionMatrix(&projection);
 	mpShader->Set();
 
 	CRenderer::SetTexture(mpTexture, 0);
+
+	//描画
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	CRenderer::GetDeviceContext()->Draw(4, 0);
 
@@ -300,21 +308,10 @@ void CPolygon::DrawBillBoard(XMFLOAT3 position, int tx, int ty, int tw, int th)
 		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpIndexBuffer);
 	}
 
-	//UINT stride = sizeof(VERTEX_3D);
-	//UINT offset = 0;
-	//CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &mpVertexBuffer, &stride, &offset);
-
 	CRenderer::SetVertexBuffers(mpVertexBuffer);
 	CRenderer::SetIndexBuffer(mpIndexBuffer);
 
-	//XMFLOAT4X4 projection;
-	//XMStoreFloat4x4(&projection, XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f));
-	//mpShader->SetProjectionMatrix(&projection);
-	//mpShader->Set();
-
 	CRenderer::SetTexture(mpTexture, 0);
-	//CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	//CRenderer::GetDeviceContext()->Draw(4, 0);
 
 	mpVertexBuffer->Release();
 	mpIndexBuffer->Release();

@@ -4,6 +4,7 @@ CStep::CStep()
 {
 	mFile = "asset/texture/ui/step.png";
 
+	//É|ÉCÉìÉ^çÏê¨
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon->Init(mFile, XMFLOAT3(STATUS_POSITIONX, STATUS_POSITIONY + 40.0f, LAYER7), STATUS_POLYGONX, STATUS_POLYGONY);
 

@@ -3,6 +3,7 @@ using namespace std;
 
 void CNumber::Init(std::string texture,float sizeX,float sizeY)
 {
+	//ƒ|ƒCƒ“ƒ^ì¬
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon->Init(texture, sizeX, sizeY);
 }
@@ -14,6 +15,7 @@ void  CNumber::Uninit(void)
 
 void  CNumber::Draw(XMFLOAT3 position,int n)
 {
+	//ƒ[ƒ‚©‚ç‹ã‚Ü‚Å•`‰æ‹Ö~
 	if (n < 0 || n>9)
 	{
 		return;
@@ -23,6 +25,7 @@ void  CNumber::Draw(XMFLOAT3 position,int n)
 
 void  CNumber::Draw(XMFLOAT3 position, int n, int tw, int th)
 {
+	//ƒ[ƒ‚©‚ç‹ã‚Ü‚Å•`‰æ‹Ö~
 	if (n < 0 || n>9)
 	{
 		return;

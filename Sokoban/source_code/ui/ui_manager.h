@@ -54,22 +54,23 @@
 		const bool& GetExit() { return mpExit->GetKeyUp(); }
 
 	private:
-		std::unique_ptr<CScore> mpScore = nullptr;
-		std::unique_ptr<CStep> mpStep = nullptr;
-		std::unique_ptr<CNumEnemy> mpNumEnemy = nullptr;
-		std::unique_ptr<CPull> mpPull = nullptr;
-		std::unique_ptr<CStageNum> mpStageNum = nullptr;
+		//インターフェース
+		std::unique_ptr<CScore> mpScore = nullptr;					//スコア
+		std::unique_ptr<CStep> mpStep = nullptr;					//ステップ
+		std::unique_ptr<CNumEnemy> mpNumEnemy = nullptr;			//敵の数
+		std::unique_ptr<CPull> mpPull = nullptr;					//引く表示
+		std::unique_ptr<CStageNum> mpStageNum = nullptr;			//ステージナンバー
 
-		std::unique_ptr<CMenu> mpMenu = nullptr;
-		std::unique_ptr<CHelp> mpHelp = nullptr;
-		std::unique_ptr<CKeyInfo> mpKeyInfo = nullptr;
-		std::unique_ptr<CReturnTitle> mpTitle = nullptr;
-		std::unique_ptr<CReturnStageSelect> mpReturn = nullptr;
+		std::unique_ptr<CMenu> mpMenu = nullptr;					//メニュー
+		std::unique_ptr<CHelp> mpHelp = nullptr;					//ゲーム説明
+		std::unique_ptr<CKeyInfo> mpKeyInfo = nullptr;				//キー入力
+		std::unique_ptr<CReturnStageSelect> mpReturn = nullptr;		//ステージセレクトへリターン
+		std::unique_ptr<CReturnTitle> mpTitle = nullptr;			//タイトルへリターン
 
-		std::unique_ptr<CReset> mpReset = nullptr;
-		std::unique_ptr<CExit> mpExit = nullptr;
+		std::unique_ptr<CReset> mpReset = nullptr;					//ステージをリセット
+		std::unique_ptr<CExit> mpExit = nullptr;					//ゲームを終了
 
-		std::unique_ptr<CPause> mpPause = nullptr;
+		std::unique_ptr<CPause> mpPause = nullptr;					//ゲームを一時停止
 
 	};
 

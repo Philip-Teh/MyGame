@@ -10,6 +10,7 @@ CAction CEnemyStateMove:: Action(CEnemyTroop* p)
 
 	if (mFrame >= mRand)
 	{
+		//‘Ò‹@ó‘Ô‚Ö
 		p->ChangeState(new CEnemyStateIdle());
 		return CAction::Idle;
 	}

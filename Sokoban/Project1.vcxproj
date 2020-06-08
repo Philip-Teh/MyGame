@@ -196,7 +196,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source_code\bgm_manager.h" />
     <ClInclude Include="source_code\game_object\bill_board.h" />
     <ClInclude Include="source_code\game_object\box.h" />
     <ClInclude Include="source_code\game_object\camera.h" />
@@ -264,7 +263,6 @@
     <ClInclude Include="source_code\ui\ui_manager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source_code\bgm_manager.cpp" />
     <ClCompile Include="source_code\game_object\bill_board.cpp" />
     <ClCompile Include="source_code\game_object\box.cpp" />
     <ClCompile Include="source_code\game_object\camera.cpp" />

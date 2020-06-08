@@ -21,7 +21,7 @@ private:
 	std::string mTexture[2] = {};
 	std::unique_ptr<CPolygon> mpPolygon[2] = {};
 
-	std::unique_ptr<CSelectButton> mpSelectButton = nullptr;
+	std::unique_ptr<CSelectButton> mpSelectButton = nullptr;	//ボタンポインタ
 
 	const float mPositionX = 400.0f;
 	const float mWidth = 500.0f;

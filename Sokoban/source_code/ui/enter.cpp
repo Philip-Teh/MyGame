@@ -13,12 +13,12 @@ void CEnter::Init()
 {
 	mFile = "asset/texture/ui/enter.png";
 
+	//ƒ|ƒCƒ“ƒ^ì¬
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon->Init(mFile, gWidth, gHeight);
 
 	mFrame = 0;
 	mEnable = false;
-	//mPosition = XMFLOAT2(0.0f, 0.0f);
 }
 
 void CEnter::Uninit()

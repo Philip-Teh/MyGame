@@ -5,6 +5,7 @@ CReturnStageSelect::CReturnStageSelect()
 {
 	mFile = "asset/texture/ui/return.png";
 
+	//ポインタ作成
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, mWidth, mHeight);
 
@@ -21,23 +22,27 @@ CReturnStageSelect::~CReturnStageSelect()
 
 void CReturnStageSelect::Update()
 {
-	if (!mKeyUpDown && CInput::GetKeyTrigger('3')) {
+	//同じキーで開くことと閉じることを実行する
+	//開く
+	if (!mKeyUpDown && CInput::GetKeyTrigger(VK_NUM3)) {
 		mKeyUp = true;
 		mKeyDown = false;
 	}
 
-	if (mKeyUpDown && CInput::GetKeyTrigger('3')) {
+	//閉じる
+	if (mKeyUpDown && CInput::GetKeyTrigger(VK_NUM3)) {
 		mKeyDown = true;
 		mKeyUp = false;
 	}
 
-
+	//開く移動処理
 	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
 			mKeyUpDown = true;
 	}
 
+	//閉じる移動処理
 	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)

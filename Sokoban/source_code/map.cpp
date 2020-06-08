@@ -1,9 +1,11 @@
+using namespace std;
 
 void CMap::Load(int num)
 {
 	if (!mpLoadMap)
-		mpLoadMap = std::make_unique<CLoadMap>();
+		mpLoadMap = make_unique<CLoadMap>();
 
+	//マップ情報を保存
 	mpLoadMap->Load(num);
 
 	mMapX = mpLoadMap->GetMapX();
@@ -16,21 +18,23 @@ void CMap::Load(int num)
 
 void CMap::Init()
 {
-	std::srand((int)std::time(nullptr));
+	//乱数初期化(敵)
+	srand((int)time(nullptr));
 
-	mpPlayer = std::make_unique<CPlayer>();
+	//ポインタ作成
+	mpPlayer = make_unique<CPlayer>();
 	mpPlayer->Init();
 
-	mpWall = std::make_unique<CWall>();
-	mpGoal = std::make_unique<CGoal>();
-	mpFloor = std::make_unique<CFloor>();
-	mpBox = std::make_unique<CBox>();
+	mpWall = make_unique<CWall>();
+	mpGoal = make_unique<CGoal>();
+	mpFloor = make_unique<CFloor>();
+	mpBox = make_unique<CBox>();
 
 	mpPlayer->SetPosition(XMFLOAT3((float)mpLoadMap->GetPlayerPosition().x, 0, (float)mpLoadMap->GetPlayerPosition().y));
 
 	for (int i = 0; i < mNumEnemy; i++)
 	{
-		mpEnemyTroop.push_back(std::make_unique<CEnemyTroop>());
+		mpEnemyTroop.push_back(make_unique<CEnemyTroop>());
 		mpEnemyTroop[i]->SetPosition(XMFLOAT3((float)mpLoadMap->GetEnemyPosition()[i].x, 0, (float)mpLoadMap->GetEnemyPosition()[i].y));
 	}
 
@@ -38,7 +42,7 @@ void CMap::Init()
 
 	//mBstep.push_back(BoxbyStep(CBoxType::None));
 
-	//std::list<XMINT2> pos = mpLoadMap->GetFirstBoxPosition();
+	//list<XMINT2> pos = mpLoadMap->GetFirstBoxPosition();
 
 	//for (auto itr = pos.begin(); itr != pos.end(); ++itr)
 	//	mBstep.at(0).backspace[itr->x][itr->y] = CBoxType::Exists;
@@ -96,10 +100,12 @@ void CMap::Update()
 		{
 			mpEnemyTroop[i]->Update(mType, mBox, mpPlayer->GetPosition());
 
+			//敵を箱の当たり判定
 			if (mpEnemyTroop[i]->Hit(mBox, mpPlayer->GetDirection(),XMINT2(mMapX,mMapZ)))
 			{
 				mEnemy--;
 
+				//敵がゼロの場合、箱を引けなくなります
 				if (mEnemy == 0)
 				{
 					mpPlayer->SetPullEnable(false);
@@ -107,9 +113,11 @@ void CMap::Update()
 				}
 			}
 		}
+		//敵とプレイヤーの当たりを判定し、ゲームオーバー判定
 		GameOver();
 	}
 
+	//プレイヤーの移動アニメーション完了判定
 	if (MoveAnimation())
 		mComplete = true;
 	else
@@ -122,32 +130,40 @@ void CMap::Draw()
 	{
 		for (int x = 0; x < mMapX; x++)
 		{
+			//描画位置を中心にする
 			XMFLOAT3 p;
 			p.x = CELLSIZE * x - mMapX * CELLSIZE / 2;
 			p.z = CELLSIZE * z - mMapZ * CELLSIZE / 2;
 
+			//床描画
 			if (mType[z][x] == CObjectType::Floor) {
 				mpFloor->Draw(XMFLOAT3(p.x, -1.1f, -p.z));
 			}
+			//ゴール描画
 			else if (mType[z][x] == CObjectType::Goal)
 			{
 				mpFloor->Draw(XMFLOAT3(p.x, -1.1f, -p.z));
 
+				//箱と重なっている状態
 				if (mBox[z][x] == CBoxType::Exists)
 					mpGoal->Draw(XMFLOAT3(p.x, -1.0f, -p.z), true);
 				else
 					mpGoal->Draw(XMFLOAT3(p.x, -1.0f, -p.z), false);
 			}
+			//壁描画
 			else if (mType[z][x] == CObjectType::Wall)
 			{
 				mpWall->Draw(XMFLOAT3(p.x, 0.0f, -p.z));
 			}
 
+			//箱描画
 			if (mBox[z][x] == CBoxType::Exists)
 			{
+				//ゴールと重なっている状態
 				if (mType[z][x] == CObjectType::Goal)
 					mpBox->Draw(XMFLOAT3(p.x, 0.0f, -p.z), 1);
 
+				//箱が動かない状態
 				else if (BoxClogged(XMINT2(z, x)) && mLock) {
 					mStageIsOver = true;
 					mpBox->Draw(XMFLOAT3(p.x, 0.0f, -p.z), 2);
@@ -156,6 +172,7 @@ void CMap::Draw()
 				else
 					mpBox->Draw(XMFLOAT3(p.x, 0.0f, -p.z), 0);
 			}
+			//箱の移動描画
 			else if (mBox[z][x] == CBoxType::Moving)
 			{
 				mpBox->Draw(XMFLOAT3(p.x + mMoveOffset.x, 0.0f, -p.z - mMoveOffset.y), 0);
@@ -163,11 +180,13 @@ void CMap::Draw()
 		}
 	}
 
+	//プレイヤー描画
 	XMFLOAT3 pp;
 	pp.x = CELLSIZE * mpPlayer->GetPosition().x + mMoveOffset.x- mMapX * CELLSIZE / 2;
 	pp.z = CELLSIZE * mpPlayer->GetPosition().z + mMoveOffset.y- mMapZ * CELLSIZE / 2;
 	mpPlayer->Draw(XMFLOAT3(pp.x, 0.0f, -pp.z));
 
+	//敵描画
 	if (mNumEnemy > 0)
 		for (int i = 0; i < mNumEnemy; i++)
 		{
@@ -205,10 +224,12 @@ void CMap::PlayerMove(int x, int y)
 	back.x = (int)mpPlayer->GetPosition().x - x;
 	back.y = (int)mpPlayer->GetPosition().z - y;
 
-	if (mType[front.y][front.x] == CObjectType::Wall)						//一歩先が壁の場合　何もしない
+	//一歩先が壁の場合　何もしない
+	if (mType[front.y][front.x] == CObjectType::Wall)
 		return;
 
-	if (mBox[front.y][front.x] == CBoxType::Exists || mBox[front.y][front.x] == CBoxType::Moving) {		//箱との当たり判定
+	//箱との当たり判定
+	if (mBox[front.y][front.x] == CBoxType::Exists || mBox[front.y][front.x] == CBoxType::Moving) {		
 
 		front2.x = front.x + x;
 		front2.y = front.y + y;
@@ -217,9 +238,14 @@ void CMap::PlayerMove(int x, int y)
 		if (mType[front2.y][front2.x] == CObjectType::Wall || mBox[front2.y][front2.x] == CBoxType::Exists)
 			return;
 
-		mBox[front2.y][front2.x] = CBoxType::Moving;							//箱を移動
-		mBox[front.y][front.x] = CBoxType::None;								//箱の元場所を消す
+		//箱を移動
+		mBox[front2.y][front2.x] = CBoxType::Moving;
+
+		//箱の元場所を消す
+		mBox[front.y][front.x] = CBoxType::None;								
 	}
+
+	//箱を引く
 	if (mpPlayer->GetPull() && mBox[back.y][back.x] == CBoxType::Exists) {
 
 		if (mType[front.y][front.x] == CObjectType::Wall || mBox[front.y][front.x] == CBoxType::Exists)
@@ -257,10 +283,12 @@ void CMap::PlayerMove(int x, int y)
 
 bool CMap::MoveAnimation()
 {
+	//マスからマスへの移動をスムーズにする
 	if (mMoving)
 	{
 		mMoveCount++;
 
+		//移動中
 		if (mMoveCount < mMoveDuration)
 		{
 			float rate = (float)mMoveCount / mMoveDuration;
@@ -268,6 +296,7 @@ bool CMap::MoveAnimation()
 			mMoveOffset.x = -mMoveDirection.x * CELLSIZE * (1.0f - rate);
 			mMoveOffset.y = -mMoveDirection.y * CELLSIZE * (1.0f - rate);
 		}
+		//移動完了
 		else
 		{
 			mMoveOffset = XMFLOAT2(0.0f, 0.0f);
@@ -297,6 +326,7 @@ bool CMap::StageIsClear()
 	{
 		for (int x = 0; x < mMapX; x++)
 		{
+			//全てゴールと全ての箱を重なっている状態とステージクリア
 			if (mType[z][x] == CObjectType::Goal && mBox[z][x] == CBoxType::None || mType[z][x] != CObjectType::Goal && mBox[z][x] == CBoxType::Exists || mBox[z][x]==CBoxType::Moving)
 				return false;
 		}
@@ -308,6 +338,7 @@ void CMap::GameOver()
 {
 	for (int i = 0; i < mNumEnemy; i++)
 	{
+		//敵に当たられたらゲームオーバー
 		if (mpEnemyTroop[i]->GetCollisionEnable() && CMath::Float3Equal(mpEnemyTroop[i]->GetPosition(), mpPlayer->GetPosition()))
 		{
 			CGameStatus::SetGameOver(true);
@@ -326,6 +357,7 @@ bool CMap::BoxClogged(XMINT2 position)
 		right = mType[position.x][position.y + 1];
 		left = mType[position.x][position.y - 1];
 
+		//箱は詰まっているとtrueリターン
 		if ((up == CObjectType::Wall && left == CObjectType::Wall) ||
 			(up == CObjectType::Wall && right == CObjectType::Wall) ||
 			(down == CObjectType::Wall && left == CObjectType::Wall) ||

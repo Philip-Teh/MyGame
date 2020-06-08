@@ -10,11 +10,13 @@ void CPlayer::Init()
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(0.5f, 0.5f, 0.5f);
 
+	//ポインタ作成
 	mpShader = make_shared<CShader>();
 	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
 	mpModelA = make_unique<CModelAnimation>();
 	mpModelA->Load(mAnimation, mpShader);
+
 	mMove = false;
 	mPull = false;
 	mPullEnable = true;
@@ -33,19 +35,9 @@ void CPlayer::Uninit()
 
 void CPlayer::Update()
 {
+	//待機アニメーション更新
 	mFrame++;
 	mpModelA->Update(0, mFrame);
-
-	if (CInput::GetKeyTrigger('E'))
-		mFrame = 0;
-
-	if (CInput::GetKeyPress('E'))
-		mpModelA->Update(1, mFrame);
-
-	if (CInput::GetKeyPress('Z'))
-		m_Rotation.y -= 0.1f;
-	if (CInput::GetKeyPress('C'))
-		m_Rotation.y += 0.1f;
 
 	Move();
 	Direction();
@@ -56,7 +48,6 @@ void CPlayer::Update()
 
 void CPlayer::Draw(XMFLOAT3 position)
 {
-	//m_Position = position;
 	// マトリクス設定																
 	XMMATRIX world;
 	world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
@@ -69,11 +60,13 @@ void CPlayer::Draw(XMFLOAT3 position)
 	XMStoreFloat4x4(&view, camera->GetViewMatrix());
 	XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
 
+	//シェーダ設定
 	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 	mpShader->SetViewMatrix(&view);
 	mpShader->SetProjectionMatrix(&projection);
 	//mpShader->SetPlayerPosition(m_Position);
 	 
+	//描画
 	mpModelA->Draw(world);
 }
 
@@ -82,6 +75,7 @@ void CPlayer::Move()
 	mMove = false;
 	mPull = false;
 
+	//キー入力操作
 	if (CInput::GetKeyPress('W')) {
 		mDirection = CDirection::Up;
 		mMove = true;
@@ -105,21 +99,26 @@ void CPlayer::Move()
 
 void CPlayer::MoveAnimation(bool move)
 {
+	//移動アニメーション更新
 	if(move)
 		mpModelA->Update(2, mFrame);
 }
 
 void CPlayer::Direction()
 {
+	//向き操作
 	switch (mDirection)
 	{
+	//下から
 	case CDirection::Down:
+		//左へ回転
 		if (mCurrentDirection == CDirection::Left)
 		{
 			m_Rotation.y -= mTurnSpeed;
 			if (m_Rotation.y <= mCurrentRotation.down)
 				mCurrentDirection = CDirection::Down;
 		}
+		//右へ回転
 		else if (mCurrentDirection == CDirection::Right)
 		{
 			m_Rotation.y += mTurnSpeed;
@@ -129,6 +128,7 @@ void CPlayer::Direction()
 				m_Rotation.y = mCurrentRotation.down;
 			}
 		}
+		//上へ回転
 		else if (mCurrentDirection == CDirection::Up)
 		{
 			m_Rotation.y -= mTurnSpeed;
@@ -139,19 +139,23 @@ void CPlayer::Direction()
 			m_Rotation.y = mCurrentRotation.down;
 		break;
 		
+	//上から
 	case CDirection::Up:
+		//左へ回転
 		if (mCurrentDirection == CDirection::Left)
 		{
 			m_Rotation.y += mTurnSpeed;
 			if (m_Rotation.y >= mCurrentRotation.up)
 				mCurrentDirection = CDirection::Up;
 		}
+		//右へ回転
 		else if (mCurrentDirection == CDirection::Right)
 		{
 			m_Rotation.y -= mTurnSpeed;
 			if (m_Rotation.y <= mCurrentRotation.up)
 				mCurrentDirection = CDirection::Up;
 		}
+		//下へ回転
 		else if (mCurrentDirection == CDirection::Down)
 		{
 			m_Rotation.y += mTurnSpeed;
@@ -161,20 +165,23 @@ void CPlayer::Direction()
 		else
 			m_Rotation.y = mCurrentRotation.up;
 		break;
-
+	//左から
 	case CDirection::Left:
+		//下へ回転
 		if (mCurrentDirection == CDirection::Down)
 		{
 			m_Rotation.y += mTurnSpeed;
 			if (m_Rotation.y >= mCurrentRotation.left)
 				mCurrentDirection = CDirection::Left;
 		}
+		//右へ回転
 		else if (mCurrentDirection == CDirection::Right)
 		{
 			m_Rotation.y -= mTurnSpeed;
 			if (m_Rotation.y <= mCurrentRotation.left)
 				mCurrentDirection = CDirection::Left;
 		}
+		//上へ回転
 		else if (mCurrentDirection == CDirection::Up)
 		{
 			m_Rotation.y -= mTurnSpeed;
@@ -184,8 +191,9 @@ void CPlayer::Direction()
 		else
 			m_Rotation.y = mCurrentRotation.left;
 		break;
-
+	//右から
 	case CDirection::Right:
+		//下へ回転
 		if (mCurrentDirection == CDirection::Down)
 		{
 			m_Rotation.y -= mTurnSpeed;
@@ -195,12 +203,14 @@ void CPlayer::Direction()
 				m_Rotation.y = mCurrentRotation.right;
 			}
 		}
+		//左へ回転
 		else if (mCurrentDirection == CDirection::Left)
 		{
 			m_Rotation.y += mTurnSpeed;
 			if (m_Rotation.y >= mCurrentRotation.right)
 				mCurrentDirection = CDirection::Right;
 		}
+		//上へ回転
 		else if (mCurrentDirection == CDirection::Up)
 		{
 			m_Rotation.y += mTurnSpeed;

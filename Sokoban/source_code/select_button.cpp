@@ -2,7 +2,10 @@ using namespace std;
 
 CSelectButton::CSelectButton()
 {
+	//選択インターフェース
 	mTexture[0] = "asset/texture/ui/button0.png";
+
+	//未開放インターフェース
 	mTexture[1] = "asset/texture/ui/gray.png";
 
 	for (int i = 0; i < BUTTON + 2; i++)
@@ -11,6 +14,7 @@ CSelectButton::CSelectButton()
 	mpPolygon[0]->Init(mTexture[0], mSize, mSize);
 	mpPolygon[BUTTON + 1]->Init(mTexture[1], mSize, mSize);
 
+	//ステージボタン読み込み
 	for (int i = 1; i <= BUTTON; i++)
 	{
 		sprintf_s(mFilename, "asset/texture/number/button%d.png", i);
@@ -19,8 +23,10 @@ CSelectButton::CSelectButton()
 		mClear[i] = false;
 	}
 
+	//選択中のボタン
 	mChoose = 1;
 
+	//クリアしたステージを保存
 	for (int i = 1; i <= CGameStatus::GetStageClear(); i++)
 		mClear[i] = true;
 }
@@ -35,14 +41,17 @@ CSelectButton::~CSelectButton()
 
 void CSelectButton::Update()
 {
+	//キーによって選択インターフェースを移動
 	KeyInput();
 
+	//ステージを選択
 	if (mClear[mChoose] == true)
 		CGameStatus::SetStageChoose(mChoose);
 }
 
 void CSelectButton::Draw()
 {
+	//ボタンを描画
 	for (int i = 1; i <= BUTTON; i++)
 	{
 		float y = 0.0f;
@@ -56,6 +65,7 @@ void CSelectButton::Draw()
 
 		mpPolygon[i]->Draw(XMFLOAT3(mPositionX * (i - x) + (i - x - 1) * mSize, mPositionY + y, LAYER5));
 
+		//クリアステージ以外のボタンに未開放インターフェースを重なって描画
 		if (!mClear[i])
 			mpPolygon[BUTTON + 1]->Draw(XMFLOAT3(mPositionX * (i - x) + (i - x - 1) * mSize, mPositionY + y, LAYER4));
 	}
@@ -69,6 +79,7 @@ void CSelectButton::Draw()
 		y = mSpace;
 	}
 
+	//選択インターフェース描画
 	mpPolygon[0]->Draw(XMFLOAT3(mPositionX * (mChoose - x) + (mChoose - x - 1) * mSize, mPositionY + y, LAYER4));
 }
 

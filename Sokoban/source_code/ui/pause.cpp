@@ -6,6 +6,7 @@ CPause::CPause()
 	mFile = "asset/texture/ui/pause.png";
 	mFile1 = "asset/texture/ui/pauseback.png";
 
+	//ƒ|ƒCƒ“ƒ^ì¬
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon1 = std::make_unique<CPolygon>();
 

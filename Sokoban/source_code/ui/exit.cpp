@@ -5,6 +5,7 @@ CExit::CExit()
 {
 	mFile = "asset/texture/ui/exit.png";
 
+	//ポインタ作成
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, mWidth, mHeight);
 
@@ -21,23 +22,27 @@ CExit::~CExit()
 
 void CExit::Update()
 {
+	//同じキーで開くことと閉じることを実行する
+	//開く
 	if (!mKeyUpDown && CInput::GetKeyTrigger(VK_ESCAPE)) {
 		mKeyUp = true;
 		mKeyDown = false;
 	}
 
+	//閉じる
 	if (mKeyUpDown && CInput::GetKeyTrigger(VK_ESCAPE)) {
 		mKeyDown = true;
 		mKeyUp = false;
 	}
 
-
+	//開く移動処理
 	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
 			mKeyUpDown = true;
 	}
 
+	//閉じる移動処理
 	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)

@@ -9,6 +9,7 @@ CWall::CWall()
 
 	mFile = "asset/model/wall3d.fbx";
 
+	//ポインタ作成
 	mpShader = make_shared<CShader>();
 	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
@@ -45,9 +46,11 @@ void CWall::Draw(XMFLOAT3 position)
 	XMStoreFloat4x4(&view, camera->GetViewMatrix());
 	XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
 
+	//シェーダ設定
 	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 	mpShader->SetViewMatrix(&view);
 	mpShader->SetProjectionMatrix(&projection);
 
+	//描画
 	mpModel->Draw(world);
 }

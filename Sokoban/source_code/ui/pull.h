@@ -18,7 +18,10 @@ public:
 	void Update();
 	void Draw();
 
+	//引けるか引けないかをセット
 	void SetLock(bool lock) { mLock = lock; }
+
+	//隠しインターフェースを表示
 	void Appear() { mKeyDown = true; }
 
 private:

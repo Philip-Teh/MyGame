@@ -26,8 +26,8 @@ protected:
 	std::string mFile = "";
 	std::string mFile1 = "";
 	std::unique_ptr<CPolygon> mpPolygon = nullptr;
-	std::unique_ptr<CPolygon> mpPolygon1 = nullptr;
-	std::unique_ptr<CNumDraw> mpNumDraw = nullptr;
+	std::unique_ptr<CPolygon> mpPolygon1 = nullptr;	
+	std::unique_ptr<CNumDraw> mpNumDraw = nullptr;	//”š•`‰æ‚Ìƒ|ƒCƒ“ƒ^
 
 	const float mWidth = 640.0f;	//‰æ‘œ‚Ì•
 	const float mHeight = 480.0f;	//‰æ‘œ‚Ì‚‚³

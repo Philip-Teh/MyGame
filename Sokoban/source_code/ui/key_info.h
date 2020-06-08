@@ -21,6 +21,7 @@
 		void Update();
 		void Draw();
 
+		//メニュー退出時の終了処理
 		void TabCancel();
 	};
 //}

@@ -2,6 +2,7 @@
 
 void CTexture::LoadTexture(std::string Filename)
 {
+	//ƒtƒ@ƒCƒ‹“Ç‚İ‚İ
 	wchar_t* wcs = new wchar_t[Filename.length() + 1];
 	mbstowcs(wcs, Filename.c_str(), Filename.length() + 1);
 

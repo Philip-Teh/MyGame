@@ -6,6 +6,7 @@ void CStageSelect::Init()
 	mTexture[0] = "asset/texture/scene/stageselect.jpg";
 	mTexture[1] = "asset/texture/scene/select.png";
 
+	//ポインタ作成
 	for (int i = 0; i < 2; i++)
 	{
 		mpPolygon[i] = make_unique<CPolygon>();
@@ -15,7 +16,10 @@ void CStageSelect::Init()
 
 	mpSelectButton = make_unique<CSelectButton>();
 
+	//ローディングシーン終了
 	CLoading::SetChange(false);
+
+	//エンターインターフェース表示
 	CEnter::SetEnable(true);
 }
 
@@ -24,6 +28,7 @@ void CStageSelect::Uninit()
 	for (int i = 0; i < 2; i++)
 		mpPolygon[i]->Uninit();
 
+	//エンターインターフェース非表示
 	CEnter::SetEnable(false);
 }
 
@@ -31,9 +36,11 @@ void CStageSelect::Update()
 {
 	mpSelectButton->Update();
 
+	//ローディングシーン表示
 	if (CInput::GetKeyTrigger(VK_RETURN))
 		CLoading::SetEnable(true);
 
+	//ジーンチェンジ
 	if (CLoading::GetChange())
 		CSceneManager::SetScene<CGame>();
 }

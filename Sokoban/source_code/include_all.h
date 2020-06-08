@@ -31,7 +31,6 @@
 
 #include "ui/ui.h"
 
-#include "bgm_manager.h"
 #include "game_status.h"
 #include "ui/enter.h"
 

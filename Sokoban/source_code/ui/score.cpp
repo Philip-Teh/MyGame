@@ -4,6 +4,7 @@ CScore::CScore()
 {
 	mFile = "asset/texture/ui/score.png";
 
+	//É|ÉCÉìÉ^çÏê¨
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon->Init(mFile, XMFLOAT3(STATUS_POSITIONX, STATUS_POSITIONY, LAYER7), STATUS_POLYGONX, STATUS_POLYGONY);
 

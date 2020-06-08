@@ -27,12 +27,12 @@
 
 	private:
 		static std::unique_ptr<CPolygon> mpPolygon[2];
-		static float mMove;
-		static int mFrame;
+		static float mMove;							//移動
+		static int mFrame;							//待機フレーム
 		static bool mMoveDirection;					//移動方向変換
 		static bool mChanging;						//シーン遷移
-		static bool mEnable;
-		static int mPatternX, mPatternY;
+		static bool mEnable;						//有効
+		static int mPatternX, mPatternY;			//キャラクター画像パターン
 	};
 //}
 

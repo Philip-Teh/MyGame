@@ -13,7 +13,6 @@ struct CONSTANT
 	XMFLOAT4X4 ViewMatrix;
 	XMFLOAT4X4 ProjectionMatrix;
 	XMFLOAT4 CameraPosition;
-	//XMFLOAT3 PlayerPosition;
 };
 
 class CShader
@@ -21,13 +20,14 @@ class CShader
 public:
 	void Init( const char* VertexShader, const char* PixelShader );
 	void Uninit();
+
+	//シェーダ―セット
 	void Set();
 
 	void SetWorldMatrix(XMFLOAT4X4* WorldMatrix){ m_Constant.WorldMatrix = Transpose(WorldMatrix); }
 	void SetViewMatrix(XMFLOAT4X4* ViewMatrix){ m_Constant.ViewMatrix = Transpose(ViewMatrix); }
-	void SetProjectionMatrix(XMFLOAT4X4* ProjectionMatrix) { m_Constant.ProjectionMatrix = Transpose( ProjectionMatrix ); }
+	void SetProjectionMatrix(XMFLOAT4X4* ProjectionMatrix) { m_Constant.ProjectionMatrix = Transpose(ProjectionMatrix); }
 	void SetCameraPosition(XMFLOAT4 cameraPosition) { m_Constant.CameraPosition = cameraPosition; }
-	//void SetPlayerPosition(XMFLOAT3 playerPosition) { m_Constant.PlayerPosition = playerPosition; }
 
 
 	XMFLOAT4X4 Transpose(XMFLOAT4X4* Matrix)

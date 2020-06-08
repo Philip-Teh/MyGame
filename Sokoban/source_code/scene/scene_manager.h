@@ -19,6 +19,7 @@ public:
 	static void Draw();
 	static CScene* GetScene();
 
+	//今のシーンを終了して、次のシーンの初期化
 	template <typename T>
 	static void SetScene()
 	{

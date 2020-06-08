@@ -3,8 +3,10 @@ using namespace std;
 
 void CTitle::Init()
 {
+	//タイトル音声を放送開始
 	CAudioClip::Play(true, CBGM::Start);
 
+	//初期ゲームステータスを設定
 	CGameStatus::SetGameClear(false);
 	CGameStatus::SetGameOver(false);
 	CGameStatus::SetScore(0);
@@ -14,6 +16,7 @@ void CTitle::Init()
 	mTexture[1] = "asset/texture/scene/title.jpg";
 	mTexture[2] = "asset/texture/scene/enter.png";
 
+	//ポインタ作成
 	for (int i = 0; i < 3; i++)
 	{
 		mpPolygon[i] = make_unique<CPolygon>();
@@ -22,8 +25,8 @@ void CTitle::Init()
 	mpPolygon[1]->Init(mTexture[1], XMFLOAT3(0.0f, 0.0f, LAYER6), SCREEN_WIDTH, SCREEN_HEIGHT);
 	mpPolygon[2]->Init(mTexture[2], XMFLOAT3(400.0f, 450.0f, LAYER4), 400, 200);
 
+	//ローディングシーン終了
 	CLoading::SetChange(false);
-
 }
 
 void CTitle::Uninit()
@@ -40,9 +43,11 @@ void CTitle::Update()
 	if (mFrame >= 75)
 		mFrame = 0;
 
+	//ローディングシーン表示
 	if (CInput::GetKeyTrigger(VK_RETURN))
 		CLoading::SetEnable(true);
 
+	//シーンチェンジ
 	if (CLoading::GetChange())
 		CSceneManager::SetScene<CTutorial>();
 	

@@ -41,15 +41,16 @@ private:
 	std::unique_ptr<CModelAnimation> mpModelA = nullptr;
 	std::shared_ptr<CShader> mpShader = nullptr;
 
-	unsigned int mFrame = 0;
-	const float mTurnSpeed = 0.15f;
+	unsigned int mFrame = 0;		//アニメーションフレーム
+	const float mTurnSpeed = 0.15f;	//回転スピード
 
 	int mStep = 0;
 	bool mMove = false;
-	bool mPull = false;
-	bool mPullEnable = false;
-	CDirection mDirection = CDirection::Down;
-	CDirection mCurrentDirection = CDirection::Down;
+	bool mPull = false;			//引く中
+	bool mPullEnable = false;	//引く有効無効
+
+	CDirection mDirection = CDirection::Down;			//現在の向き
+	CDirection mCurrentDirection = CDirection::Down;	//回転する向き
 	CRotation mCurrentRotation;
 
 	//キー入力で移動処理

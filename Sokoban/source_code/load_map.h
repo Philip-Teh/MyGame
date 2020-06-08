@@ -36,16 +36,16 @@ public:
 
 private:
 	std::string mFilename = "";
-	char mMap[MapSizeX * MapSizeZ] = {};
-	int mMapX = 0;
-	int mMapZ = 0;
-	int mMaxEnemyTroop = 0;
+	char mMap[MapSizeX * MapSizeZ] = {};	//マップの最大サイズ
+	int mMapX = 0;							//マップの横サイズ
+	int mMapZ = 0;							//マップの縦サイズ
+	int mMaxEnemyTroop = 0;					//敵の最大数
 
 	XMINT2 mPlayerPosition = XMINT2(0, 0);
 	std::vector<XMINT2> mEnemyPosition;
 
-	CObjectType** mpType = nullptr;
-	CBoxType** mpBox = nullptr;
+	CObjectType** mpType = nullptr;			//箱以外の保存ポインタ
+	CBoxType** mpBox = nullptr;				//箱の保存ポインタ
 
 	void Init();
 	void SetPlayerPosition(XMINT2 p) { mPlayerPosition = p; }

@@ -2,6 +2,7 @@
 
 void CLoadMap::Load(int mapID)
 {
+	//ファイルを読み込み
 	FILE* file;
 	std::string mapid = std::to_string(mapID);
 
@@ -35,7 +36,7 @@ void CLoadMap::Load(int mapID)
 
 	fgets(mMap, MapSizeX * MapSizeZ, file);
 
-	//マップのオブジェクトの種類
+	//マップのオブジェクトの種類を保存（箱以外）
 	for (int i = 0; i < mMapX * mMapZ; i++)
 	{
 		switch ((CObjectType)mMap[i])
@@ -67,6 +68,7 @@ void CLoadMap::Load(int mapID)
 		}
 	}
 
+	//箱の位置を保存
 	for (int i = 0; i < mMapX * mMapZ; i++)
 	{
 		switch ((CBoxType)mMap[i + mMapX * mMapZ])

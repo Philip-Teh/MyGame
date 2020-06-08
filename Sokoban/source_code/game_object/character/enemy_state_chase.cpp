@@ -11,6 +11,7 @@ CAction CEnemyStateChase::Action(CEnemyTroop* p)
 
 	if (mFrame >= mRand)
 	{
+		//ˆÚ“®ó‘Ô‚Ö
 		p->ChangeState(new CEnemyStateMove());
 		return CAction::Move;
 	}

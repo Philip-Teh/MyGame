@@ -10,6 +10,7 @@ CBox::CBox()
 	mFile[1] = "asset/model/box3dclear.fbx";
 	mFile[2] = "asset/model/box3dover.fbx";
 
+	//ポインタ作成
 	mpShader = make_shared<CShader>();
 	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
@@ -51,9 +52,11 @@ void CBox::Draw(XMFLOAT3 position,int num)
 	XMStoreFloat4x4(&view, camera->GetViewMatrix());
 	XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
 
+	//シェーダ設定
 	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 	mpShader->SetViewMatrix(&view);
 	mpShader->SetProjectionMatrix(&projection);
 
+	//描画
 	mpModel[num]->Draw(world);
 }

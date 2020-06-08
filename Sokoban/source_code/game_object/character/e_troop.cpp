@@ -28,6 +28,7 @@ CEnemyTroop::CEnemyTroop()
 	mPlayerDirect1 = CDirection::Down;
 	mPlayerDirect2 = CDirection::Down;
 
+	//ポインタ作成
 	mpShader = make_shared<CShader>();
 	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
@@ -45,15 +46,6 @@ CEnemyTroop::CEnemyTroop()
 	mpState = new CEnemyStateIdle();
 	mAction = CAction::Idle;
 	mActionChange = false;
-
-	mpType = new CObjectType * [mRange];
-	mpBox = new CBoxType * [mRange];
-
-	for (int i = 0; i < mRange; i++)
-	{
-		mpType[i] = new CObjectType[mRange];
-		mpBox[i] = new CBoxType[mRange];
-	}
 
 	mMoving = false;
 	mComplete = true;
@@ -74,15 +66,6 @@ CEnemyTroop::~CEnemyTroop()
 
 	mpShader->Uninit();
 
-	for (int i = 0; i < mRange; i++)
-	{
-		delete[] mpType[i];
-		delete[] mpBox[i];
-	}
-
-	delete[]mpType;
-	delete[]mpBox;
-
 	mpModel->Unload();
 	mpEffect->Uninit();
 	mpBillboard->Uninit();
@@ -99,11 +82,16 @@ void CEnemyTroop::Update(CObjectType** type, CBoxType** box, XMFLOAT3 playerposi
 		switch (mAction)
 		{
 		case CAction::Idle:
+			//待機中アニメーション
 			mpModel->Update(0, mFrame);
 			break;
+		
 		case CAction::Move:
+
+			//移動中アニメーション
 			if (mDirection != CDirection::None)
 				mpModel->Update(1, mFrame);
+
 			mDirection = Chase(XMINT2((int)playerposition.x, (int)playerposition.z), type, box);
 			Move(type, box, XMINT2((int)playerposition.x, (int)playerposition.z));
 			break;
@@ -123,6 +111,7 @@ void CEnemyTroop::Draw(XMFLOAT3 position)
 {
 	if (mEnable)
 	{
+		//マトリクス設定
 		XMMATRIX world;
 		world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 		world *= XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
@@ -138,12 +127,13 @@ void CEnemyTroop::Draw(XMFLOAT3 position)
 		XMStoreFloat4x4(&view, camera->GetViewMatrix());
 		XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
 
+		//シェーダ設定
 		mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 		mpShader->SetViewMatrix(&view);
 		mpShader->SetProjectionMatrix(&projection);
 
+		//描画
 		mpModel->Draw(world);
-		//mpBillboard->Draw(posiiton,)
 
 	}
 	mpEffect->Draw();
@@ -176,9 +166,11 @@ bool CEnemyTroop::Hit(CBoxType** box,CDirection playerdirection,XMINT2 map)
 		p.y = (int)m_Position.z;
 
 		XMFLOAT3 effect;
-		effect.x = CELLSIZE * m_Position.x - map.x * CELLSIZE / 2;
-		effect.z = CELLSIZE * m_Position.z - map.y * CELLSIZE / 2;
+		effect.x = m_Position.x - map.x * CELLSIZE;
+		effect.z = CELLSIZE * m_Position.z - map.y / 2;
+		effect.y = 0.0f;
 
+		//箱との当たり判定
 		if (box[p.y][p.x] == CBoxType::Exists || box[p.y][p.x] == CBoxType::Moving)
 		{
 			mHitting = true;
@@ -200,6 +192,7 @@ void CEnemyTroop::Move(CObjectType** type, CBoxType** box, XMINT2 playerposition
 		mFrame++;
 		if (mFrame >= mMoveSpeed) mFrame = 0;
 
+		//移動処理
 		if (mFrame == 0 && mDirection == CDirection::Down) {
 			Patrol(XMINT2(0, 1), type, box, playerposition);
 		}
@@ -218,7 +211,6 @@ void CEnemyTroop::Move(CObjectType** type, CBoxType** box, XMINT2 playerposition
 	}
 }
 
-
 void CEnemyTroop::Patrol(XMINT2 position, CObjectType** type, CBoxType** box, XMINT2 playerposition)
 {
 	if (mEnable && !mHitting)
@@ -229,16 +221,20 @@ void CEnemyTroop::Patrol(XMINT2 position, CObjectType** type, CBoxType** box, XM
 
 		CDirection direction = CDirection::None;
 
+		//上下方向を決定
 		if (m_Position.z > playerposition.y)
 			direction = CDirection::Up;
+
 		if (m_Position.z < playerposition.y)
 			direction = CDirection::Down;
 
+		//プレイヤーを追う
 		if ((direction == CDirection::Up || direction == CDirection::Down) && m_Position.x == playerposition.x)
 		{
 			mDirection = Chase(playerposition, type, box);
 		}
 
+		//前が壁、箱だと方向再決定
 		if (Collision(front,type,box))
 		{
 			mDirection = Chase(playerposition, type, box);
@@ -266,6 +262,8 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 	left.x = (int)m_Position.x - 1;
 	left.y = (int)m_Position.z;
 
+	//敵の上下左右のオブジェクトを参照し
+	//移動できる方向を有効にする
 	if (Collision(up, type, box))
 		mMovaD[(int)CDirection::Up].enable = false;
 	else
@@ -289,6 +287,7 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 	int directionNum = 0;
 	int enable1 = 0, enable2 = 0, enable3 = 0;
 
+	//移動できる方向を保存
 	for (int i = 0; i < 4; i++)
 	{
 		if (mMovaD[i].enable)
@@ -314,6 +313,7 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 	CDirection directionUD = CDirection::None;
 	CDirection randomdirection = CDirection::None;
 
+	//プレイヤーのX方向を探る
 	if (PlayerPos.x > m_Position.x)
 		mPlayerDirect1 = CDirection::Right;
 	else if (PlayerPos.x < m_Position.x)
@@ -321,6 +321,7 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 	else
 		mPlayerDirect1 = CDirection::None;
 
+	//プレイヤーのY方向を探る
 	if (PlayerPos.y < m_Position.z)
 		mPlayerDirect2 = CDirection::Up;
 	else if (PlayerPos.y > m_Position.z)
@@ -328,58 +329,65 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 	else
 		mPlayerDirect2 = CDirection::None;
 
-	//if (m_Position.x != PlayerPos.x && m_Position.z != PlayerPos.y)
-	//	direction = RandomDirection2(mPlayerDirect1, mPlayerDirect2);
-	//else if (m_Position.z == PlayerPos.y)
-	//	direction = mPlayerDirect1;
-	//else if (m_Position.x == PlayerPos.x)
-	//	direction = mPlayerDirect2;
-
 	switch (directionNum)
 	{
+		//移動できない時
 	case 0:
 		return CDirection::None;
 		break;
+		//１方向のみの移動可
 	case 1:
 		return mMovaD[enable1].direction;
 		break;
+		//２方向の移動可
 	case 2:
+		//移動できる方向を乱数決定
 		randomdirection = RandomDirection2(mMovaD[enable1].direction, mMovaD[enable2].direction);
 
+		//プレイヤーへの左右方向と比較し、当てはまるものを保存
 		if (mPlayerDirect1 == mMovaD[enable1].direction)directionLR = mPlayerDirect1;
 		else if (mPlayerDirect1 == mMovaD[enable2].direction)directionLR = mPlayerDirect1;
 		else directionLR = CDirection::None;
 
+		//プレイヤーへの上下方向と比較し、当てはまるものを保存
 		if (mPlayerDirect2 == mMovaD[enable1].direction)directionUD = mPlayerDirect2;
 		else if (mPlayerDirect2 == mMovaD[enable2].direction)directionUD = mPlayerDirect2;
 		else directionUD = CDirection::None;
 
+		//移動方向を決定
 		if (directionLR != CDirection::None && directionUD != CDirection::None)return RandomDirection2(directionLR, directionUD);
 		else if (directionLR != CDirection::None)return directionLR;
 		else if (directionUD != CDirection::None)return directionUD;
 		else return randomdirection;
 
 		break;
+		//３方向の移動可
 	case 3:
+		//移動できる方向を乱数決定
 		randomdirection = RandomDirection3(mMovaD[enable1].direction, mMovaD[enable2].direction, mMovaD[enable3].direction);
 
+		//プレイヤーへの左右方向と比較し、当てはまるものを保存
 		if (mPlayerDirect1 == mMovaD[enable1].direction)directionLR = mPlayerDirect1;
 		else if (mPlayerDirect1 == mMovaD[enable2].direction)directionLR = mPlayerDirect1;
 		else if (mPlayerDirect1 == mMovaD[enable3].direction)directionLR = mPlayerDirect1;
 		else directionLR = CDirection::None;
 
+		//プレイヤーへの上下方向と比較し、当てはまるものを保存
 		if (mPlayerDirect2 == mMovaD[enable1].direction)directionUD = mPlayerDirect2;
 		else if (mPlayerDirect2 == mMovaD[enable2].direction)directionUD = mPlayerDirect2;
 		else if (mPlayerDirect2 == mMovaD[enable3].direction)directionUD = mPlayerDirect2;
 		else directionUD = CDirection::None;
 
+		//移動方向を決定
 		if (directionLR != CDirection::None && directionUD != CDirection::None)return RandomDirection2(directionLR, directionUD);
 		else if (directionLR != CDirection::None)return directionLR;
 		else if (directionUD != CDirection::None)return directionUD;
 		else return randomdirection;
 
 		break;
-	case 4:		
+		//4方向の移動可
+	case 4:
+		//プレイヤーへ移動できる方向を乱数決定
 		return RandomDirection2(mPlayerDirect1, mPlayerDirect2);
 		break;
 	default:
@@ -391,6 +399,7 @@ CDirection CEnemyTroop::Chase(XMINT2 playerposition,CObjectType** type, CBoxType
 
 bool CEnemyTroop::Collision(XMINT2 position, CObjectType** type, CBoxType** box)
 {
+	//壁、箱との当たり判定
 	if (type[position.y][position.x] == CObjectType::Wall
 		|| box[position.y][position.x] == CBoxType::Exists
 		|| box[position.y][position.x] == CBoxType::Moving)
@@ -401,6 +410,7 @@ bool CEnemyTroop::Collision(XMINT2 position, CObjectType** type, CBoxType** box)
 
 bool CEnemyTroop::MoveAnimation()
 {
+	//マスからマスへのスムーズの移動
 	if (mMoving)
 	{
 		mMoveCount++;
@@ -426,6 +436,8 @@ bool CEnemyTroop::MoveAnimation()
 
 bool CEnemyTroop::DownDirection(CDirection playerdirection)
 {
+	//プレイヤーが移動してくる方向により
+	//倒れる向きを決定
 	if (mDirection == CDirection::Down && playerdirection == CDirection::Down
 		|| mDirection == CDirection::Up && playerdirection == CDirection::Up
 		|| mDirection == CDirection::Left && playerdirection == CDirection::Left
@@ -459,6 +471,7 @@ bool CEnemyTroop::DownDirection(CDirection playerdirection)
 
 bool CEnemyTroop::Falling(bool rotation,bool minus)
 {
+	//倒れる処理
 	if (minus && rotation)
 		m_Rotation.x -= mDownSpeed;
 
@@ -471,6 +484,7 @@ bool CEnemyTroop::Falling(bool rotation,bool minus)
 	else if (!minus && !rotation)
 		m_Rotation.z += mDownSpeed;
 
+	//横になったら無効にする
 	if (m_Rotation.x >= mDown || m_Rotation.x <= -mDown || m_Rotation.z >= mDown || m_Rotation.z <= -mDown)
 	{
 		mEnable = false;
@@ -482,15 +496,19 @@ bool CEnemyTroop::Falling(bool rotation,bool minus)
 
 void CEnemyTroop::Direction()
 {
+	//向き操作
 	switch (mDirection)
 	{
+		//下から
 	case CDirection::Down:
+		//左へ回転
 		if (mCurrentDirection == CDirection::Left)
 		{
 			m_Rotation.y -= mTurnSpeed;
 			if (m_Rotation.y <= mCurrentRotation.down)
 				mCurrentDirection = CDirection::Down;
 		}
+		//右へ回転
 		else if (mCurrentDirection == CDirection::Right)
 		{
 			m_Rotation.y += mTurnSpeed;
@@ -500,6 +518,7 @@ void CEnemyTroop::Direction()
 				m_Rotation.y = mCurrentRotation.down;
 			}
 		}
+		//上へ回転
 		else if (mCurrentDirection == CDirection::Up)
 		{
 			m_Rotation.y -= mTurnSpeed;
@@ -510,19 +529,23 @@ void CEnemyTroop::Direction()
 			m_Rotation.y = mCurrentRotation.down;
 		break;
 
+		//上から
 	case CDirection::Up:
+		//左へ回転
 		if (mCurrentDirection == CDirection::Left)
 		{
 			m_Rotation.y += mTurnSpeed;
 			if (m_Rotation.y >= mCurrentRotation.up)
 				mCurrentDirection = CDirection::Up;
 		}
+		//右へ回転
 		else if (mCurrentDirection == CDirection::Right)
 		{
 			m_Rotation.y -= mTurnSpeed;
 			if (m_Rotation.y <= mCurrentRotation.up)
 				mCurrentDirection = CDirection::Up;
 		}
+		//下へ回転
 		else if (mCurrentDirection == CDirection::Down)
 		{
 			m_Rotation.y += mTurnSpeed;
@@ -532,20 +555,23 @@ void CEnemyTroop::Direction()
 		else
 			m_Rotation.y = mCurrentRotation.up;
 		break;
-
+		//左から
 	case CDirection::Left:
+		//下へ回転
 		if (mCurrentDirection == CDirection::Down)
 		{
 			m_Rotation.y += mTurnSpeed;
 			if (m_Rotation.y >= mCurrentRotation.left)
 				mCurrentDirection = CDirection::Left;
 		}
+		//右へ回転
 		else if (mCurrentDirection == CDirection::Right)
 		{
 			m_Rotation.y -= mTurnSpeed;
 			if (m_Rotation.y <= mCurrentRotation.left)
 				mCurrentDirection = CDirection::Left;
 		}
+		//上へ回転
 		else if (mCurrentDirection == CDirection::Up)
 		{
 			m_Rotation.y -= mTurnSpeed;
@@ -555,8 +581,9 @@ void CEnemyTroop::Direction()
 		else
 			m_Rotation.y = mCurrentRotation.left;
 		break;
-
+		//右から
 	case CDirection::Right:
+		//下へ回転
 		if (mCurrentDirection == CDirection::Down)
 		{
 			m_Rotation.y -= mTurnSpeed;
@@ -566,12 +593,14 @@ void CEnemyTroop::Direction()
 				m_Rotation.y = mCurrentRotation.right;
 			}
 		}
+		//左へ回転
 		else if (mCurrentDirection == CDirection::Left)
 		{
 			m_Rotation.y += mTurnSpeed;
 			if (m_Rotation.y >= mCurrentRotation.right)
 				mCurrentDirection = CDirection::Right;
 		}
+		//上へ回転
 		else if (mCurrentDirection == CDirection::Up)
 		{
 			m_Rotation.y += mTurnSpeed;

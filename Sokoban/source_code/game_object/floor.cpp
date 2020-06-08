@@ -5,6 +5,7 @@ CFloor::CFloor()
 {
 	mTexture = "asset/texture/game_object/floor.png";
 
+	//ƒ|ƒCƒ“ƒ^ì¬
 	mpField = make_unique<CField>();
 	mpField->Init(mTexture);
 }

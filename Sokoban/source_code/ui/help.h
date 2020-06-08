@@ -16,6 +16,7 @@
 		void Update();
 		void Draw();
 
+		//メニュー退出時の終了処理
 		void TabCancel();
 
 		//初描画(チュートリアル)

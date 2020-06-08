@@ -36,6 +36,7 @@ void CCamera::Uninit()
 
 void CCamera::Update()
 {
+	//入力回転
 	vectorF = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	vectorR = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	vectorU = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -67,7 +68,7 @@ void CCamera::Update()
 	vectorU = XMVector3TransformCoord(vectorU, m_ViewMatrix);
 	XMStoreFloat3(&up, vectorU);
 
-
+	//入力移動
 	if (CInput::GetKeyPress(VK_UP))
 	{
 		m_Position.z += front.z * SPEED;
@@ -110,12 +111,9 @@ void CCamera::Update()
 		m_Position.y -= up.y * SPEED;
 	}
 
-	//pp = player.GetPosition();
-
 	m_ViewMatrix *= XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
 	eye = XMVectorSet(m_Position.x, m_Position.y + 30, m_Position.z - 20, 0);
-	//eye = XMVectorSet(m_Position.x + 1, m_Position.y + 10, m_Position.z - 10, 0);
 
 	XMFLOAT3 f;
 	f.x = (front.x * mLength) + mCenter.x;
@@ -148,12 +146,9 @@ void CCamera::Draw()
 	m_ViewMatrix = XMMatrixInverse(&det, m_InvViewMatrix);
 	m_ViewMatrix = XMMatrixLookAtLH(eye, focus, vectorU);
 
-	//CRenderer::SetViewMatrix(&m_ViewMatrix);
-
 	// プロジェクションマトリクス設定
 	m_ProjectionMatrix = XMMatrixPerspectiveFovLH(1.0f, dxViewport.Width / dxViewport.Height, 1.0f, 1000.0f);
 
-	//CRenderer::SetProjectionMatrix(&m_ProjectionMatrix);
 }
 
 bool CCamera::Getvisivility(XMFLOAT3 Position)
@@ -164,6 +159,7 @@ bool CCamera::Getvisivility(XMFLOAT3 Position)
 
 	// カメラ座標変換
 	viewPos = XMVector3TransformCoord(worldPos, m_ViewMatrix);
+
 	// 描画座標変換
 	projPos = XMVector3TransformCoord(viewPos, m_ProjectionMatrix);
 

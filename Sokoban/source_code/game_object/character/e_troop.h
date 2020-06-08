@@ -46,10 +46,8 @@ private:
 
 	const float mTurnSpeed = 0.1f;
 	const unsigned int mMoveSpeed = 30;
-	const float mDownSpeed = 0.05f;
-	const float mDown = 1.5f;
-	const int mMap = 17;
-	const int mRange = 5;
+	const float mDownSpeed = 0.05f;		//倒れるスピード
+	const float mDown = 1.5f;			//横角度
 	const int mMoveDuration = 30;
 
 	struct MovableDirection
@@ -75,9 +73,6 @@ private:
 
 	CDirection mPlayerDirect1;
 	CDirection mPlayerDirect2;
-
-	CObjectType** mpType;
-	CBoxType** mpBox;
 
 	CDirection mDirection;
 	CDirection mCurrentDirection;

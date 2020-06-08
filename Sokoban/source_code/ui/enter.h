@@ -24,7 +24,7 @@ public:
 private:
 	static std::string mFile;
 	static std::unique_ptr<CPolygon> mpPolygon;
-	static unsigned int mFrame;
+	static unsigned int mFrame;	//•\¦‚·‚éƒtƒŒ[ƒ€
 	static bool mEnable;
 	static XMFLOAT2 mPosition;
 };

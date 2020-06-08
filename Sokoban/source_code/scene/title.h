@@ -20,7 +20,7 @@ public:
 private:
 	std::string mTexture[3] = {};
 	std::unique_ptr<CPolygon> mpPolygon[3] = {};
-	int mFrame = 0;
+	int mFrame = 0;	//•\¦ƒtƒŒ[ƒ€
 };
 
 #endif // !TITLE_H_

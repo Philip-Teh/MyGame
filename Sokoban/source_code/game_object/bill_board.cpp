@@ -9,6 +9,7 @@ void CBillBoard::Init(std::string texture, float sizex, float sizey)
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
+	//頂点計算
 	VERTEX_3D mVertex[4];
 
 	for (int i = 0; i < 2; i++)
@@ -35,6 +36,7 @@ void CBillBoard::Init(std::string texture, float sizex, float sizey)
 
 	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpVertexBuffer);
 
+	//インデックス保存
 	unsigned short mpIndex[6];
 
 	mpIndex[0] = 0;
@@ -60,6 +62,7 @@ void CBillBoard::Init(std::string texture, float sizex, float sizey)
 		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &mpIndexBuffer);
 	}
 
+	//ポインタ作成
 	mpTexture = new CTexture();
 	mpTexture->LoadTexture(texture);
 
@@ -75,6 +78,7 @@ void CBillBoard::Init(std::string texture, XMFLOAT2 size)
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
+	//ポインタ作成
 	mpPolygon = make_unique<CPolygon>();
 	mpPolygon->InitBillBoard(texture, size.x, size.y);
 
@@ -131,6 +135,7 @@ void CBillBoard::Draw(XMFLOAT3 position)
 
 	mtxInvView = XMLoadFloat4x4(&mIV);
 
+	//マトリクス設定
 	world = mtxInvView;
 
 	world *= XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
@@ -146,6 +151,7 @@ void CBillBoard::Draw(XMFLOAT3 position)
 	XMStoreFloat4x4(&view, camera->GetViewMatrix());
 	XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
 
+	//シェーダ設定
 	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 	mpShader->SetViewMatrix(&view);
 	mpShader->SetProjectionMatrix(&projection);
@@ -153,6 +159,7 @@ void CBillBoard::Draw(XMFLOAT3 position)
 	mpShader->SetWorldMatrix(&w);
 	mpShader->Set();
 
+	//描画
 	CRenderer::DrawIndexed(6, 0, 0);
 }
 
@@ -162,13 +169,8 @@ void CBillBoard::Draw(XMFLOAT3 position, int tx, int ty, int tw, int th)
 
 	mpPolygon->DrawBillBoard(position, tx, ty, tw, th);
 
-	//CRenderer::SetVertexBuffers(mpVertexBuffer);
-	//CRenderer::SetIndexBuffer(mpIndexBuffer);
-
 	XMMATRIX mtxInvView;
 	XMMATRIX world;
-
-	//CRenderer::SetTexture(mpTexture, 0);
 
 	mpCamera = CSceneManager::GetScene()->GetGameObject<CCamera>();
 
@@ -184,6 +186,7 @@ void CBillBoard::Draw(XMFLOAT3 position, int tx, int ty, int tw, int th)
 
 	mtxInvView = XMLoadFloat4x4(&mIV);
 
+	//マトリクス設定
 	world = mtxInvView;
 
 	world *= XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
@@ -193,12 +196,11 @@ void CBillBoard::Draw(XMFLOAT3 position, int tx, int ty, int tw, int th)
 	XMFLOAT4X4 w;
 	XMStoreFloat4x4(&w, world);
 
-	//CCamera* camera = CSceneManager::GetScene()->GetGameObject<CCamera>();
-
 	XMFLOAT4X4 view, projection;
 	XMStoreFloat4x4(&view, mpCamera->GetViewMatrix());
 	XMStoreFloat4x4(&projection, mpCamera->GetProjectionMatrix());
 
+	//シェーダ設定
 	mpShader->SetCameraPosition(XMFLOAT4(mpCamera->GetPosition().x, mpCamera->GetPosition().y, mpCamera->GetPosition().z, 0.0f));
 	mpShader->SetViewMatrix(&view);
 	mpShader->SetProjectionMatrix(&projection);
@@ -206,5 +208,6 @@ void CBillBoard::Draw(XMFLOAT3 position, int tx, int ty, int tw, int th)
 	mpShader->SetWorldMatrix(&w);
 	mpShader->Set();
 
+	//描画
 	CRenderer::DrawIndexed(6, 0, 0);
 }

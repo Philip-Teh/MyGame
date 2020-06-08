@@ -5,6 +5,7 @@ CKeyInfo::CKeyInfo()
 {
 	mFile = "asset/texture/ui/key_info1.png";
 
+	//ポインタ作成
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -21,23 +22,27 @@ CKeyInfo::~CKeyInfo()
 
 void CKeyInfo::Update()
 {
-	if (!mKeyUpDown && CInput::GetKeyTrigger('2')) {
+	//同じキーで開くことと閉じることを実行する
+	//開く
+	if (!mKeyUpDown && CInput::GetKeyTrigger(VK_NUM2)) {
 		mKeyUp = true;
 		mKeyDown = false;
 	}
 
-	if (mKeyUpDown && CInput::GetKeyTrigger('2')) {
+	//閉じる
+	if (mKeyUpDown && CInput::GetKeyTrigger(VK_NUM2)) {
 		mKeyDown = true;
 		mKeyUp = false;
 	}
 
-
+	//開く移動処理
 	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= 100;
 		if (mMove <= 0)
 			mKeyUpDown = true;
 	}
 
+	//閉じる移動処理
 	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += 100;
 		if (mMove >= SCREEN_HEIGHT)

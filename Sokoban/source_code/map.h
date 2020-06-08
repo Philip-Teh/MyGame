@@ -45,6 +45,7 @@ private:
 	std::unique_ptr<CFloor> mpFloor = nullptr;
 	std::unique_ptr<CWall> mpWall = nullptr;
 	std::unique_ptr<CBox> mpBox = nullptr;
+	std::unique_ptr<CEffect> mpEffect = nullptr;
 
 	//箱以外のオブジェクトの位置を持つ変数
 	CObjectType** mType = {};

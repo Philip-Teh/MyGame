@@ -27,8 +27,8 @@ private:
 	VERTEX_3D mVertex[4] = {};
 	XMFLOAT3 mPosition = {};
 
-	ID3D11Buffer* mpVertexBuffer = nullptr;
-	ID3D11Buffer* mpIndexBuffer = nullptr;
+	ID3D11Buffer* mpVertexBuffer = nullptr;	//頂点バッファ
+	ID3D11Buffer* mpIndexBuffer = nullptr;	//インデックスバッファ
 
 	std::unique_ptr<CShader> mpShader = nullptr;
 	CTexture* mpTexture = nullptr;

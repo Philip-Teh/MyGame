@@ -5,6 +5,7 @@ CReset::CReset()
 {
 	mFile = "asset/texture/ui/reset.png";
 
+	//ポインタ作成
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, mWidth, mHeight);
 
@@ -21,23 +22,27 @@ CReset::~CReset()
 
 void CReset::Update()
 {
-	if (!mKeyUpDown && CInput::GetKeyTrigger('R')) {
+	//同じキーで開くことと閉じることを実行する
+	//開く
+	if (!mKeyUpDown && CInput::GetKeyTrigger(VK_R)) {
 		mKeyUp = true;
 		mKeyDown = false;
 	}
 
-	if (mKeyUpDown && CInput::GetKeyTrigger('R')) {
+	//閉じる
+	if (mKeyUpDown && CInput::GetKeyTrigger(VK_R)) {
 		mKeyDown = true;
 		mKeyUp = false;
 	}
 
-
+	//開く移動処理
 	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
 			mKeyUpDown = true;
 	}
 
+	//閉じる移動処理
 	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)

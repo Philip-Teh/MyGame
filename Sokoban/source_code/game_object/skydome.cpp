@@ -15,9 +15,11 @@ void CSkydome::Init()
 	m_Texture = new CTexture();
 	m_Texture->LoadTexture("asset/texture/sky.jpg");
 
+	//ポインタ作成
 	mpShader = make_unique<CShader>();
 	mpShader->Init("shader_3d_vs.cso", "shader_3d_ps.cso");
 
+	//頂点、インデックス作成
 	NumVertex = (numx + 1) * (numz + 1);
 	NumIndex = (2 + numx * 2) * numz + (numz - 1) * 2;
 
@@ -56,6 +58,7 @@ void CSkydome::Init()
 	int a = 0;
 	int b = 0;
 
+	//インデックス計算
 	for (a = 0; a < (numx + 1) * 2; a++)
 	{
 		if (a % 2 == 0)
@@ -157,6 +160,7 @@ void CSkydome::Update()
 {
 	//m_Rotation.y -= 0.01f;
 
+	//回転
 	XMFLOAT3 vz = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	XMVECTOR axis = XMLoadFloat3(&vz);
 	XMVECTOR rotation = XMQuaternionRotationAxis(axis, 0.0005f);
@@ -170,8 +174,10 @@ void CSkydome::Draw()
 	CRenderer::SetVertexBuffers(m_VertexBuffer);
 	CRenderer::SetIndexBuffer(m_IndexBuffer);
 
-	CRenderer::SetTexture(m_Texture, 0);					//テクスチャ設定
+	//テクスチャ設定
+	CRenderer::SetTexture(m_Texture, 0);
 
+	//マトリクス設定
 	XMMATRIX world;
 	world = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 	world *= XMMatrixRotationQuaternion(mQuaternion);
@@ -188,11 +194,13 @@ void CSkydome::Draw()
 	XMStoreFloat4x4(&view, camera->GetViewMatrix());
 	XMStoreFloat4x4(&projection, camera->GetProjectionMatrix());
 
+	//シェーダ設定
 	mpShader->SetCameraPosition(XMFLOAT4(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z, 0.0f));
 	mpShader->SetViewMatrix(&view);
 	mpShader->SetProjectionMatrix(&projection);
 	mpShader->Set();
 
+	//描画
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	CRenderer::GetDeviceContext()->DrawIndexed(NumIndex, 0, 0);
 }

@@ -4,6 +4,7 @@ CHelp::CHelp()
 {
 	mFile = "asset/texture/ui/help.png";
 
+	//ポインタ作成
 	mpPolygon = std::make_unique<CPolygon>();
 	mpPolygon->Init(mFile, mWidth, mHeight);
 
@@ -23,23 +24,27 @@ CHelp::~CHelp()
 
 void CHelp::Update()
 {
-	if (!mKeyUpDown && CInput::GetKeyTrigger('1')) {
+	//同じキーで開くことと閉じることを実行する
+	//開く
+	if (!mKeyUpDown && CInput::GetKeyTrigger(VK_NUM1)) {
 		mKeyUp = true;
 		mKeyDown = false;
 	}
 
-	if (mKeyUpDown && CInput::GetKeyTrigger('1')) {
+	//閉じる
+	if (mKeyUpDown && CInput::GetKeyTrigger(VK_NUM1)) {
 		mKeyDown = true;
 		mKeyUp = false;
 	}
 
-
+	//開く移動処理
 	if (!mKeyDown && mKeyUp && !mKeyUpDown) {
 		mMove -= mSpeed;
 		if (mMove <= 0)
 			mKeyUpDown = true;
 	}
 
+	//閉じる移動処理
 	if (mKeyDown && !mKeyUp && mKeyUpDown) {
 		mMove += mSpeed;
 		if (mMove >= SCREEN_HEIGHT)
