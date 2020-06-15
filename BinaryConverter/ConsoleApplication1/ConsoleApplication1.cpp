@@ -26,6 +26,7 @@ int main()
 	while (1)
 	{
 
+		//入力ファイルオープン
 		FILE* file;
 		char filename[256];
 		std::cout << "File Name Input : ";
@@ -39,12 +40,7 @@ int main()
 			continue;
 		}
 
-		//char word;
-		//for (int i = 0; i < MAPX*MAPY; i++)
-		//{
-		//	word[i]
-		//}
-
+		//初期化
 		char map[MAPY][MAPX];
 		std::unique_ptr<Type[]> type;
 		std::unique_ptr<Box[]> box;
@@ -55,12 +51,14 @@ int main()
 
 		unsigned int sizeX = 0, sizeY = 0;
 
+		//マップ情報を保存
 		for (int y = 0; y < MAPY; y++)
 		{
 			fgets(map[y], MAPX, file);
 		}
 		fclose(file);
 
+		//マップサイズ取得
 		for (unsigned int y = 0; y < MAPY; y++)
 		{
 			for (unsigned int x = 0; x < MAPX; x++)
@@ -81,11 +79,13 @@ int main()
 			}
 		}
 
+		//ポインタ作成
 		type = std::make_unique<Type[]>(sizeX*sizeY);
 		box = std::make_unique<Box[]>(sizeX*sizeY);
 
 		unsigned int writecount = 0;
 
+		//文字からバイナリへ変換
 		for (unsigned int y = 0; y < sizeY; y++)
 		{
 			for (unsigned int x = 0; x < sizeX; x++)
@@ -130,14 +130,13 @@ int main()
 					box[writecount] = Box::None;
 					break;
 				}
-				char i = (char)type[writecount];
-				char a = (char)box[writecount];
 
 				writecount++;
 			}
 		}
 		std::cout << "File Load Seccuss" << std::endl;
 
+		//出力ファイルオープン
 		char outputfile[256];
 		std::cout << "File Name Ouput : ";
 		std::cin >> outputfile;
@@ -149,19 +148,18 @@ int main()
 		output[0] = sizeX;
 		output[1] = sizeY;
 
+		//オブジェクト位置を保存
 		for (unsigned int i = 0; i < sizeY*sizeX; i++)
 		{
 			output[i + 2] = (char)type[i];
 		}
+		//箱位置を保存
 		for (unsigned int i = 0; i < sizeY*sizeX; i++)
 		{
 			output[i + 2 + sizeX * sizeY] = (char)box[i];
 		}
 
-		char a = output[11 + 2 + sizeX * sizeY];
-		char b = output[12 + 2 + sizeX * sizeY];
-		char c = output[13+2+ sizeX * sizeY];
-
+		//書き込み
 		fwrite(output, sizeof(char), 2 + (sizeX * sizeY) * 2, file);
 
 		fclose(file);
